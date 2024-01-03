@@ -1,0 +1,10 @@
+// The Round Table
+digraph {
+	1 [label="1_FileScan FactTable"]
+	2 [label="2_Filter"]
+	1 -> 2
+	3 [label="3_Project"]
+	2 -> 3
+	4 [label="4_HashAggregate"]
+	3 -> 4
+}
