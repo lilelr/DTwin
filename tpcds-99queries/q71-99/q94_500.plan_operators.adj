@@ -1,0 +1,74 @@
+// The Round Table
+digraph {
+	0 [label="nodeID(0) "]
+	1 [label="nodeID(1) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=133]"]
+	2 [label="nodeID(2) HashAggregate(keys=[], functions=[merge_sum(ws_ext_ship_cost#33), merge_sum(ws_net_profit#38), partial_count(distinct ws_order_number#22L)])"]
+	3 [label="nodeID(3) HashAggregate(keys=[ws_order_number#22L], functions=[merge_sum(ws_ext_ship_cost#33), merge_sum(ws_net_profit#38)])"]
+	4 [label="nodeID(4) HashAggregate(keys=[ws_order_number#22L], functions=[partial_sum(ws_ext_ship_cost#33), partial_sum(ws_net_profit#38)])"]
+	5 [label="nodeID(5) Project [ws_order_number#22L, ws_ext_ship_cost#33, ws_net_profit#38]"]
+	6 [label="nodeID(6) BroadcastHashJoin [ws_web_site_sk#18], [web_site_sk#80], Inner, BuildRight, false"]
+	7 [label="nodeID(7) Project [ws_web_site_sk#18, ws_order_number#22L, ws_ext_ship_cost#33, ws_net_profit#38]"]
+	8 [label="nodeID(8) BroadcastHashJoin [ws_ship_addr_sk#16], [ca_address_sk#67], Inner, BuildRight, false"]
+	9 [label="nodeID(9) Project [ws_ship_addr_sk#16, ws_web_site_sk#18, ws_order_number#22L, ws_ext_ship_cost#33, ws_net_profit#38]"]
+	10 [label="nodeID(10) BroadcastHashJoin [ws_ship_date_sk#7], [d_date_sk#39], Inner, BuildRight, false"]
+	11 [label="nodeID(11) SortMergeJoin [ws_order_number#22L], [wr_order_number#120L], LeftAnti"]
+	12 [label="nodeID(12) Project [ws_ship_date_sk#7, ws_ship_addr_sk#16, ws_web_site_sk#18, ws_order_number#22L, ws_ext_ship_cost#33, ws_net_profit#38]"]
+	13 [label="nodeID(13) SortMergeJoin [ws_order_number#22L], [ws_order_number#149L], LeftSemi, NOT (ws_warehouse_sk#20 = ws_warehouse_sk#147)"]
+	14 [label="nodeID(14) Sort [ws_order_number#22L ASC NULLS FIRST], false, 0"]
+	15 [label="nodeID(15) Exchange hashpartitioning(ws_order_number#22L, 200), ENSURE_REQUIREMENTS, [plan_id=106]"]
+	16 [label="nodeID(16) Filter ((isnotnull(ws_ship_date_sk#7) AND isnotnull(ws_ship_addr_sk#16)) AND isnotnull(ws_web_site_sk#18))"]
+	17 [label="nodeID(17) FileScan parquet tpcds_500_parquet.web_sales[ws_ship_date_sk#7,ws_ship_addr_sk#16,ws_web_site_sk#18,ws_warehouse_sk#20,ws_order_number#22L,ws_ext_ship_cost#33,ws_net_profit#38"]
+	18 [label="nodeID(18) Sort [ws_order_number#149L ASC NULLS FIRST], false, 0"]
+	19 [label="nodeID(19) Exchange hashpartitioning(ws_order_number#149L, 200), ENSURE_REQUIREMENTS, [plan_id=107]"]
+	20 [label="nodeID(20) FileScan parquet tpcds_500_parquet.web_sales[ws_warehouse_sk#147,ws_order_number#149L"]
+	21 [label="nodeID(21) Sort [wr_order_number#120L ASC NULLS FIRST], false, 0"]
+	22 [label="nodeID(22) Exchange hashpartitioning(wr_order_number#120L, 200), ENSURE_REQUIREMENTS, [plan_id=114]"]
+	23 [label="nodeID(23) FileScan parquet tpcds_500_parquet.web_returns[wr_order_number#120L"]
+	24 [label="nodeID(24) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=118]"]
+	25 [label="nodeID(25) Project [d_date_sk#39]"]
+	26 [label="nodeID(26) Filter (((isnotnull(d_date#41) AND (cast(d_date#41 as date) >= 1999-02-01)) AND (cast(d_date#41 as date) <= 1999-04-02)) AND isnotnull(d_date_sk#39))"]
+	27 [label="nodeID(27) FileScan parquet tpcds_500_parquet.date_dim[d_date_sk#39,d_date#41"]
+	28 [label="nodeID(28) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=122]"]
+	29 [label="nodeID(29) Project [ca_address_sk#67]"]
+	30 [label="nodeID(30) Filter ((isnotnull(ca_state#75) AND (ca_state#75 = IL)) AND isnotnull(ca_address_sk#67))"]
+	31 [label="nodeID(31) FileScan parquet tpcds_500_parquet.customer_address[ca_address_sk#67,ca_state#75"]
+	32 [label="nodeID(32) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=126]"]
+	33 [label="nodeID(33) Project [web_site_sk#80]"]
+	34 [label="nodeID(34) Filter ((isnotnull(web_company_name#94) AND (web_company_name#94 = pri)) AND isnotnull(web_site_sk#80))"]
+	35 [label="nodeID(35) FileScan parquet tpcds_500_parquet.web_site[web_site_sk#80,web_company_name#94"]
+	1 -> 0
+	2 -> 1
+	3 -> 2
+	4 -> 3
+	5 -> 4
+	6 -> 5
+	7 -> 6
+	8 -> 7
+	9 -> 8
+	10 -> 9
+	11 -> 10
+	12 -> 11
+	13 -> 12
+	14 -> 13
+	15 -> 14
+	16 -> 15
+	17 -> 16
+	18 -> 13
+	19 -> 18
+	20 -> 19
+	21 -> 11
+	22 -> 21
+	23 -> 22
+	24 -> 10
+	25 -> 24
+	26 -> 25
+	27 -> 26
+	28 -> 8
+	29 -> 28
+	30 -> 29
+	31 -> 30
+	32 -> 6
+	33 -> 32
+	34 -> 33
+	35 -> 34
+}

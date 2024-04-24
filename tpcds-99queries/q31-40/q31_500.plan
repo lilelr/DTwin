@@ -1,0 +1,116 @@
+== Physical Plan ==
+AdaptiveSparkPlan isFinalPlan=false
++- Sort [ca_county#64 ASC NULLS FIRST], true, 0
+   +- Exchange rangepartitioning(ca_county#64 ASC NULLS FIRST, 200), ENSURE_REQUIREMENTS, [plan_id=463]
+      +- Project [ca_county#64, d_year#35, (web_sales#164 / web_sales#5) AS web_q1_q2_increase#0, (store_sales#156 / store_sales#4) AS store_q1_q2_increase#1, (web_sales#168 / web_sales#164) AS web_q2_q3_increase#2, (store_sales#160 / store_sales#156) AS store_q2_q3_increase#3]
+         +- SortMergeJoin [ca_county#139], [ca_county#732], Inner, (CASE WHEN (web_sales#164 > 0.0) THEN (web_sales#168 / web_sales#164) END > CASE WHEN (store_sales#156 > 0.0) THEN (store_sales#160 / store_sales#156) END)
+            :- Project [ca_county#64, d_year#35, store_sales#4, store_sales#156, store_sales#160, ca_county#139, web_sales#5, web_sales#164]
+            :  +- SortMergeJoin [ca_county#139], [ca_county#656], Inner, (CASE WHEN (web_sales#5 > 0.0) THEN (web_sales#164 / web_sales#5) END > CASE WHEN (store_sales#4 > 0.0) THEN (store_sales#156 / store_sales#4) END)
+            :     :- SortMergeJoin [ca_county#64], [ca_county#139], Inner
+            :     :  :- Project [ca_county#64, d_year#35, store_sales#4, store_sales#156, store_sales#160]
+            :     :  :  +- SortMergeJoin [ca_county#515], [ca_county#580], Inner
+            :     :  :     :- SortMergeJoin [ca_county#64], [ca_county#515], Inner
+            :     :  :     :  :- Sort [ca_county#64 ASC NULLS FIRST], false, 0
+            :     :  :     :  :  +- Exchange hashpartitioning(ca_county#64, 200), ENSURE_REQUIREMENTS, [plan_id=390]
+            :     :  :     :  :     +- HashAggregate(keys=[ca_county#64, d_qoy#39, d_year#35], functions=[sum(ss_ext_sales_price#21)])
+            :     :  :     :  :        +- Exchange hashpartitioning(ca_county#64, d_qoy#39, d_year#35, 200), ENSURE_REQUIREMENTS, [plan_id=375]
+            :     :  :     :  :           +- HashAggregate(keys=[ca_county#64, d_qoy#39, d_year#35], functions=[partial_sum(ss_ext_sales_price#21)])
+            :     :  :     :  :              +- Project [ss_ext_sales_price#21, d_year#35, d_qoy#39, ca_county#64]
+            :     :  :     :  :                 +- BroadcastHashJoin [ss_addr_sk#12], [ca_address_sk#57], Inner, BuildRight, false
+            :     :  :     :  :                    :- Project [ss_addr_sk#12, ss_ext_sales_price#21, d_year#35, d_qoy#39]
+            :     :  :     :  :                    :  +- BroadcastHashJoin [ss_sold_date_sk#6], [d_date_sk#29], Inner, BuildRight, false
+            :     :  :     :  :                    :     :- Filter (isnotnull(ss_sold_date_sk#6) AND isnotnull(ss_addr_sk#12))
+            :     :  :     :  :                    :     :  +- FileScan parquet tpcds_500_parquet.store_sales[ss_sold_date_sk#6,ss_addr_sk#12,ss_ext_sales_price#21] Batched: true, DataFilters: [isnotnull(ss_sold_date_sk#6), isnotnull(ss_addr_sk#12)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/store_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ss_sold_date_sk), IsNotNull(ss_addr_sk)], ReadSchema: struct<ss_sold_date_sk:int,ss_addr_sk:int,ss_ext_sales_price:double>
+            :     :  :     :  :                    :     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=366]
+            :     :  :     :  :                    :        +- Filter ((((isnotnull(d_qoy#39) AND isnotnull(d_year#35)) AND (d_qoy#39 = 1)) AND (d_year#35 = 2000)) AND isnotnull(d_date_sk#29))
+            :     :  :     :  :                    :           +- FileScan parquet tpcds_500_parquet.date_dim[d_date_sk#29,d_year#35,d_qoy#39] Batched: true, DataFilters: [isnotnull(d_qoy#39), isnotnull(d_year#35), (d_qoy#39 = 1), (d_year#35 = 2000), isnotnull(d_date_..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/date_dim], PartitionFilters: [], PushedFilters: [IsNotNull(d_qoy), IsNotNull(d_year), EqualTo(d_qoy,1), EqualTo(d_year,2000), IsNotNull(d_date_sk)], ReadSchema: struct<d_date_sk:int,d_year:int,d_qoy:int>
+            :     :  :     :  :                    +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=370]
+            :     :  :     :  :                       +- Filter (isnotnull(ca_address_sk#57) AND isnotnull(ca_county#64))
+            :     :  :     :  :                          +- FileScan parquet tpcds_500_parquet.customer_address[ca_address_sk#57,ca_county#64] Batched: true, DataFilters: [isnotnull(ca_address_sk#57), isnotnull(ca_county#64)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/customer_a..., PartitionFilters: [], PushedFilters: [IsNotNull(ca_address_sk), IsNotNull(ca_county)], ReadSchema: struct<ca_address_sk:int,ca_county:string>
+            :     :  :     :  +- Sort [ca_county#515 ASC NULLS FIRST], false, 0
+            :     :  :     :     +- Exchange hashpartitioning(ca_county#515, 200), ENSURE_REQUIREMENTS, [plan_id=391]
+            :     :  :     :        +- HashAggregate(keys=[ca_county#515, d_qoy#490, d_year#486], functions=[sum(ss_ext_sales_price#472)])
+            :     :  :     :           +- Exchange hashpartitioning(ca_county#515, d_qoy#490, d_year#486, 200), ENSURE_REQUIREMENTS, [plan_id=386]
+            :     :  :     :              +- HashAggregate(keys=[ca_county#515, d_qoy#490, d_year#486], functions=[partial_sum(ss_ext_sales_price#472)])
+            :     :  :     :                 +- Project [ss_ext_sales_price#472, d_year#486, d_qoy#490, ca_county#515]
+            :     :  :     :                    +- BroadcastHashJoin [ss_addr_sk#463], [ca_address_sk#508], Inner, BuildRight, false
+            :     :  :     :                       :- Project [ss_addr_sk#463, ss_ext_sales_price#472, d_year#486, d_qoy#490]
+            :     :  :     :                       :  +- BroadcastHashJoin [ss_sold_date_sk#457], [d_date_sk#480], Inner, BuildRight, false
+            :     :  :     :                       :     :- Filter (isnotnull(ss_sold_date_sk#457) AND isnotnull(ss_addr_sk#463))
+            :     :  :     :                       :     :  +- FileScan parquet tpcds_500_parquet.store_sales[ss_sold_date_sk#457,ss_addr_sk#463,ss_ext_sales_price#472] Batched: true, DataFilters: [isnotnull(ss_sold_date_sk#457), isnotnull(ss_addr_sk#463)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/store_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ss_sold_date_sk), IsNotNull(ss_addr_sk)], ReadSchema: struct<ss_sold_date_sk:int,ss_addr_sk:int,ss_ext_sales_price:double>
+            :     :  :     :                       :     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=377]
+            :     :  :     :                       :        +- Filter ((((isnotnull(d_qoy#490) AND isnotnull(d_year#486)) AND (d_qoy#490 = 2)) AND (d_year#486 = 2000)) AND isnotnull(d_date_sk#480))
+            :     :  :     :                       :           +- FileScan parquet tpcds_500_parquet.date_dim[d_date_sk#480,d_year#486,d_qoy#490] Batched: true, DataFilters: [isnotnull(d_qoy#490), isnotnull(d_year#486), (d_qoy#490 = 2), (d_year#486 = 2000), isnotnull(d_d..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/date_dim], PartitionFilters: [], PushedFilters: [IsNotNull(d_qoy), IsNotNull(d_year), EqualTo(d_qoy,2), EqualTo(d_year,2000), IsNotNull(d_date_sk)], ReadSchema: struct<d_date_sk:int,d_year:int,d_qoy:int>
+            :     :  :     :                       +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=381]
+            :     :  :     :                          +- Filter (isnotnull(ca_address_sk#508) AND isnotnull(ca_county#515))
+            :     :  :     :                             +- FileScan parquet tpcds_500_parquet.customer_address[ca_address_sk#508,ca_county#515] Batched: true, DataFilters: [isnotnull(ca_address_sk#508), isnotnull(ca_county#515)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/customer_a..., PartitionFilters: [], PushedFilters: [IsNotNull(ca_address_sk), IsNotNull(ca_county)], ReadSchema: struct<ca_address_sk:int,ca_county:string>
+            :     :  :     +- Sort [ca_county#580 ASC NULLS FIRST], false, 0
+            :     :  :        +- Exchange hashpartitioning(ca_county#580, 200), ENSURE_REQUIREMENTS, [plan_id=408]
+            :     :  :           +- HashAggregate(keys=[ca_county#580, d_qoy#555, d_year#551], functions=[sum(ss_ext_sales_price#537)])
+            :     :  :              +- Exchange hashpartitioning(ca_county#580, d_qoy#555, d_year#551, 200), ENSURE_REQUIREMENTS, [plan_id=404]
+            :     :  :                 +- HashAggregate(keys=[ca_county#580, d_qoy#555, d_year#551], functions=[partial_sum(ss_ext_sales_price#537)])
+            :     :  :                    +- Project [ss_ext_sales_price#537, d_year#551, d_qoy#555, ca_county#580]
+            :     :  :                       +- BroadcastHashJoin [ss_addr_sk#528], [ca_address_sk#573], Inner, BuildRight, false
+            :     :  :                          :- Project [ss_addr_sk#528, ss_ext_sales_price#537, d_year#551, d_qoy#555]
+            :     :  :                          :  +- BroadcastHashJoin [ss_sold_date_sk#522], [d_date_sk#545], Inner, BuildRight, false
+            :     :  :                          :     :- Filter (isnotnull(ss_sold_date_sk#522) AND isnotnull(ss_addr_sk#528))
+            :     :  :                          :     :  +- FileScan parquet tpcds_500_parquet.store_sales[ss_sold_date_sk#522,ss_addr_sk#528,ss_ext_sales_price#537] Batched: true, DataFilters: [isnotnull(ss_sold_date_sk#522), isnotnull(ss_addr_sk#528)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/store_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ss_sold_date_sk), IsNotNull(ss_addr_sk)], ReadSchema: struct<ss_sold_date_sk:int,ss_addr_sk:int,ss_ext_sales_price:double>
+            :     :  :                          :     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=395]
+            :     :  :                          :        +- Filter ((((isnotnull(d_qoy#555) AND isnotnull(d_year#551)) AND (d_qoy#555 = 3)) AND (d_year#551 = 2000)) AND isnotnull(d_date_sk#545))
+            :     :  :                          :           +- FileScan parquet tpcds_500_parquet.date_dim[d_date_sk#545,d_year#551,d_qoy#555] Batched: true, DataFilters: [isnotnull(d_qoy#555), isnotnull(d_year#551), (d_qoy#555 = 3), (d_year#551 = 2000), isnotnull(d_d..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/date_dim], PartitionFilters: [], PushedFilters: [IsNotNull(d_qoy), IsNotNull(d_year), EqualTo(d_qoy,3), EqualTo(d_year,2000), IsNotNull(d_date_sk)], ReadSchema: struct<d_date_sk:int,d_year:int,d_qoy:int>
+            :     :  :                          +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=399]
+            :     :  :                             +- Filter (isnotnull(ca_address_sk#573) AND isnotnull(ca_county#580))
+            :     :  :                                +- FileScan parquet tpcds_500_parquet.customer_address[ca_address_sk#573,ca_county#580] Batched: true, DataFilters: [isnotnull(ca_address_sk#573), isnotnull(ca_county#580)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/customer_a..., PartitionFilters: [], PushedFilters: [IsNotNull(ca_address_sk), IsNotNull(ca_county)], ReadSchema: struct<ca_address_sk:int,ca_county:string>
+            :     :  +- Sort [ca_county#139 ASC NULLS FIRST], false, 0
+            :     :     +- Exchange hashpartitioning(ca_county#139, 200), ENSURE_REQUIREMENTS, [plan_id=425]
+            :     :        +- HashAggregate(keys=[ca_county#139, d_qoy#114, d_year#110], functions=[sum(ws_ext_sales_price#93)])
+            :     :           +- Exchange hashpartitioning(ca_county#139, d_qoy#114, d_year#110, 200), ENSURE_REQUIREMENTS, [plan_id=421]
+            :     :              +- HashAggregate(keys=[ca_county#139, d_qoy#114, d_year#110], functions=[partial_sum(ws_ext_sales_price#93)])
+            :     :                 +- Project [ws_ext_sales_price#93, d_year#110, d_qoy#114, ca_county#139]
+            :     :                    +- BroadcastHashJoin [ws_bill_addr_sk#77], [ca_address_sk#132], Inner, BuildRight, false
+            :     :                       :- Project [ws_bill_addr_sk#77, ws_ext_sales_price#93, d_year#110, d_qoy#114]
+            :     :                       :  +- BroadcastHashJoin [ws_sold_date_sk#70], [d_date_sk#104], Inner, BuildRight, false
+            :     :                       :     :- Filter (isnotnull(ws_sold_date_sk#70) AND isnotnull(ws_bill_addr_sk#77))
+            :     :                       :     :  +- FileScan parquet tpcds_500_parquet.web_sales[ws_sold_date_sk#70,ws_bill_addr_sk#77,ws_ext_sales_price#93] Batched: true, DataFilters: [isnotnull(ws_sold_date_sk#70), isnotnull(ws_bill_addr_sk#77)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/web_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ws_sold_date_sk), IsNotNull(ws_bill_addr_sk)], ReadSchema: struct<ws_sold_date_sk:int,ws_bill_addr_sk:int,ws_ext_sales_price:double>
+            :     :                       :     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=412]
+            :     :                       :        +- Filter ((((isnotnull(d_qoy#114) AND isnotnull(d_year#110)) AND (d_qoy#114 = 1)) AND (d_year#110 = 2000)) AND isnotnull(d_date_sk#104))
+            :     :                       :           +- FileScan parquet tpcds_500_parquet.date_dim[d_date_sk#104,d_year#110,d_qoy#114] Batched: true, DataFilters: [isnotnull(d_qoy#114), isnotnull(d_year#110), (d_qoy#114 = 1), (d_year#110 = 2000), isnotnull(d_d..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/date_dim], PartitionFilters: [], PushedFilters: [IsNotNull(d_qoy), IsNotNull(d_year), EqualTo(d_qoy,1), EqualTo(d_year,2000), IsNotNull(d_date_sk)], ReadSchema: struct<d_date_sk:int,d_year:int,d_qoy:int>
+            :     :                       +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=416]
+            :     :                          +- Filter (isnotnull(ca_address_sk#132) AND isnotnull(ca_county#139))
+            :     :                             +- FileScan parquet tpcds_500_parquet.customer_address[ca_address_sk#132,ca_county#139] Batched: true, DataFilters: [isnotnull(ca_address_sk#132), isnotnull(ca_county#139)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/customer_a..., PartitionFilters: [], PushedFilters: [IsNotNull(ca_address_sk), IsNotNull(ca_county)], ReadSchema: struct<ca_address_sk:int,ca_county:string>
+            :     +- Sort [ca_county#656 ASC NULLS FIRST], false, 0
+            :        +- Exchange hashpartitioning(ca_county#656, 200), ENSURE_REQUIREMENTS, [plan_id=441]
+            :           +- HashAggregate(keys=[ca_county#656, d_qoy#631, d_year#627], functions=[sum(ws_ext_sales_price#610)])
+            :              +- Exchange hashpartitioning(ca_county#656, d_qoy#631, d_year#627, 200), ENSURE_REQUIREMENTS, [plan_id=437]
+            :                 +- HashAggregate(keys=[ca_county#656, d_qoy#631, d_year#627], functions=[partial_sum(ws_ext_sales_price#610)])
+            :                    +- Project [ws_ext_sales_price#610, d_year#627, d_qoy#631, ca_county#656]
+            :                       +- BroadcastHashJoin [ws_bill_addr_sk#594], [ca_address_sk#649], Inner, BuildRight, false
+            :                          :- Project [ws_bill_addr_sk#594, ws_ext_sales_price#610, d_year#627, d_qoy#631]
+            :                          :  +- BroadcastHashJoin [ws_sold_date_sk#587], [d_date_sk#621], Inner, BuildRight, false
+            :                          :     :- Filter (isnotnull(ws_sold_date_sk#587) AND isnotnull(ws_bill_addr_sk#594))
+            :                          :     :  +- FileScan parquet tpcds_500_parquet.web_sales[ws_sold_date_sk#587,ws_bill_addr_sk#594,ws_ext_sales_price#610] Batched: true, DataFilters: [isnotnull(ws_sold_date_sk#587), isnotnull(ws_bill_addr_sk#594)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/web_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ws_sold_date_sk), IsNotNull(ws_bill_addr_sk)], ReadSchema: struct<ws_sold_date_sk:int,ws_bill_addr_sk:int,ws_ext_sales_price:double>
+            :                          :     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=428]
+            :                          :        +- Filter ((((isnotnull(d_qoy#631) AND isnotnull(d_year#627)) AND (d_qoy#631 = 2)) AND (d_year#627 = 2000)) AND isnotnull(d_date_sk#621))
+            :                          :           +- FileScan parquet tpcds_500_parquet.date_dim[d_date_sk#621,d_year#627,d_qoy#631] Batched: true, DataFilters: [isnotnull(d_qoy#631), isnotnull(d_year#627), (d_qoy#631 = 2), (d_year#627 = 2000), isnotnull(d_d..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/date_dim], PartitionFilters: [], PushedFilters: [IsNotNull(d_qoy), IsNotNull(d_year), EqualTo(d_qoy,2), EqualTo(d_year,2000), IsNotNull(d_date_sk)], ReadSchema: struct<d_date_sk:int,d_year:int,d_qoy:int>
+            :                          +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=432]
+            :                             +- Filter (isnotnull(ca_address_sk#649) AND isnotnull(ca_county#656))
+            :                                +- FileScan parquet tpcds_500_parquet.customer_address[ca_address_sk#649,ca_county#656] Batched: true, DataFilters: [isnotnull(ca_address_sk#649), isnotnull(ca_county#656)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/customer_a..., PartitionFilters: [], PushedFilters: [IsNotNull(ca_address_sk), IsNotNull(ca_county)], ReadSchema: struct<ca_address_sk:int,ca_county:string>
+            +- Sort [ca_county#732 ASC NULLS FIRST], false, 0
+               +- Exchange hashpartitioning(ca_county#732, 200), ENSURE_REQUIREMENTS, [plan_id=458]
+                  +- HashAggregate(keys=[ca_county#732, d_qoy#707, d_year#703], functions=[sum(ws_ext_sales_price#686)])
+                     +- Exchange hashpartitioning(ca_county#732, d_qoy#707, d_year#703, 200), ENSURE_REQUIREMENTS, [plan_id=454]
+                        +- HashAggregate(keys=[ca_county#732, d_qoy#707, d_year#703], functions=[partial_sum(ws_ext_sales_price#686)])
+                           +- Project [ws_ext_sales_price#686, d_year#703, d_qoy#707, ca_county#732]
+                              +- BroadcastHashJoin [ws_bill_addr_sk#670], [ca_address_sk#725], Inner, BuildRight, false
+                                 :- Project [ws_bill_addr_sk#670, ws_ext_sales_price#686, d_year#703, d_qoy#707]
+                                 :  +- BroadcastHashJoin [ws_sold_date_sk#663], [d_date_sk#697], Inner, BuildRight, false
+                                 :     :- Filter (isnotnull(ws_sold_date_sk#663) AND isnotnull(ws_bill_addr_sk#670))
+                                 :     :  +- FileScan parquet tpcds_500_parquet.web_sales[ws_sold_date_sk#663,ws_bill_addr_sk#670,ws_ext_sales_price#686] Batched: true, DataFilters: [isnotnull(ws_sold_date_sk#663), isnotnull(ws_bill_addr_sk#670)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/web_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ws_sold_date_sk), IsNotNull(ws_bill_addr_sk)], ReadSchema: struct<ws_sold_date_sk:int,ws_bill_addr_sk:int,ws_ext_sales_price:double>
+                                 :     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=445]
+                                 :        +- Filter ((((isnotnull(d_qoy#707) AND isnotnull(d_year#703)) AND (d_qoy#707 = 3)) AND (d_year#703 = 2000)) AND isnotnull(d_date_sk#697))
+                                 :           +- FileScan parquet tpcds_500_parquet.date_dim[d_date_sk#697,d_year#703,d_qoy#707] Batched: true, DataFilters: [isnotnull(d_qoy#707), isnotnull(d_year#703), (d_qoy#707 = 3), (d_year#703 = 2000), isnotnull(d_d..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/date_dim], PartitionFilters: [], PushedFilters: [IsNotNull(d_qoy), IsNotNull(d_year), EqualTo(d_qoy,3), EqualTo(d_year,2000), IsNotNull(d_date_sk)], ReadSchema: struct<d_date_sk:int,d_year:int,d_qoy:int>
+                                 +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=449]
+                                    +- Filter (isnotnull(ca_address_sk#725) AND isnotnull(ca_county#732))
+                                       +- FileScan parquet tpcds_500_parquet.customer_address[ca_address_sk#725,ca_county#732] Batched: true, DataFilters: [isnotnull(ca_address_sk#725), isnotnull(ca_county#732)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/customer_a..., PartitionFilters: [], PushedFilters: [IsNotNull(ca_address_sk), IsNotNull(ca_county)], ReadSchema: struct<ca_address_sk:int,ca_county:string>
+
+

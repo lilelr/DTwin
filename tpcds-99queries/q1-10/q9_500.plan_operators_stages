@@ -1,0 +1,67 @@
+// The Round Table
+digraph {
+	node [shape=box]
+	0 [label="NormalStage (end_node_id 0): length of beginNodesToChains is 15
+[15,0,30,15,0,0,0,0]
+Chain 0 is : HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#38), avg(ss_net_paid#44)])
+HashAggregate->Project->Empty->Subquery->Project
+Chain 1 is : HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#38), avg(ss_net_paid#44)])
+HashAggregate->Project->Empty->Subquery->Project
+Chain 2 is : HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#38), avg(ss_net_paid#44)])
+HashAggregate->Project->Empty->Subquery->Project
+Chain 3 is : HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#138), avg(ss_net_paid#144)])
+HashAggregate->Project->Empty->Subquery->Project
+Chain 4 is : HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#138), avg(ss_net_paid#144)])
+HashAggregate->Project->Empty->Subquery->Project
+Chain 5 is : HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#138), avg(ss_net_paid#144)])
+HashAggregate->Project->Empty->Subquery->Project
+Chain 6 is : HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#207), avg(ss_net_paid#213)])
+HashAggregate->Project->Empty->Subquery->Project
+Chain 7 is : HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#207), avg(ss_net_paid#213)])
+HashAggregate->Project->Empty->Subquery->Project
+Chain 8 is : HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#207), avg(ss_net_paid#213)])
+HashAggregate->Project->Empty->Subquery->Project
+Chain 9 is : HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#276), avg(ss_net_paid#282)])
+HashAggregate->Project->Empty->Subquery->Project
+Chain 10 is : HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#276), avg(ss_net_paid#282)])
+HashAggregate->Project->Empty->Subquery->Project
+Chain 11 is : HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#276), avg(ss_net_paid#282)])
+HashAggregate->Project->Empty->Subquery->Project
+Chain 12 is : HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#345), avg(ss_net_paid#351)])
+HashAggregate->Project->Empty->Subquery->Project
+Chain 13 is : HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#345), avg(ss_net_paid#351)])
+HashAggregate->Project->Empty->Subquery->Project
+Chain 14 is : HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#345), avg(ss_net_paid#351)])
+HashAggregate->Project->Empty->Subquery->Project
+"]
+	5 [label="First stage (end_node_id 5): File Scan store_sales,9130.4FileScan->Filter->Project->HashAggregate->ExchangeSinglePartition"]
+	5 -> 0
+	14 [label="First stage (end_node_id 14): File Scan store_sales,9130.4FileScan->Filter->Project->HashAggregate->ExchangeSinglePartition"]
+	14 -> 0
+	23 [label="First stage (end_node_id 23): File Scan store_sales,9130.4FileScan->Filter->Project->HashAggregate->ExchangeSinglePartition"]
+	23 -> 0
+	32 [label="First stage (end_node_id 32): File Scan store_sales,9130.4FileScan->Filter->Project->HashAggregate->ExchangeSinglePartition"]
+	32 -> 0
+	41 [label="First stage (end_node_id 41): File Scan store_sales,9130.4FileScan->Filter->Project->HashAggregate->ExchangeSinglePartition"]
+	41 -> 0
+	50 [label="First stage (end_node_id 50): File Scan store_sales,9130.4FileScan->Filter->Project->HashAggregate->ExchangeSinglePartition"]
+	50 -> 0
+	59 [label="First stage (end_node_id 59): File Scan store_sales,9130.4FileScan->Filter->Project->HashAggregate->ExchangeSinglePartition"]
+	59 -> 0
+	68 [label="First stage (end_node_id 68): File Scan store_sales,9130.4FileScan->Filter->Project->HashAggregate->ExchangeSinglePartition"]
+	68 -> 0
+	77 [label="First stage (end_node_id 77): File Scan store_sales,9130.4FileScan->Filter->Project->HashAggregate->ExchangeSinglePartition"]
+	77 -> 0
+	86 [label="First stage (end_node_id 86): File Scan store_sales,9130.4FileScan->Filter->Project->HashAggregate->ExchangeSinglePartition"]
+	86 -> 0
+	95 [label="First stage (end_node_id 95): File Scan store_sales,9130.4FileScan->Filter->Project->HashAggregate->ExchangeSinglePartition"]
+	95 -> 0
+	104 [label="First stage (end_node_id 104): File Scan store_sales,9130.4FileScan->Filter->Project->HashAggregate->ExchangeSinglePartition"]
+	104 -> 0
+	113 [label="First stage (end_node_id 113): File Scan store_sales,9130.4FileScan->Filter->Project->HashAggregate->ExchangeSinglePartition"]
+	113 -> 0
+	122 [label="First stage (end_node_id 122): File Scan store_sales,9130.4FileScan->Filter->Project->HashAggregate->ExchangeSinglePartition"]
+	122 -> 0
+	131 [label="First stage (end_node_id 131): File Scan store_sales,9130.4FileScan->Filter->Project->HashAggregate->ExchangeSinglePartition"]
+	131 -> 0
+}

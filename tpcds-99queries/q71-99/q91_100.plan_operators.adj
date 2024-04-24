@@ -1,0 +1,90 @@
+// The Round Table
+digraph {
+	0 [label="nodeID(0) "]
+	1 [label="nodeID(1) Sort [Returns_Loss#3 DESC NULLS LAST], true, 0"]
+	2 [label="nodeID(2) Exchange rangepartitioning(Returns_Loss#3 DESC NULLS LAST, 200), ENSURE_REQUIREMENTS, [plan_id=165]"]
+	3 [label="nodeID(3) HashAggregate(keys=[cc_call_center_id#5, cc_name#10, cc_manager#15, cd_marital_status#123, cd_education_status#124], functions=[sum(cr_net_loss#61)])"]
+	4 [label="nodeID(4) Exchange hashpartitioning(cc_call_center_id#5, cc_name#10, cc_manager#15, cd_marital_status#123, cd_education_status#124, 200), ENSURE_REQUIREMENTS, [plan_id=162]"]
+	5 [label="nodeID(5) HashAggregate(keys=[cc_call_center_id#5, cc_name#10, cc_manager#15, cd_marital_status#123, cd_education_status#124], functions=[partial_sum(cr_net_loss#61)])"]
+	6 [label="nodeID(6) Project [cc_call_center_id#5, cc_name#10, cc_manager#15, cr_net_loss#61, cd_marital_status#123, cd_education_status#124]"]
+	7 [label="nodeID(7) BroadcastHashJoin [c_current_hdemo_sk#93], [hd_demo_sk#130], Inner, BuildRight, false"]
+	8 [label="nodeID(8) Project [cc_call_center_id#5, cc_name#10, cc_manager#15, cr_net_loss#61, c_current_hdemo_sk#93, cd_marital_status#123, cd_education_status#124]"]
+	9 [label="nodeID(9) BroadcastHashJoin [c_current_cdemo_sk#92], [cd_demo_sk#121], Inner, BuildRight, false"]
+	10 [label="nodeID(10) Project [cc_call_center_id#5, cc_name#10, cc_manager#15, cr_net_loss#61, c_current_cdemo_sk#92, c_current_hdemo_sk#93]"]
+	11 [label="nodeID(11) BroadcastHashJoin [c_current_addr_sk#94], [ca_address_sk#108], Inner, BuildRight, false"]
+	12 [label="nodeID(12) Project [cc_call_center_id#5, cc_name#10, cc_manager#15, cr_net_loss#61, c_current_cdemo_sk#92, c_current_hdemo_sk#93, c_current_addr_sk#94]"]
+	13 [label="nodeID(13) SortMergeJoin [cr_returning_customer_sk#42], [c_customer_sk#90], Inner"]
+	14 [label="nodeID(14) Sort [cr_returning_customer_sk#42 ASC NULLS FIRST], false, 0"]
+	15 [label="nodeID(15) Exchange hashpartitioning(cr_returning_customer_sk#42, 200), ENSURE_REQUIREMENTS, [plan_id=142]"]
+	16 [label="nodeID(16) Project [cc_call_center_id#5, cc_name#10, cc_manager#15, cr_returning_customer_sk#42, cr_net_loss#61]"]
+	17 [label="nodeID(17) BroadcastHashJoin [cr_returned_date_sk#35], [d_date_sk#62], Inner, BuildRight, false"]
+	18 [label="nodeID(18) Project [cc_call_center_id#5, cc_name#10, cc_manager#15, cr_returned_date_sk#35, cr_returning_customer_sk#42, cr_net_loss#61]"]
+	19 [label="nodeID(19) BroadcastHashJoin [cc_call_center_sk#4], [cr_call_center_sk#46], Inner, BuildLeft, false"]
+	20 [label="nodeID(20) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=133]"]
+	21 [label="nodeID(21) Filter isnotnull(cc_call_center_sk#4)"]
+	22 [label="nodeID(22) FileScan parquet tpcds_100_parquet.call_center[cc_call_center_sk#4,cc_call_center_id#5,cc_name#10,cc_manager#15]"]
+	23 [label="nodeID(23) Filter ((isnotnull(cr_call_center_sk#46) AND isnotnull(cr_returned_date_sk#35)) AND isnotnull(cr_returning_customer_sk#42))"]
+	24 [label="nodeID(24) FileScan parquet tpcds_100_parquet.catalog_returns[cr_returned_date_sk#35,cr_returning_customer_sk#42,cr_call_center_sk#46,cr_net_loss#61]"]
+	25 [label="nodeID(25) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=137]"]
+	26 [label="nodeID(26) Project [d_date_sk#62]"]
+	27 [label="nodeID(27) Filter ((((isnotnull(d_year#68) AND isnotnull(d_moy#70)) AND (d_year#68 = 1998)) AND (d_moy#70 = 11)) AND isnotnull(d_date_sk#62))"]
+	28 [label="nodeID(28) FileScan parquet tpcds_100_parquet.date_dim[d_date_sk#62,d_year#68,d_moy#70]"]
+	29 [label="nodeID(29) Sort [c_customer_sk#90 ASC NULLS FIRST], false, 0"]
+	30 [label="nodeID(30) Exchange hashpartitioning(c_customer_sk#90, 200), ENSURE_REQUIREMENTS, [plan_id=143]"]
+	31 [label="nodeID(31) Filter (((isnotnull(c_customer_sk#90) AND isnotnull(c_current_addr_sk#94)) AND isnotnull(c_current_cdemo_sk#92)) AND isnotnull(c_current_hdemo_sk#93))"]
+	32 [label="nodeID(32) FileScan parquet tpcds_100_parquet.customer[c_customer_sk#90,c_current_cdemo_sk#92,c_current_hdemo_sk#93,c_current_addr_sk#94]"]
+	33 [label="nodeID(33) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=149]"]
+	34 [label="nodeID(34) Project [ca_address_sk#108]"]
+	35 [label="nodeID(35) Filter ((isnotnull(ca_gmt_offset#119) AND (ca_gmt_offset#119 = -7.0)) AND isnotnull(ca_address_sk#108))"]
+	36 [label="nodeID(36) FileScan parquet tpcds_100_parquet.customer_address[ca_address_sk#108,ca_gmt_offset#119]"]
+	37 [label="nodeID(37) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=153]"]
+	38 [label="nodeID(38) Filter ((((cd_marital_status#123 = M) AND (cd_education_status#124 = Unknown)) OR ((cd_marital_status#123 = W) AND (cd_education_status#124 = Advanced Degree))) AND isnotnull(cd_demo_sk#121))"]
+	39 [label="nodeID(39) FileScan parquet tpcds_100_parquet.customer_demographics[cd_demo_sk#121,cd_marital_status#123,cd_education_status#124]"]
+	40 [label="nodeID(40) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=157]"]
+	41 [label="nodeID(41) Project [hd_demo_sk#130]"]
+	42 [label="nodeID(42) Filter ((isnotnull(hd_buy_potential#132) AND StartsWith(hd_buy_potential#132, Unknown)) AND isnotnull(hd_demo_sk#130))"]
+	43 [label="nodeID(43) FileScan parquet tpcds_100_parquet.household_demographics[hd_demo_sk#130,hd_buy_potential#132]"]
+	1 -> 0
+	2 -> 1
+	3 -> 2
+	4 -> 3
+	5 -> 4
+	6 -> 5
+	7 -> 6
+	8 -> 7
+	9 -> 8
+	10 -> 9
+	11 -> 10
+	12 -> 11
+	13 -> 12
+	14 -> 13
+	15 -> 14
+	16 -> 15
+	17 -> 16
+	18 -> 17
+	19 -> 18
+	20 -> 19
+	21 -> 20
+	22 -> 21
+	23 -> 19
+	24 -> 23
+	25 -> 17
+	26 -> 25
+	27 -> 26
+	28 -> 27
+	29 -> 13
+	30 -> 29
+	31 -> 30
+	32 -> 31
+	33 -> 11
+	34 -> 33
+	35 -> 34
+	36 -> 35
+	37 -> 9
+	38 -> 37
+	39 -> 38
+	40 -> 7
+	41 -> 40
+	42 -> 41
+	43 -> 42
+}

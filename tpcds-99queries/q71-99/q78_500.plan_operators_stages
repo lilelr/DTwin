@@ -1,0 +1,55 @@
+// The Round Table
+digraph {
+	node [shape=box]
+	8 [label="NormalStage (end_node_id 8): length of beginNodesToChains is 2
+[2,2,4,2,2,2,2,0]
+Chain 0 is : Sort [ss_ticket_number#177L ASC NULLS FIRST, ss_item_sk#170 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Filter->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+Chain 1 is : Sort [sr_ticket_number#200L ASC NULLS FIRST, sr_item_sk#193 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Filter->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+"]
+	0 [label="NormalStage (end_node_id 0): length of beginNodesToChains is 3
+[3,0,5,3,3,5,3,0]
+Chain 0 is : HashAggregate(keys=[d_year#245, ss_item_sk#170, ss_customer_sk#171], functions=[sum(ss_quantity#178), sum(ss_wholesale_cost#179), sum(ss_sales_price#181)])
+HashAggregate->Sort->SortMergeJoin->Project->SortMergeJoin->Filter->Project->TakeOrderedAndProject
+Chain 1 is : HashAggregate(keys=[d_year#85, ws_item_sk#24, ws_bill_customer_sk#25], functions=[sum(ws_quantity#39), sum(ws_wholesale_cost#40), sum(ws_sales_price#42)])
+HashAggregate->Sort->SortMergeJoin->Project->SortMergeJoin->Filter->Project->TakeOrderedAndProject
+Chain 2 is : HashAggregate(keys=[d_year#217, cs_item_sk#122, cs_bill_customer_sk#110], functions=[sum(cs_quantity#125), sum(cs_wholesale_cost#126), sum(cs_sales_price#128)])
+HashAggregate->Sort->SortMergeJoin->Filter->Project->TakeOrderedAndProject
+"]
+	28 [label="NormalStage (end_node_id 28): length of beginNodesToChains is 2
+[2,2,4,2,2,2,2,0]
+Chain 0 is : Sort [ws_order_number#38L ASC NULLS FIRST, ws_item_sk#24 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Filter->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+Chain 1 is : Sort [wr_order_number#68L ASC NULLS FIRST, wr_item_sk#57 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Filter->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+"]
+	48 [label="NormalStage (end_node_id 48): length of beginNodesToChains is 2
+[2,2,4,2,2,2,2,0]
+Chain 0 is : Sort [cs_order_number#124L ASC NULLS FIRST, cs_item_sk#122 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Filter->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+Chain 1 is : Sort [cr_order_number#157L ASC NULLS FIRST, cr_item_sk#143 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Filter->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+"]
+	8 -> 0
+	28 -> 0
+	48 -> 0
+	23 [label="Broadcast stage(end_node_id 23): date_dim,10000FileScan->Filter->BroadcastExchange"]
+	23 -> 8
+	43 [label="Broadcast stage(end_node_id 43): date_dim,10000FileScan->Filter->BroadcastExchange"]
+	43 -> 28
+	63 [label="Broadcast stage(end_node_id 63): date_dim,10000FileScan->Filter->BroadcastExchange"]
+	63 -> 48
+	16 [label="First stage (end_node_id 16): File Scan store_sales,21304.3FileScan->Filter->ExchangeHashpartitioning"]
+	16 -> 8
+	20 [label="First stage (end_node_id 20): File Scan store_returns,830.0FileScan->Filter->ExchangeHashpartitioning"]
+	20 -> 8
+	36 [label="First stage (end_node_id 36): File Scan web_sales,5455.9FileScan->Filter->ExchangeHashpartitioning"]
+	36 -> 28
+	40 [label="First stage (end_node_id 40): File Scan web_returns,0FileScan->Filter->ExchangeHashpartitioning"]
+	40 -> 28
+	56 [label="First stage (end_node_id 56): File Scan catalog_sales,11591.2FileScan->Filter->ExchangeHashpartitioning"]
+	56 -> 48
+	60 [label="First stage (end_node_id 60): File Scan catalog_returns,0FileScan->Filter->ExchangeHashpartitioning"]
+	60 -> 48
+}

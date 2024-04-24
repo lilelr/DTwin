@@ -1,0 +1,208 @@
+// The Round Table
+digraph {
+	0 [label=error]
+	1 [label=Project]
+	2 [label=HashAggregate]
+	3 [label="Exchange hashpartitioning"]
+	4 [label=HashAggregate]
+	5 [label=Expand]
+	6 [label=Union]
+	7 [label=Project]
+	8 [label=SortMergeJoin]
+	9 [label=Sort]
+	10 [label=HashAggregate]
+	11 [label="Exchange hashpartitioning"]
+	12 [label=HashAggregate]
+	13 [label=Project]
+	14 [label=BroadcastHashJoin]
+	15 [label=Project]
+	16 [label=BroadcastHashJoin]
+	17 [label=Filter]
+	18 [label="Scan parquet tpcds_500_parquet.store_sales"]
+	19 [label=BroadcastExchange]
+	20 [label=Project]
+	21 [label=Filter]
+	22 [label="Scan parquet tpcds_500_parquet.date_dim"]
+	23 [label=BroadcastExchange]
+	24 [label=Filter]
+	25 [label="Scan parquet tpcds_500_parquet.store"]
+	26 [label=Sort]
+	27 [label=HashAggregate]
+	28 [label="Exchange hashpartitioning"]
+	29 [label=HashAggregate]
+	30 [label=Project]
+	31 [label=BroadcastHashJoin]
+	32 [label=Project]
+	33 [label=BroadcastHashJoin]
+	34 [label=Filter]
+	35 [label="Scan parquet tpcds_500_parquet.store_returns"]
+	36 [label=BroadcastExchange]
+	37 [label=Project]
+	38 [label=Filter]
+	39 [label="Scan parquet tpcds_500_parquet.date_dim"]
+	40 [label=BroadcastExchange]
+	41 [label=Filter]
+	42 [label="Scan parquet tpcds_500_parquet.store"]
+	43 [label=Project]
+	44 [label=error]
+	45 [label=HashAggregate]
+	46 [label="Exchange hashpartitioning"]
+	47 [label=HashAggregate]
+	48 [label=Project]
+	49 [label=BroadcastHashJoin]
+	50 [label=Filter]
+	51 [label="Scan parquet tpcds_500_parquet.catalog_sales"]
+	52 [label=BroadcastExchange]
+	53 [label=Project]
+	54 [label=Filter]
+	55 [label="Scan parquet tpcds_500_parquet.date_dim"]
+	56 [label=HashAggregate]
+	57 [label="Exchange hashpartitioning"]
+	58 [label=HashAggregate]
+	59 [label=Project]
+	60 [label=BroadcastHashJoin]
+	61 [label=Filter]
+	62 [label="Scan parquet tpcds_500_parquet.catalog_returns"]
+	63 [label=BroadcastExchange]
+	64 [label=Project]
+	65 [label=Filter]
+	66 [label="Scan parquet tpcds_500_parquet.date_dim"]
+	67 [label=Project]
+	68 [label=SortMergeJoin]
+	69 [label=Sort]
+	70 [label=HashAggregate]
+	71 [label="Exchange hashpartitioning"]
+	72 [label=HashAggregate]
+	73 [label=Project]
+	74 [label=BroadcastHashJoin]
+	75 [label=Project]
+	76 [label=BroadcastHashJoin]
+	77 [label=Filter]
+	78 [label="Scan parquet tpcds_500_parquet.web_sales"]
+	79 [label=BroadcastExchange]
+	80 [label=Project]
+	81 [label=Filter]
+	82 [label="Scan parquet tpcds_500_parquet.date_dim"]
+	83 [label=BroadcastExchange]
+	84 [label=Filter]
+	85 [label="Scan parquet tpcds_500_parquet.web_page"]
+	86 [label=Sort]
+	87 [label=HashAggregate]
+	88 [label="Exchange hashpartitioning"]
+	89 [label=HashAggregate]
+	90 [label=Project]
+	91 [label=BroadcastHashJoin]
+	92 [label=Project]
+	93 [label=BroadcastHashJoin]
+	94 [label=Filter]
+	95 [label="Scan parquet tpcds_500_parquet.web_returns"]
+	96 [label=BroadcastExchange]
+	97 [label=Project]
+	98 [label=Filter]
+	99 [label="Scan parquet tpcds_500_parquet.date_dim"]
+	100 [label=BroadcastExchange]
+	101 [label=Filter]
+	102 [label="Scan parquet tpcds_500_parquet.web_page"]
+	1 -> 0
+	2 -> 1
+	3 -> 2
+	4 -> 3
+	5 -> 4
+	6 -> 5
+	7 -> 6
+	8 -> 7
+	9 -> 8
+	10 -> 9
+	11 -> 10
+	12 -> 11
+	13 -> 12
+	14 -> 13
+	15 -> 14
+	16 -> 15
+	17 -> 16
+	18 -> 17
+	19 -> 16
+	20 -> 19
+	21 -> 20
+	22 -> 21
+	23 -> 14
+	24 -> 23
+	25 -> 24
+	26 -> 8
+	27 -> 26
+	28 -> 27
+	29 -> 28
+	30 -> 29
+	31 -> 30
+	32 -> 31
+	33 -> 32
+	34 -> 33
+	35 -> 34
+	36 -> 33
+	37 -> 36
+	38 -> 37
+	39 -> 38
+	40 -> 31
+	41 -> 40
+	42 -> 41
+	43 -> 6
+	44 -> 43
+	45 -> 44
+	46 -> 45
+	47 -> 46
+	48 -> 47
+	49 -> 48
+	50 -> 49
+	51 -> 50
+	52 -> 49
+	53 -> 52
+	54 -> 53
+	55 -> 54
+	56 -> 44
+	57 -> 56
+	58 -> 57
+	59 -> 58
+	60 -> 59
+	61 -> 60
+	62 -> 61
+	63 -> 60
+	64 -> 63
+	65 -> 64
+	66 -> 65
+	67 -> 6
+	68 -> 67
+	69 -> 68
+	70 -> 69
+	71 -> 70
+	72 -> 71
+	73 -> 72
+	74 -> 73
+	75 -> 74
+	76 -> 75
+	77 -> 76
+	78 -> 77
+	79 -> 76
+	80 -> 79
+	81 -> 80
+	82 -> 81
+	83 -> 74
+	84 -> 83
+	85 -> 84
+	86 -> 68
+	87 -> 86
+	88 -> 87
+	89 -> 88
+	90 -> 89
+	91 -> 90
+	92 -> 91
+	93 -> 92
+	94 -> 93
+	95 -> 94
+	96 -> 93
+	97 -> 96
+	98 -> 97
+	99 -> 98
+	100 -> 91
+	101 -> 100
+	102 -> 101
+}

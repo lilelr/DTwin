@@ -1,0 +1,64 @@
+// The Round Table
+digraph {
+	0 [label="nodeID(0) "]
+	1 [label="nodeID(1) TakeOrderedAndProject(limit=100, orderBy=[w_state#73 ASC NULLS FIRST,i_item_id#78 ASC NULLS FIRST], output=[w_state#73,i_item_id#78,sales_before#0,sales_after#1])"]
+	2 [label="nodeID(2) HashAggregate(keys=[w_state#73, i_item_id#78], functions=[sum(CASE WHEN (cast(d_date#101 as date) < 2000-03-11) THEN (cs_sales_price#23 - coalesce(cr_refunded_cash#59, 0.0)) ELSE 0.0 END), sum(CASE WHEN (cast(d_date#101 as date) >= 2000-03-11) THEN (cs_sales_price#23 - coalesce(cr_refunded_cash#59, 0.0)) ELSE 0.0 END)])"]
+	3 [label="nodeID(3) Exchange hashpartitioning(w_state#73, i_item_id#78, 200), ENSURE_REQUIREMENTS, [plan_id=117]"]
+	4 [label="nodeID(4) HashAggregate(keys=[w_state#73, i_item_id#78], functions=[partial_sum(CASE WHEN (cast(d_date#101 as date) < 2000-03-11) THEN (cs_sales_price#23 - coalesce(cr_refunded_cash#59, 0.0)) ELSE 0.0 END), partial_sum(CASE WHEN (cast(d_date#101 as date) >= 2000-03-11) THEN (cs_sales_price#23 - coalesce(cr_refunded_cash#59, 0.0)) ELSE 0.0 END)])"]
+	5 [label="nodeID(5) Project [cs_sales_price#23, cr_refunded_cash#59, w_state#73, i_item_id#78, d_date#101]"]
+	6 [label="nodeID(6) BroadcastHashJoin [cs_sold_date_sk#2], [d_date_sk#99], Inner, BuildRight, false"]
+	7 [label="nodeID(7) Project [cs_sold_date_sk#2, cs_sales_price#23, cr_refunded_cash#59, w_state#73, i_item_id#78]"]
+	8 [label="nodeID(8) BroadcastHashJoin [cs_item_sk#17], [i_item_sk#77], Inner, BuildRight, false"]
+	9 [label="nodeID(9) Project [cs_sold_date_sk#2, cs_item_sk#17, cs_sales_price#23, cr_refunded_cash#59, w_state#73]"]
+	10 [label="nodeID(10) BroadcastHashJoin [cs_warehouse_sk#16], [w_warehouse_sk#63], Inner, BuildRight, false"]
+	11 [label="nodeID(11) Project [cs_sold_date_sk#2, cs_warehouse_sk#16, cs_item_sk#17, cs_sales_price#23, cr_refunded_cash#59]"]
+	12 [label="nodeID(12) SortMergeJoin [cs_order_number#19L, cs_item_sk#17], [cr_order_number#52L, cr_item_sk#38], LeftOuter"]
+	13 [label="nodeID(13) Sort [cs_order_number#19L ASC NULLS FIRST, cs_item_sk#17 ASC NULLS FIRST], false, 0"]
+	14 [label="nodeID(14) Exchange hashpartitioning(cs_order_number#19L, cs_item_sk#17, 200), ENSURE_REQUIREMENTS, [plan_id=97]"]
+	15 [label="nodeID(15) Filter ((isnotnull(cs_warehouse_sk#16) AND isnotnull(cs_item_sk#17)) AND isnotnull(cs_sold_date_sk#2))"]
+	16 [label="nodeID(16) FileScan parquet tpcds_100_parquet.catalog_sales[cs_sold_date_sk#2,cs_warehouse_sk#16,cs_item_sk#17,cs_order_number#19L,cs_sales_price#23]"]
+	17 [label="nodeID(17) Sort [cr_order_number#52L ASC NULLS FIRST, cr_item_sk#38 ASC NULLS FIRST], false, 0"]
+	18 [label="nodeID(18) Exchange hashpartitioning(cr_order_number#52L, cr_item_sk#38, 200), ENSURE_REQUIREMENTS, [plan_id=98]"]
+	19 [label="nodeID(19) Filter (isnotnull(cr_order_number#52L) AND isnotnull(cr_item_sk#38))"]
+	20 [label="nodeID(20) FileScan parquet tpcds_100_parquet.catalog_returns[cr_item_sk#38,cr_order_number#52L,cr_refunded_cash#59]"]
+	21 [label="nodeID(21) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=104]"]
+	22 [label="nodeID(22) Filter isnotnull(w_warehouse_sk#63)"]
+	23 [label="nodeID(23) FileScan parquet tpcds_100_parquet.warehouse[w_warehouse_sk#63,w_state#73]"]
+	24 [label="nodeID(24) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=108]"]
+	25 [label="nodeID(25) Project [i_item_sk#77, i_item_id#78]"]
+	26 [label="nodeID(26) Filter (((isnotnull(i_current_price#82) AND (i_current_price#82 >= 0.99)) AND (i_current_price#82 <= 1.49)) AND isnotnull(i_item_sk#77))"]
+	27 [label="nodeID(27) FileScan parquet tpcds_100_parquet.item[i_item_sk#77,i_item_id#78,i_current_price#82]"]
+	28 [label="nodeID(28) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=112]"]
+	29 [label="nodeID(29) Filter (((isnotnull(d_date#101) AND (cast(d_date#101 as date) >= 2000-02-10)) AND (cast(d_date#101 as date) <= 2000-04-10)) AND isnotnull(d_date_sk#99))"]
+	30 [label="nodeID(30) FileScan parquet tpcds_100_parquet.date_dim[d_date_sk#99,d_date#101]"]
+	1 -> 0
+	2 -> 1
+	3 -> 2
+	4 -> 3
+	5 -> 4
+	6 -> 5
+	7 -> 6
+	8 -> 7
+	9 -> 8
+	10 -> 9
+	11 -> 10
+	12 -> 11
+	13 -> 12
+	14 -> 13
+	15 -> 14
+	16 -> 15
+	17 -> 12
+	18 -> 17
+	19 -> 18
+	20 -> 19
+	21 -> 10
+	22 -> 21
+	23 -> 22
+	24 -> 8
+	25 -> 24
+	26 -> 25
+	27 -> 26
+	28 -> 6
+	29 -> 28
+	30 -> 29
+}

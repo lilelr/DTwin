@@ -1,0 +1,68 @@
+// The Round Table
+digraph {
+	0 [label=error]
+	1 [label=Project]
+	2 [label=Project]
+	3 [label=SortMergeJoin]
+	4 [label=Sort]
+	5 [label="Exchange hashpartitioning"]
+	6 [label=HashAggregate]
+	7 [label="Exchange hashpartitioning"]
+	8 [label=HashAggregate]
+	9 [label=Project]
+	10 [label=BroadcastHashJoin]
+	11 [label=Project]
+	12 [label=BroadcastHashJoin]
+	13 [label=Project]
+	14 [label=BroadcastHashJoin]
+	15 [label=Filter]
+	16 [label="Scan parquet tpcds_500_parquet.store_sales"]
+	17 [label=BroadcastExchange]
+	18 [label=Project]
+	19 [label=Filter]
+	20 [label="Scan parquet tpcds_500_parquet.date_dim"]
+	21 [label=BroadcastExchange]
+	22 [label=Project]
+	23 [label=Filter]
+	24 [label="Scan parquet tpcds_500_parquet.store"]
+	25 [label=BroadcastExchange]
+	26 [label=Project]
+	27 [label=Filter]
+	28 [label="Scan parquet tpcds_500_parquet.household_demographics"]
+	29 [label=Sort]
+	30 [label="Exchange hashpartitioning"]
+	31 [label=Filter]
+	32 [label="Scan parquet tpcds_500_parquet.customer"]
+	1 -> 0
+	2 -> 1
+	3 -> 2
+	4 -> 3
+	5 -> 4
+	6 -> 5
+	7 -> 6
+	8 -> 7
+	9 -> 8
+	10 -> 9
+	11 -> 10
+	12 -> 11
+	13 -> 12
+	14 -> 13
+	15 -> 14
+	16 -> 15
+	17 -> 14
+	18 -> 17
+	19 -> 18
+	20 -> 19
+	21 -> 12
+	22 -> 21
+	23 -> 22
+	24 -> 23
+	25 -> 10
+	26 -> 25
+	27 -> 26
+	28 -> 27
+	29 -> 3
+	30 -> 29
+	31 -> 30
+	32 -> 31
+}

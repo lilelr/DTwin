@@ -1,0 +1,22 @@
+== Physical Plan ==
+AdaptiveSparkPlan isFinalPlan=false
++- TakeOrderedAndProject(limit=100, orderBy=[s_store_name#63 ASC NULLS FIRST,s_store_id#59 ASC NULLS FIRST,sun_sales#0 ASC NULLS FIRST,mon_sales#1 ASC NULLS FIRST,tue_sales#2 ASC NULLS FIRST,wed_sales#3 ASC NULLS FIRST,thu_sales#4 ASC NULLS FIRST,fri_sales#5 ASC NULLS FIRST,sat_sales#6 ASC NULLS FIRST], output=[s_store_name#63,s_store_id#59,sun_sales#0,mon_sales#1,tue_sales#2,wed_sales#3,thu_sales#4,fri_sales#5,sat_sales#6])
+   +- HashAggregate(keys=[s_store_name#63, s_store_id#59], functions=[sum(CASE WHEN (d_day_name#21 = Sunday) THEN ss_sales_price#48 END), sum(CASE WHEN (d_day_name#21 = Monday) THEN ss_sales_price#48 END), sum(CASE WHEN (d_day_name#21 = Tuesday) THEN ss_sales_price#48 END), sum(CASE WHEN (d_day_name#21 = Wednesday) THEN ss_sales_price#48 END), sum(CASE WHEN (d_day_name#21 = Thursday) THEN ss_sales_price#48 END), sum(CASE WHEN (d_day_name#21 = Friday) THEN ss_sales_price#48 END), sum(CASE WHEN (d_day_name#21 = Saturday) THEN ss_sales_price#48 END)])
+      +- Exchange hashpartitioning(s_store_name#63, s_store_id#59, 200), ENSURE_REQUIREMENTS, [plan_id=69]
+         +- HashAggregate(keys=[s_store_name#63, s_store_id#59], functions=[partial_sum(CASE WHEN (d_day_name#21 = Sunday) THEN ss_sales_price#48 END), partial_sum(CASE WHEN (d_day_name#21 = Monday) THEN ss_sales_price#48 END), partial_sum(CASE WHEN (d_day_name#21 = Tuesday) THEN ss_sales_price#48 END), partial_sum(CASE WHEN (d_day_name#21 = Wednesday) THEN ss_sales_price#48 END), partial_sum(CASE WHEN (d_day_name#21 = Thursday) THEN ss_sales_price#48 END), partial_sum(CASE WHEN (d_day_name#21 = Friday) THEN ss_sales_price#48 END), partial_sum(CASE WHEN (d_day_name#21 = Saturday) THEN ss_sales_price#48 END)])
+            +- Project [d_day_name#21, ss_sales_price#48, s_store_id#59, s_store_name#63]
+               +- BroadcastHashJoin [ss_store_sk#42], [s_store_sk#58], Inner, BuildRight, false
+                  :- Project [d_day_name#21, ss_store_sk#42, ss_sales_price#48]
+                  :  +- BroadcastHashJoin [d_date_sk#7], [ss_sold_date_sk#35], Inner, BuildLeft, false
+                  :     :- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=60]
+                  :     :  +- Project [d_date_sk#7, d_day_name#21]
+                  :     :     +- Filter ((isnotnull(d_year#13) AND (d_year#13 = 2000)) AND isnotnull(d_date_sk#7))
+                  :     :        +- FileScan parquet tpcds_500_parquet.date_dim[d_date_sk#7,d_year#13,d_day_name#21] Batched: true, DataFilters: [isnotnull(d_year#13), (d_year#13 = 2000), isnotnull(d_date_sk#7)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/date_dim], PartitionFilters: [], PushedFilters: [IsNotNull(d_year), EqualTo(d_year,2000), IsNotNull(d_date_sk)], ReadSchema: struct<d_date_sk:int,d_year:int,d_day_name:string>
+                  :     +- Filter (isnotnull(ss_sold_date_sk#35) AND isnotnull(ss_store_sk#42))
+                  :        +- FileScan parquet tpcds_500_parquet.store_sales[ss_sold_date_sk#35,ss_store_sk#42,ss_sales_price#48] Batched: true, DataFilters: [isnotnull(ss_sold_date_sk#35), isnotnull(ss_store_sk#42)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/store_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ss_sold_date_sk), IsNotNull(ss_store_sk)], ReadSchema: struct<ss_sold_date_sk:int,ss_store_sk:int,ss_sales_price:double>
+                  +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=64]
+                     +- Project [s_store_sk#58, s_store_id#59, s_store_name#63]
+                        +- Filter ((isnotnull(s_gmt_offset#85) AND (s_gmt_offset#85 = -5.0)) AND isnotnull(s_store_sk#58))
+                           +- FileScan parquet tpcds_500_parquet.store[s_store_sk#58,s_store_id#59,s_store_name#63,s_gmt_offset#85] Batched: true, DataFilters: [isnotnull(s_gmt_offset#85), (s_gmt_offset#85 = -5.0), isnotnull(s_store_sk#58)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/store], PartitionFilters: [], PushedFilters: [IsNotNull(s_gmt_offset), EqualTo(s_gmt_offset,-5.0), IsNotNull(s_store_sk)], ReadSchema: struct<s_store_sk:int,s_store_id:string,s_store_name:string,s_gmt_offset:double>
+
+

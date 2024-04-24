@@ -1,0 +1,102 @@
+// The Round Table
+digraph {
+	0 [label="nodeID(0) "]
+	1 [label="nodeID(1) Project [CheckOverflow((promote_precision(cast(amc#0L as decimal(15,4))) / promote_precision(cast(pmc#1L as decimal(15,4)))), DecimalType(35,20)) AS am_pm_ratio#2]"]
+	2 [label="nodeID(2) BroadcastNestedLoopJoin BuildRight, Cross"]
+	3 [label="nodeID(3) HashAggregate(keys=[], functions=[count(1)])"]
+	4 [label="nodeID(4) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=168]"]
+	5 [label="nodeID(5) HashAggregate(keys=[], functions=[partial_count(1)])"]
+	6 [label="nodeID(6) Project"]
+	7 [label="nodeID(7) BroadcastHashJoin [ws_web_page_sk#17], [wp_web_page_sk#54], Inner, BuildRight, false"]
+	8 [label="nodeID(8) Project [ws_web_page_sk#17]"]
+	9 [label="nodeID(9) BroadcastHashJoin [ws_sold_time_sk#6], [t_time_sk#44], Inner, BuildRight, false"]
+	10 [label="nodeID(10) Project [ws_sold_time_sk#6, ws_web_page_sk#17]"]
+	11 [label="nodeID(11) BroadcastHashJoin [ws_ship_hdemo_sk#15], [hd_demo_sk#39], Inner, BuildRight, false"]
+	12 [label="nodeID(12) Filter ((isnotnull(ws_ship_hdemo_sk#15) AND isnotnull(ws_sold_time_sk#6)) AND isnotnull(ws_web_page_sk#17))"]
+	13 [label="nodeID(13) FileScan parquet tpcds_100_parquet.web_sales[ws_sold_time_sk#6,ws_ship_hdemo_sk#15,ws_web_page_sk#17]"]
+	14 [label="nodeID(14) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=155]"]
+	15 [label="nodeID(15) Project [hd_demo_sk#39]"]
+	16 [label="nodeID(16) Filter ((isnotnull(hd_dep_count#42) AND (hd_dep_count#42 = 6)) AND isnotnull(hd_demo_sk#39))"]
+	17 [label="nodeID(17) FileScan parquet tpcds_100_parquet.household_demographics[hd_demo_sk#39,hd_dep_count#42]"]
+	18 [label="nodeID(18) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=159]"]
+	19 [label="nodeID(19) Project [t_time_sk#44]"]
+	20 [label="nodeID(20) Filter (((isnotnull(t_hour#47) AND (t_hour#47 >= 8)) AND (t_hour#47 <= 9)) AND isnotnull(t_time_sk#44))"]
+	21 [label="nodeID(21) FileScan parquet tpcds_100_parquet.time_dim[t_time_sk#44,t_hour#47]"]
+	22 [label="nodeID(22) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=163]"]
+	23 [label="nodeID(23) Project [wp_web_page_sk#54]"]
+	24 [label="nodeID(24) Filter (((isnotnull(wp_char_count#64) AND (wp_char_count#64 >= 5000)) AND (wp_char_count#64 <= 5200)) AND isnotnull(wp_web_page_sk#54))"]
+	25 [label="nodeID(25) FileScan parquet tpcds_100_parquet.web_page[wp_web_page_sk#54,wp_char_count#64]"]
+	26 [label="nodeID(26) BroadcastExchange IdentityBroadcastMode, [plan_id=186]"]
+	27 [label="nodeID(27) HashAggregate(keys=[], functions=[count(1)])"]
+	28 [label="nodeID(28) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=183]"]
+	29 [label="nodeID(29) HashAggregate(keys=[], functions=[partial_count(1)])"]
+	30 [label="nodeID(30) Project"]
+	31 [label="nodeID(31) BroadcastHashJoin [ws_web_page_sk#80], [wp_web_page_sk#117], Inner, BuildRight, false"]
+	32 [label="nodeID(32) Project [ws_web_page_sk#80]"]
+	33 [label="nodeID(33) BroadcastHashJoin [ws_sold_time_sk#69], [t_time_sk#107], Inner, BuildRight, false"]
+	34 [label="nodeID(34) Project [ws_sold_time_sk#69, ws_web_page_sk#80]"]
+	35 [label="nodeID(35) BroadcastHashJoin [ws_ship_hdemo_sk#78], [hd_demo_sk#102], Inner, BuildRight, false"]
+	36 [label="nodeID(36) Filter ((isnotnull(ws_ship_hdemo_sk#78) AND isnotnull(ws_sold_time_sk#69)) AND isnotnull(ws_web_page_sk#80))"]
+	37 [label="nodeID(37) FileScan parquet tpcds_100_parquet.web_sales[ws_sold_time_sk#69,ws_ship_hdemo_sk#78,ws_web_page_sk#80]"]
+	38 [label="nodeID(38) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=170]"]
+	39 [label="nodeID(39) Project [hd_demo_sk#102]"]
+	40 [label="nodeID(40) Filter ((isnotnull(hd_dep_count#105) AND (hd_dep_count#105 = 6)) AND isnotnull(hd_demo_sk#102))"]
+	41 [label="nodeID(41) FileScan parquet tpcds_100_parquet.household_demographics[hd_demo_sk#102,hd_dep_count#105]"]
+	42 [label="nodeID(42) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=174]"]
+	43 [label="nodeID(43) Project [t_time_sk#107]"]
+	44 [label="nodeID(44) Filter (((isnotnull(t_hour#110) AND (t_hour#110 >= 19)) AND (t_hour#110 <= 20)) AND isnotnull(t_time_sk#107))"]
+	45 [label="nodeID(45) FileScan parquet tpcds_100_parquet.time_dim[t_time_sk#107,t_hour#110]"]
+	46 [label="nodeID(46) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=178]"]
+	47 [label="nodeID(47) Project [wp_web_page_sk#117]"]
+	48 [label="nodeID(48) Filter (((isnotnull(wp_char_count#127) AND (wp_char_count#127 >= 5000)) AND (wp_char_count#127 <= 5200)) AND isnotnull(wp_web_page_sk#117))"]
+	49 [label="nodeID(49) FileScan parquet tpcds_100_parquet.web_page[wp_web_page_sk#117,wp_char_count#127]"]
+	1 -> 0
+	2 -> 1
+	3 -> 2
+	4 -> 3
+	5 -> 4
+	6 -> 5
+	7 -> 6
+	8 -> 7
+	9 -> 8
+	10 -> 9
+	11 -> 10
+	12 -> 11
+	13 -> 12
+	14 -> 11
+	15 -> 14
+	16 -> 15
+	17 -> 16
+	18 -> 9
+	19 -> 18
+	20 -> 19
+	21 -> 20
+	22 -> 7
+	23 -> 22
+	24 -> 23
+	25 -> 24
+	26 -> 2
+	27 -> 26
+	28 -> 27
+	29 -> 28
+	30 -> 29
+	31 -> 30
+	32 -> 31
+	33 -> 32
+	34 -> 33
+	35 -> 34
+	36 -> 35
+	37 -> 36
+	38 -> 35
+	39 -> 38
+	40 -> 39
+	41 -> 40
+	42 -> 33
+	43 -> 42
+	44 -> 43
+	45 -> 44
+	46 -> 31
+	47 -> 46
+	48 -> 47
+	49 -> 48
+}

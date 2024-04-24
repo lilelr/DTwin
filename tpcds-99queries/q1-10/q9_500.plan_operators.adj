@@ -1,0 +1,278 @@
+// The Round Table
+digraph {
+	0 [label="nodeID(0) "]
+	1 [label="nodeID(1) Subquery subquery#0, [id=#26]"]
+	2 [label="nodeID(2) AdaptiveSparkPlan isFinalPlan=false"]
+	3 [label="nodeID(3) Project [named_struct(count(1), count(1)#47L, avg(ss_ext_discount_amt), avg(ss_ext_discount_amt)#50, avg(ss_net_paid), avg(ss_net_paid)#52) AS mergedValue#448]"]
+	4 [label="nodeID(4) HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#38), avg(ss_net_paid#44)])"]
+	5 [label="nodeID(5) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=23]"]
+	6 [label="nodeID(6) HashAggregate(keys=[], functions=[partial_count(1), partial_avg(ss_ext_discount_amt#38), partial_avg(ss_net_paid#44)])"]
+	7 [label="nodeID(7) Project [ss_ext_discount_amt#38, ss_net_paid#44]"]
+	8 [label="nodeID(8) Filter ((isnotnull(ss_quantity#34) AND (ss_quantity#34 >= 1)) AND (ss_quantity#34 <= 20))"]
+	9 [label="nodeID(9) FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#34,ss_ext_discount_amt#38,ss_net_paid#44"]
+	10 [label="nodeID(10) Subquery subquery#1, [id=#43]"]
+	11 [label="nodeID(11) AdaptiveSparkPlan isFinalPlan=false"]
+	12 [label="nodeID(12) Project [named_struct(count(1), count(1)#47L, avg(ss_ext_discount_amt), avg(ss_ext_discount_amt)#50, avg(ss_net_paid), avg(ss_net_paid)#52) AS mergedValue#448]"]
+	13 [label="nodeID(13) HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#38), avg(ss_net_paid#44)])"]
+	14 [label="nodeID(14) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=40]"]
+	15 [label="nodeID(15) HashAggregate(keys=[], functions=[partial_count(1), partial_avg(ss_ext_discount_amt#38), partial_avg(ss_net_paid#44)])"]
+	16 [label="nodeID(16) Project [ss_ext_discount_amt#38, ss_net_paid#44]"]
+	17 [label="nodeID(17) Filter ((isnotnull(ss_quantity#34) AND (ss_quantity#34 >= 1)) AND (ss_quantity#34 <= 20))"]
+	18 [label="nodeID(18) FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#34,ss_ext_discount_amt#38,ss_net_paid#44"]
+	19 [label="nodeID(19) Subquery subquery#2, [id=#60]"]
+	20 [label="nodeID(20) AdaptiveSparkPlan isFinalPlan=false"]
+	21 [label="nodeID(21) Project [named_struct(count(1), count(1)#47L, avg(ss_ext_discount_amt), avg(ss_ext_discount_amt)#50, avg(ss_net_paid), avg(ss_net_paid)#52) AS mergedValue#448]"]
+	22 [label="nodeID(22) HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#38), avg(ss_net_paid#44)])"]
+	23 [label="nodeID(23) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=57]"]
+	24 [label="nodeID(24) HashAggregate(keys=[], functions=[partial_count(1), partial_avg(ss_ext_discount_amt#38), partial_avg(ss_net_paid#44)])"]
+	25 [label="nodeID(25) Project [ss_ext_discount_amt#38, ss_net_paid#44]"]
+	26 [label="nodeID(26) Filter ((isnotnull(ss_quantity#34) AND (ss_quantity#34 >= 1)) AND (ss_quantity#34 <= 20))"]
+	27 [label="nodeID(27) FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#34,ss_ext_discount_amt#38,ss_net_paid#44"]
+	28 [label="nodeID(28) Subquery subquery#4, [id=#77]"]
+	29 [label="nodeID(29) AdaptiveSparkPlan isFinalPlan=false"]
+	30 [label="nodeID(30) Project [named_struct(count(1), count(1)#54L, avg(ss_ext_discount_amt), avg(ss_ext_discount_amt)#56, avg(ss_net_paid), avg(ss_net_paid)#58) AS mergedValue#449]"]
+	31 [label="nodeID(31) HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#138), avg(ss_net_paid#144)])"]
+	32 [label="nodeID(32) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=74]"]
+	33 [label="nodeID(33) HashAggregate(keys=[], functions=[partial_count(1), partial_avg(ss_ext_discount_amt#138), partial_avg(ss_net_paid#144)])"]
+	34 [label="nodeID(34) Project [ss_ext_discount_amt#138, ss_net_paid#144]"]
+	35 [label="nodeID(35) Filter ((isnotnull(ss_quantity#134) AND (ss_quantity#134 >= 21)) AND (ss_quantity#134 <= 40))"]
+	36 [label="nodeID(36) FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#134,ss_ext_discount_amt#138,ss_net_paid#144"]
+	37 [label="nodeID(37) Subquery subquery#5, [id=#94]"]
+	38 [label="nodeID(38) AdaptiveSparkPlan isFinalPlan=false"]
+	39 [label="nodeID(39) Project [named_struct(count(1), count(1)#54L, avg(ss_ext_discount_amt), avg(ss_ext_discount_amt)#56, avg(ss_net_paid), avg(ss_net_paid)#58) AS mergedValue#449]"]
+	40 [label="nodeID(40) HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#138), avg(ss_net_paid#144)])"]
+	41 [label="nodeID(41) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=91]"]
+	42 [label="nodeID(42) HashAggregate(keys=[], functions=[partial_count(1), partial_avg(ss_ext_discount_amt#138), partial_avg(ss_net_paid#144)])"]
+	43 [label="nodeID(43) Project [ss_ext_discount_amt#138, ss_net_paid#144]"]
+	44 [label="nodeID(44) Filter ((isnotnull(ss_quantity#134) AND (ss_quantity#134 >= 21)) AND (ss_quantity#134 <= 40))"]
+	45 [label="nodeID(45) FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#134,ss_ext_discount_amt#138,ss_net_paid#144"]
+	46 [label="nodeID(46) Subquery subquery#6, [id=#111]"]
+	47 [label="nodeID(47) AdaptiveSparkPlan isFinalPlan=false"]
+	48 [label="nodeID(48) Project [named_struct(count(1), count(1)#54L, avg(ss_ext_discount_amt), avg(ss_ext_discount_amt)#56, avg(ss_net_paid), avg(ss_net_paid)#58) AS mergedValue#449]"]
+	49 [label="nodeID(49) HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#138), avg(ss_net_paid#144)])"]
+	50 [label="nodeID(50) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=108]"]
+	51 [label="nodeID(51) HashAggregate(keys=[], functions=[partial_count(1), partial_avg(ss_ext_discount_amt#138), partial_avg(ss_net_paid#144)])"]
+	52 [label="nodeID(52) Project [ss_ext_discount_amt#138, ss_net_paid#144]"]
+	53 [label="nodeID(53) Filter ((isnotnull(ss_quantity#134) AND (ss_quantity#134 >= 21)) AND (ss_quantity#134 <= 40))"]
+	54 [label="nodeID(54) FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#134,ss_ext_discount_amt#138,ss_net_paid#144"]
+	55 [label="nodeID(55) Subquery subquery#8, [id=#128]"]
+	56 [label="nodeID(56) AdaptiveSparkPlan isFinalPlan=false"]
+	57 [label="nodeID(57) Project [named_struct(count(1), count(1)#60L, avg(ss_ext_discount_amt), avg(ss_ext_discount_amt)#62, avg(ss_net_paid), avg(ss_net_paid)#64) AS mergedValue#450]"]
+	58 [label="nodeID(58) HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#207), avg(ss_net_paid#213)])"]
+	59 [label="nodeID(59) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=125]"]
+	60 [label="nodeID(60) HashAggregate(keys=[], functions=[partial_count(1), partial_avg(ss_ext_discount_amt#207), partial_avg(ss_net_paid#213)])"]
+	61 [label="nodeID(61) Project [ss_ext_discount_amt#207, ss_net_paid#213]"]
+	62 [label="nodeID(62) Filter ((isnotnull(ss_quantity#203) AND (ss_quantity#203 >= 41)) AND (ss_quantity#203 <= 60))"]
+	63 [label="nodeID(63) FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#203,ss_ext_discount_amt#207,ss_net_paid#213"]
+	64 [label="nodeID(64) Subquery subquery#9, [id=#145]"]
+	65 [label="nodeID(65) AdaptiveSparkPlan isFinalPlan=false"]
+	66 [label="nodeID(66) Project [named_struct(count(1), count(1)#60L, avg(ss_ext_discount_amt), avg(ss_ext_discount_amt)#62, avg(ss_net_paid), avg(ss_net_paid)#64) AS mergedValue#450]"]
+	67 [label="nodeID(67) HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#207), avg(ss_net_paid#213)])"]
+	68 [label="nodeID(68) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=142]"]
+	69 [label="nodeID(69) HashAggregate(keys=[], functions=[partial_count(1), partial_avg(ss_ext_discount_amt#207), partial_avg(ss_net_paid#213)])"]
+	70 [label="nodeID(70) Project [ss_ext_discount_amt#207, ss_net_paid#213]"]
+	71 [label="nodeID(71) Filter ((isnotnull(ss_quantity#203) AND (ss_quantity#203 >= 41)) AND (ss_quantity#203 <= 60))"]
+	72 [label="nodeID(72) FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#203,ss_ext_discount_amt#207,ss_net_paid#213"]
+	73 [label="nodeID(73) Subquery subquery#10, [id=#162]"]
+	74 [label="nodeID(74) AdaptiveSparkPlan isFinalPlan=false"]
+	75 [label="nodeID(75) Project [named_struct(count(1), count(1)#60L, avg(ss_ext_discount_amt), avg(ss_ext_discount_amt)#62, avg(ss_net_paid), avg(ss_net_paid)#64) AS mergedValue#450]"]
+	76 [label="nodeID(76) HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#207), avg(ss_net_paid#213)])"]
+	77 [label="nodeID(77) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=159]"]
+	78 [label="nodeID(78) HashAggregate(keys=[], functions=[partial_count(1), partial_avg(ss_ext_discount_amt#207), partial_avg(ss_net_paid#213)])"]
+	79 [label="nodeID(79) Project [ss_ext_discount_amt#207, ss_net_paid#213]"]
+	80 [label="nodeID(80) Filter ((isnotnull(ss_quantity#203) AND (ss_quantity#203 >= 41)) AND (ss_quantity#203 <= 60))"]
+	81 [label="nodeID(81) FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#203,ss_ext_discount_amt#207,ss_net_paid#213"]
+	82 [label="nodeID(82) Subquery subquery#12, [id=#179]"]
+	83 [label="nodeID(83) AdaptiveSparkPlan isFinalPlan=false"]
+	84 [label="nodeID(84) Project [named_struct(count(1), count(1)#66L, avg(ss_ext_discount_amt), avg(ss_ext_discount_amt)#68, avg(ss_net_paid), avg(ss_net_paid)#70) AS mergedValue#451]"]
+	85 [label="nodeID(85) HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#276), avg(ss_net_paid#282)])"]
+	86 [label="nodeID(86) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=176]"]
+	87 [label="nodeID(87) HashAggregate(keys=[], functions=[partial_count(1), partial_avg(ss_ext_discount_amt#276), partial_avg(ss_net_paid#282)])"]
+	88 [label="nodeID(88) Project [ss_ext_discount_amt#276, ss_net_paid#282]"]
+	89 [label="nodeID(89) Filter ((isnotnull(ss_quantity#272) AND (ss_quantity#272 >= 61)) AND (ss_quantity#272 <= 80))"]
+	90 [label="nodeID(90) FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#272,ss_ext_discount_amt#276,ss_net_paid#282"]
+	91 [label="nodeID(91) Subquery subquery#13, [id=#196]"]
+	92 [label="nodeID(92) AdaptiveSparkPlan isFinalPlan=false"]
+	93 [label="nodeID(93) Project [named_struct(count(1), count(1)#66L, avg(ss_ext_discount_amt), avg(ss_ext_discount_amt)#68, avg(ss_net_paid), avg(ss_net_paid)#70) AS mergedValue#451]"]
+	94 [label="nodeID(94) HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#276), avg(ss_net_paid#282)])"]
+	95 [label="nodeID(95) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=193]"]
+	96 [label="nodeID(96) HashAggregate(keys=[], functions=[partial_count(1), partial_avg(ss_ext_discount_amt#276), partial_avg(ss_net_paid#282)])"]
+	97 [label="nodeID(97) Project [ss_ext_discount_amt#276, ss_net_paid#282]"]
+	98 [label="nodeID(98) Filter ((isnotnull(ss_quantity#272) AND (ss_quantity#272 >= 61)) AND (ss_quantity#272 <= 80))"]
+	99 [label="nodeID(99) FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#272,ss_ext_discount_amt#276,ss_net_paid#282"]
+	100 [label="nodeID(100) Subquery subquery#14, [id=#213]"]
+	101 [label="nodeID(101) AdaptiveSparkPlan isFinalPlan=false"]
+	102 [label="nodeID(102) Project [named_struct(count(1), count(1)#66L, avg(ss_ext_discount_amt), avg(ss_ext_discount_amt)#68, avg(ss_net_paid), avg(ss_net_paid)#70) AS mergedValue#451]"]
+	103 [label="nodeID(103) HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#276), avg(ss_net_paid#282)])"]
+	104 [label="nodeID(104) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=210]"]
+	105 [label="nodeID(105) HashAggregate(keys=[], functions=[partial_count(1), partial_avg(ss_ext_discount_amt#276), partial_avg(ss_net_paid#282)])"]
+	106 [label="nodeID(106) Project [ss_ext_discount_amt#276, ss_net_paid#282]"]
+	107 [label="nodeID(107) Filter ((isnotnull(ss_quantity#272) AND (ss_quantity#272 >= 61)) AND (ss_quantity#272 <= 80))"]
+	108 [label="nodeID(108) FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#272,ss_ext_discount_amt#276,ss_net_paid#282"]
+	109 [label="nodeID(109) Subquery subquery#16, [id=#230]"]
+	110 [label="nodeID(110) AdaptiveSparkPlan isFinalPlan=false"]
+	111 [label="nodeID(111) Project [named_struct(count(1), count(1)#72L, avg(ss_ext_discount_amt), avg(ss_ext_discount_amt)#74, avg(ss_net_paid), avg(ss_net_paid)#76) AS mergedValue#452]"]
+	112 [label="nodeID(112) HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#345), avg(ss_net_paid#351)])"]
+	113 [label="nodeID(113) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=227]"]
+	114 [label="nodeID(114) HashAggregate(keys=[], functions=[partial_count(1), partial_avg(ss_ext_discount_amt#345), partial_avg(ss_net_paid#351)])"]
+	115 [label="nodeID(115) Project [ss_ext_discount_amt#345, ss_net_paid#351]"]
+	116 [label="nodeID(116) Filter ((isnotnull(ss_quantity#341) AND (ss_quantity#341 >= 81)) AND (ss_quantity#341 <= 100))"]
+	117 [label="nodeID(117) FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#341,ss_ext_discount_amt#345,ss_net_paid#351"]
+	118 [label="nodeID(118) Subquery subquery#17, [id=#247]"]
+	119 [label="nodeID(119) AdaptiveSparkPlan isFinalPlan=false"]
+	120 [label="nodeID(120) Project [named_struct(count(1), count(1)#72L, avg(ss_ext_discount_amt), avg(ss_ext_discount_amt)#74, avg(ss_net_paid), avg(ss_net_paid)#76) AS mergedValue#452]"]
+	121 [label="nodeID(121) HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#345), avg(ss_net_paid#351)])"]
+	122 [label="nodeID(122) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=244]"]
+	123 [label="nodeID(123) HashAggregate(keys=[], functions=[partial_count(1), partial_avg(ss_ext_discount_amt#345), partial_avg(ss_net_paid#351)])"]
+	124 [label="nodeID(124) Project [ss_ext_discount_amt#345, ss_net_paid#351]"]
+	125 [label="nodeID(125) Filter ((isnotnull(ss_quantity#341) AND (ss_quantity#341 >= 81)) AND (ss_quantity#341 <= 100))"]
+	126 [label="nodeID(126) FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#341,ss_ext_discount_amt#345,ss_net_paid#351"]
+	127 [label="nodeID(127) Subquery subquery#18, [id=#264]"]
+	128 [label="nodeID(128) AdaptiveSparkPlan isFinalPlan=false"]
+	129 [label="nodeID(129) Project [named_struct(count(1), count(1)#72L, avg(ss_ext_discount_amt), avg(ss_ext_discount_amt)#74, avg(ss_net_paid), avg(ss_net_paid)#76) AS mergedValue#452]"]
+	130 [label="nodeID(130) HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#345), avg(ss_net_paid#351)])"]
+	131 [label="nodeID(131) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=261]"]
+	132 [label="nodeID(132) HashAggregate(keys=[], functions=[partial_count(1), partial_avg(ss_ext_discount_amt#345), partial_avg(ss_net_paid#351)])"]
+	133 [label="nodeID(133) Project [ss_ext_discount_amt#345, ss_net_paid#351]"]
+	134 [label="nodeID(134) Filter ((isnotnull(ss_quantity#341) AND (ss_quantity#341 >= 81)) AND (ss_quantity#341 <= 100))"]
+	135 [label="nodeID(135) FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#341,ss_ext_discount_amt#345,ss_net_paid#351"]
+	136 [label="nodeID(136) Filter (isnotnull(r_reason_sk#20) AND (r_reason_sk#20 = 1))"]
+	137 [label="nodeID(137) FileScan parquet tpcds_500_parquet.reason[r_reason_sk#20"]
+	1 -> 0
+	2 -> 1
+	3 -> 2
+	4 -> 3
+	5 -> 4
+	6 -> 5
+	7 -> 6
+	8 -> 7
+	9 -> 8
+	10 -> 0
+	11 -> 10
+	12 -> 11
+	13 -> 12
+	14 -> 13
+	15 -> 14
+	16 -> 15
+	17 -> 16
+	18 -> 17
+	19 -> 0
+	20 -> 19
+	21 -> 20
+	22 -> 21
+	23 -> 22
+	24 -> 23
+	25 -> 24
+	26 -> 25
+	27 -> 26
+	28 -> 0
+	29 -> 28
+	30 -> 29
+	31 -> 30
+	32 -> 31
+	33 -> 32
+	34 -> 33
+	35 -> 34
+	36 -> 35
+	37 -> 0
+	38 -> 37
+	39 -> 38
+	40 -> 39
+	41 -> 40
+	42 -> 41
+	43 -> 42
+	44 -> 43
+	45 -> 44
+	46 -> 0
+	47 -> 46
+	48 -> 47
+	49 -> 48
+	50 -> 49
+	51 -> 50
+	52 -> 51
+	53 -> 52
+	54 -> 53
+	55 -> 0
+	56 -> 55
+	57 -> 56
+	58 -> 57
+	59 -> 58
+	60 -> 59
+	61 -> 60
+	62 -> 61
+	63 -> 62
+	64 -> 0
+	65 -> 64
+	66 -> 65
+	67 -> 66
+	68 -> 67
+	69 -> 68
+	70 -> 69
+	71 -> 70
+	72 -> 71
+	73 -> 0
+	74 -> 73
+	75 -> 74
+	76 -> 75
+	77 -> 76
+	78 -> 77
+	79 -> 78
+	80 -> 79
+	81 -> 80
+	82 -> 0
+	83 -> 82
+	84 -> 83
+	85 -> 84
+	86 -> 85
+	87 -> 86
+	88 -> 87
+	89 -> 88
+	90 -> 89
+	91 -> 0
+	92 -> 91
+	93 -> 92
+	94 -> 93
+	95 -> 94
+	96 -> 95
+	97 -> 96
+	98 -> 97
+	99 -> 98
+	100 -> 0
+	101 -> 100
+	102 -> 101
+	103 -> 102
+	104 -> 103
+	105 -> 104
+	106 -> 105
+	107 -> 106
+	108 -> 107
+	109 -> 0
+	110 -> 109
+	111 -> 110
+	112 -> 111
+	113 -> 112
+	114 -> 113
+	115 -> 114
+	116 -> 115
+	117 -> 116
+	118 -> 0
+	119 -> 118
+	120 -> 119
+	121 -> 120
+	122 -> 121
+	123 -> 122
+	124 -> 123
+	125 -> 124
+	126 -> 125
+	127 -> 0
+	128 -> 127
+	129 -> 128
+	130 -> 129
+	131 -> 130
+	132 -> 131
+	133 -> 132
+	134 -> 133
+	135 -> 134
+	136 -> 0
+	137 -> 136
+}

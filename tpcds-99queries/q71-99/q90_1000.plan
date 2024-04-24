@@ -1,0 +1,53 @@
+== Physical Plan ==
+AdaptiveSparkPlan isFinalPlan=false
++- Project [CheckOverflow((promote_precision(cast(amc#0L as decimal(15,4))) / promote_precision(cast(pmc#1L as decimal(15,4)))), DecimalType(35,20)) AS am_pm_ratio#2]
+   +- BroadcastNestedLoopJoin BuildRight, Cross
+      :- HashAggregate(keys=[], functions=[count(1)])
+      :  +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=168]
+      :     +- HashAggregate(keys=[], functions=[partial_count(1)])
+      :        +- Project
+      :           +- BroadcastHashJoin [ws_web_page_sk#17], [wp_web_page_sk#54], Inner, BuildRight, false
+      :              :- Project [ws_web_page_sk#17]
+      :              :  +- BroadcastHashJoin [ws_sold_time_sk#6], [t_time_sk#44], Inner, BuildRight, false
+      :              :     :- Project [ws_sold_time_sk#6, ws_web_page_sk#17]
+      :              :     :  +- BroadcastHashJoin [ws_ship_hdemo_sk#15], [hd_demo_sk#39], Inner, BuildRight, false
+      :              :     :     :- Filter ((isnotnull(ws_ship_hdemo_sk#15) AND isnotnull(ws_sold_time_sk#6)) AND isnotnull(ws_web_page_sk#17))
+      :              :     :     :  +- FileScan parquet tpcds_1000_parquet.web_sales[ws_sold_time_sk#6,ws_ship_hdemo_sk#15,ws_web_page_sk#17] Batched: true, DataFilters: [isnotnull(ws_ship_hdemo_sk#15), isnotnull(ws_sold_time_sk#6), isnotnull(ws_web_page_sk#17)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_1000/tpcds_parquet/web_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ws_ship_hdemo_sk), IsNotNull(ws_sold_time_sk), IsNotNull(ws_web_page_sk)], ReadSchema: struct<ws_sold_time_sk:int,ws_ship_hdemo_sk:int,ws_web_page_sk:int>
+      :              :     :     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=155]
+      :              :     :        +- Project [hd_demo_sk#39]
+      :              :     :           +- Filter ((isnotnull(hd_dep_count#42) AND (hd_dep_count#42 = 6)) AND isnotnull(hd_demo_sk#39))
+      :              :     :              +- FileScan parquet tpcds_1000_parquet.household_demographics[hd_demo_sk#39,hd_dep_count#42] Batched: true, DataFilters: [isnotnull(hd_dep_count#42), (hd_dep_count#42 = 6), isnotnull(hd_demo_sk#39)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_1000/tpcds_parquet/household..., PartitionFilters: [], PushedFilters: [IsNotNull(hd_dep_count), EqualTo(hd_dep_count,6), IsNotNull(hd_demo_sk)], ReadSchema: struct<hd_demo_sk:int,hd_dep_count:int>
+      :              :     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=159]
+      :              :        +- Project [t_time_sk#44]
+      :              :           +- Filter (((isnotnull(t_hour#47) AND (t_hour#47 >= 8)) AND (t_hour#47 <= 9)) AND isnotnull(t_time_sk#44))
+      :              :              +- FileScan parquet tpcds_1000_parquet.time_dim[t_time_sk#44,t_hour#47] Batched: true, DataFilters: [isnotnull(t_hour#47), (t_hour#47 >= 8), (t_hour#47 <= 9), isnotnull(t_time_sk#44)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_1000/tpcds_parquet/time_dim], PartitionFilters: [], PushedFilters: [IsNotNull(t_hour), GreaterThanOrEqual(t_hour,8), LessThanOrEqual(t_hour,9), IsNotNull(t_time_sk)], ReadSchema: struct<t_time_sk:int,t_hour:int>
+      :              +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=163]
+      :                 +- Project [wp_web_page_sk#54]
+      :                    +- Filter (((isnotnull(wp_char_count#64) AND (wp_char_count#64 >= 5000)) AND (wp_char_count#64 <= 5200)) AND isnotnull(wp_web_page_sk#54))
+      :                       +- FileScan parquet tpcds_1000_parquet.web_page[wp_web_page_sk#54,wp_char_count#64] Batched: true, DataFilters: [isnotnull(wp_char_count#64), (wp_char_count#64 >= 5000), (wp_char_count#64 <= 5200), isnotnull(w..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_1000/tpcds_parquet/web_page], PartitionFilters: [], PushedFilters: [IsNotNull(wp_char_count), GreaterThanOrEqual(wp_char_count,5000), LessThanOrEqual(wp_char_count,..., ReadSchema: struct<wp_web_page_sk:int,wp_char_count:int>
+      +- BroadcastExchange IdentityBroadcastMode, [plan_id=186]
+         +- HashAggregate(keys=[], functions=[count(1)])
+            +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=183]
+               +- HashAggregate(keys=[], functions=[partial_count(1)])
+                  +- Project
+                     +- BroadcastHashJoin [ws_web_page_sk#80], [wp_web_page_sk#117], Inner, BuildRight, false
+                        :- Project [ws_web_page_sk#80]
+                        :  +- BroadcastHashJoin [ws_sold_time_sk#69], [t_time_sk#107], Inner, BuildRight, false
+                        :     :- Project [ws_sold_time_sk#69, ws_web_page_sk#80]
+                        :     :  +- BroadcastHashJoin [ws_ship_hdemo_sk#78], [hd_demo_sk#102], Inner, BuildRight, false
+                        :     :     :- Filter ((isnotnull(ws_ship_hdemo_sk#78) AND isnotnull(ws_sold_time_sk#69)) AND isnotnull(ws_web_page_sk#80))
+                        :     :     :  +- FileScan parquet tpcds_1000_parquet.web_sales[ws_sold_time_sk#69,ws_ship_hdemo_sk#78,ws_web_page_sk#80] Batched: true, DataFilters: [isnotnull(ws_ship_hdemo_sk#78), isnotnull(ws_sold_time_sk#69), isnotnull(ws_web_page_sk#80)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_1000/tpcds_parquet/web_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ws_ship_hdemo_sk), IsNotNull(ws_sold_time_sk), IsNotNull(ws_web_page_sk)], ReadSchema: struct<ws_sold_time_sk:int,ws_ship_hdemo_sk:int,ws_web_page_sk:int>
+                        :     :     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=170]
+                        :     :        +- Project [hd_demo_sk#102]
+                        :     :           +- Filter ((isnotnull(hd_dep_count#105) AND (hd_dep_count#105 = 6)) AND isnotnull(hd_demo_sk#102))
+                        :     :              +- FileScan parquet tpcds_1000_parquet.household_demographics[hd_demo_sk#102,hd_dep_count#105] Batched: true, DataFilters: [isnotnull(hd_dep_count#105), (hd_dep_count#105 = 6), isnotnull(hd_demo_sk#102)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_1000/tpcds_parquet/household..., PartitionFilters: [], PushedFilters: [IsNotNull(hd_dep_count), EqualTo(hd_dep_count,6), IsNotNull(hd_demo_sk)], ReadSchema: struct<hd_demo_sk:int,hd_dep_count:int>
+                        :     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=174]
+                        :        +- Project [t_time_sk#107]
+                        :           +- Filter (((isnotnull(t_hour#110) AND (t_hour#110 >= 19)) AND (t_hour#110 <= 20)) AND isnotnull(t_time_sk#107))
+                        :              +- FileScan parquet tpcds_1000_parquet.time_dim[t_time_sk#107,t_hour#110] Batched: true, DataFilters: [isnotnull(t_hour#110), (t_hour#110 >= 19), (t_hour#110 <= 20), isnotnull(t_time_sk#107)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_1000/tpcds_parquet/time_dim], PartitionFilters: [], PushedFilters: [IsNotNull(t_hour), GreaterThanOrEqual(t_hour,19), LessThanOrEqual(t_hour,20), IsNotNull(t_time_sk)], ReadSchema: struct<t_time_sk:int,t_hour:int>
+                        +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=178]
+                           +- Project [wp_web_page_sk#117]
+                              +- Filter (((isnotnull(wp_char_count#127) AND (wp_char_count#127 >= 5000)) AND (wp_char_count#127 <= 5200)) AND isnotnull(wp_web_page_sk#117))
+                                 +- FileScan parquet tpcds_1000_parquet.web_page[wp_web_page_sk#117,wp_char_count#127] Batched: true, DataFilters: [isnotnull(wp_char_count#127), (wp_char_count#127 >= 5000), (wp_char_count#127 <= 5200), isnotnul..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_1000/tpcds_parquet/web_page], PartitionFilters: [], PushedFilters: [IsNotNull(wp_char_count), GreaterThanOrEqual(wp_char_count,5000), LessThanOrEqual(wp_char_count,..., ReadSchema: struct<wp_web_page_sk:int,wp_char_count:int>
+
+

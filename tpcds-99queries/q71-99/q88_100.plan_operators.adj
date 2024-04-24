@@ -1,0 +1,400 @@
+// The Round Table
+digraph {
+	0 [label="nodeID(0) "]
+	1 [label="nodeID(1) BroadcastNestedLoopJoin BuildRight, Cross"]
+	2 [label="nodeID(2) BroadcastNestedLoopJoin BuildRight, Cross"]
+	3 [label="nodeID(3) BroadcastNestedLoopJoin BuildRight, Cross"]
+	4 [label="nodeID(4) BroadcastNestedLoopJoin BuildRight, Cross"]
+	5 [label="nodeID(5) BroadcastNestedLoopJoin BuildRight, Cross"]
+	6 [label="nodeID(6) BroadcastNestedLoopJoin BuildRight, Cross"]
+	7 [label="nodeID(7) BroadcastNestedLoopJoin BuildRight, Cross"]
+	8 [label="nodeID(8) HashAggregate(keys=[], functions=[count(1)])"]
+	9 [label="nodeID(9) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=619]"]
+	10 [label="nodeID(10) HashAggregate(keys=[], functions=[partial_count(1)])"]
+	11 [label="nodeID(11) Project"]
+	12 [label="nodeID(12) BroadcastHashJoin [ss_store_sk#23], [s_store_sk#54], Inner, BuildRight, false"]
+	13 [label="nodeID(13) Project [ss_store_sk#23]"]
+	14 [label="nodeID(14) BroadcastHashJoin [ss_sold_time_sk#17], [t_time_sk#44], Inner, BuildRight, false"]
+	15 [label="nodeID(15) Project [ss_sold_time_sk#17, ss_store_sk#23]"]
+	16 [label="nodeID(16) BroadcastHashJoin [ss_hdemo_sk#21], [hd_demo_sk#39], Inner, BuildRight, false"]
+	17 [label="nodeID(17) Filter ((isnotnull(ss_hdemo_sk#21) AND isnotnull(ss_sold_time_sk#17)) AND isnotnull(ss_store_sk#23))"]
+	18 [label="nodeID(18) FileScan parquet tpcds_100_parquet.store_sales[ss_sold_time_sk#17,ss_hdemo_sk#21,ss_store_sk#23]"]
+	19 [label="nodeID(19) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=606]"]
+	20 [label="nodeID(20) Project [hd_demo_sk#39]"]
+	21 [label="nodeID(21) Filter (((((hd_dep_count#42 = 4) AND (hd_vehicle_count#43 <= 6)) OR ((hd_dep_count#42 = 2) AND (hd_vehicle_count#43 <= 4))) OR ((hd_dep_count#42 = 0) AND (hd_vehicle_count#43 <= 2))) AND isnotnull(hd_demo_sk#39))"]
+	22 [label="nodeID(22) FileScan parquet tpcds_100_parquet.household_demographics[hd_demo_sk#39,hd_dep_count#42,hd_vehicle_count#43]"]
+	23 [label="nodeID(23) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=610]"]
+	24 [label="nodeID(24) Project [t_time_sk#44]"]
+	25 [label="nodeID(25) Filter ((((isnotnull(t_hour#47) AND isnotnull(t_minute#48)) AND (t_hour#47 = 8)) AND (t_minute#48 >= 30)) AND isnotnull(t_time_sk#44))"]
+	26 [label="nodeID(26) FileScan parquet tpcds_100_parquet.time_dim[t_time_sk#44,t_hour#47,t_minute#48]"]
+	27 [label="nodeID(27) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=614]"]
+	28 [label="nodeID(28) Project [s_store_sk#54]"]
+	29 [label="nodeID(29) Filter ((isnotnull(s_store_name#59) AND (s_store_name#59 = ese)) AND isnotnull(s_store_sk#54))"]
+	30 [label="nodeID(30) FileScan parquet tpcds_100_parquet.store[s_store_sk#54,s_store_name#59]"]
+	31 [label="nodeID(31) BroadcastExchange IdentityBroadcastMode, [plan_id=637]"]
+	32 [label="nodeID(32) HashAggregate(keys=[], functions=[count(1)])"]
+	33 [label="nodeID(33) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=634]"]
+	34 [label="nodeID(34) HashAggregate(keys=[], functions=[partial_count(1)])"]
+	35 [label="nodeID(35) Project"]
+	36 [label="nodeID(36) BroadcastHashJoin [ss_store_sk#90], [s_store_sk#121], Inner, BuildRight, false"]
+	37 [label="nodeID(37) Project [ss_store_sk#90]"]
+	38 [label="nodeID(38) BroadcastHashJoin [ss_sold_time_sk#84], [t_time_sk#111], Inner, BuildRight, false"]
+	39 [label="nodeID(39) Project [ss_sold_time_sk#84, ss_store_sk#90]"]
+	40 [label="nodeID(40) BroadcastHashJoin [ss_hdemo_sk#88], [hd_demo_sk#106], Inner, BuildRight, false"]
+	41 [label="nodeID(41) Filter ((isnotnull(ss_hdemo_sk#88) AND isnotnull(ss_sold_time_sk#84)) AND isnotnull(ss_store_sk#90))"]
+	42 [label="nodeID(42) FileScan parquet tpcds_100_parquet.store_sales[ss_sold_time_sk#84,ss_hdemo_sk#88,ss_store_sk#90]"]
+	43 [label="nodeID(43) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=621]"]
+	44 [label="nodeID(44) Project [hd_demo_sk#106]"]
+	45 [label="nodeID(45) Filter (((((hd_dep_count#109 = 4) AND (hd_vehicle_count#110 <= 6)) OR ((hd_dep_count#109 = 2) AND (hd_vehicle_count#110 <= 4))) OR ((hd_dep_count#109 = 0) AND (hd_vehicle_count#110 <= 2))) AND isnotnull(hd_demo_sk#106))"]
+	46 [label="nodeID(46) FileScan parquet tpcds_100_parquet.household_demographics[hd_demo_sk#106,hd_dep_count#109,hd_vehicle_count#110]"]
+	47 [label="nodeID(47) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=625]"]
+	48 [label="nodeID(48) Project [t_time_sk#111]"]
+	49 [label="nodeID(49) Filter ((((isnotnull(t_hour#114) AND isnotnull(t_minute#115)) AND (t_hour#114 = 9)) AND (t_minute#115 < 30)) AND isnotnull(t_time_sk#111))"]
+	50 [label="nodeID(50) FileScan parquet tpcds_100_parquet.time_dim[t_time_sk#111,t_hour#114,t_minute#115]"]
+	51 [label="nodeID(51) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=629]"]
+	52 [label="nodeID(52) Project [s_store_sk#121]"]
+	53 [label="nodeID(53) Filter ((isnotnull(s_store_name#126) AND (s_store_name#126 = ese)) AND isnotnull(s_store_sk#121))"]
+	54 [label="nodeID(54) FileScan parquet tpcds_100_parquet.store[s_store_sk#121,s_store_name#126]"]
+	55 [label="nodeID(55) BroadcastExchange IdentityBroadcastMode, [plan_id=655]"]
+	56 [label="nodeID(56) HashAggregate(keys=[], functions=[count(1)])"]
+	57 [label="nodeID(57) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=652]"]
+	58 [label="nodeID(58) HashAggregate(keys=[], functions=[partial_count(1)])"]
+	59 [label="nodeID(59) Project"]
+	60 [label="nodeID(60) BroadcastHashJoin [ss_store_sk#157], [s_store_sk#188], Inner, BuildRight, false"]
+	61 [label="nodeID(61) Project [ss_store_sk#157]"]
+	62 [label="nodeID(62) BroadcastHashJoin [ss_sold_time_sk#151], [t_time_sk#178], Inner, BuildRight, false"]
+	63 [label="nodeID(63) Project [ss_sold_time_sk#151, ss_store_sk#157]"]
+	64 [label="nodeID(64) BroadcastHashJoin [ss_hdemo_sk#155], [hd_demo_sk#173], Inner, BuildRight, false"]
+	65 [label="nodeID(65) Filter ((isnotnull(ss_hdemo_sk#155) AND isnotnull(ss_sold_time_sk#151)) AND isnotnull(ss_store_sk#157))"]
+	66 [label="nodeID(66) FileScan parquet tpcds_100_parquet.store_sales[ss_sold_time_sk#151,ss_hdemo_sk#155,ss_store_sk#157]"]
+	67 [label="nodeID(67) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=639]"]
+	68 [label="nodeID(68) Project [hd_demo_sk#173]"]
+	69 [label="nodeID(69) Filter (((((hd_dep_count#176 = 4) AND (hd_vehicle_count#177 <= 6)) OR ((hd_dep_count#176 = 2) AND (hd_vehicle_count#177 <= 4))) OR ((hd_dep_count#176 = 0) AND (hd_vehicle_count#177 <= 2))) AND isnotnull(hd_demo_sk#173))"]
+	70 [label="nodeID(70) FileScan parquet tpcds_100_parquet.household_demographics[hd_demo_sk#173,hd_dep_count#176,hd_vehicle_count#177]"]
+	71 [label="nodeID(71) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=643]"]
+	72 [label="nodeID(72) Project [t_time_sk#178]"]
+	73 [label="nodeID(73) Filter ((((isnotnull(t_hour#181) AND isnotnull(t_minute#182)) AND (t_hour#181 = 9)) AND (t_minute#182 >= 30)) AND isnotnull(t_time_sk#178))"]
+	74 [label="nodeID(74) FileScan parquet tpcds_100_parquet.time_dim[t_time_sk#178,t_hour#181,t_minute#182]"]
+	75 [label="nodeID(75) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=647]"]
+	76 [label="nodeID(76) Project [s_store_sk#188]"]
+	77 [label="nodeID(77) Filter ((isnotnull(s_store_name#193) AND (s_store_name#193 = ese)) AND isnotnull(s_store_sk#188))"]
+	78 [label="nodeID(78) FileScan parquet tpcds_100_parquet.store[s_store_sk#188,s_store_name#193]"]
+	79 [label="nodeID(79) BroadcastExchange IdentityBroadcastMode, [plan_id=673]"]
+	80 [label="nodeID(80) HashAggregate(keys=[], functions=[count(1)])"]
+	81 [label="nodeID(81) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=670]"]
+	82 [label="nodeID(82) HashAggregate(keys=[], functions=[partial_count(1)])"]
+	83 [label="nodeID(83) Project"]
+	84 [label="nodeID(84) BroadcastHashJoin [ss_store_sk#224], [s_store_sk#255], Inner, BuildRight, false"]
+	85 [label="nodeID(85) Project [ss_store_sk#224]"]
+	86 [label="nodeID(86) BroadcastHashJoin [ss_sold_time_sk#218], [t_time_sk#245], Inner, BuildRight, false"]
+	87 [label="nodeID(87) Project [ss_sold_time_sk#218, ss_store_sk#224]"]
+	88 [label="nodeID(88) BroadcastHashJoin [ss_hdemo_sk#222], [hd_demo_sk#240], Inner, BuildRight, false"]
+	89 [label="nodeID(89) Filter ((isnotnull(ss_hdemo_sk#222) AND isnotnull(ss_sold_time_sk#218)) AND isnotnull(ss_store_sk#224))"]
+	90 [label="nodeID(90) FileScan parquet tpcds_100_parquet.store_sales[ss_sold_time_sk#218,ss_hdemo_sk#222,ss_store_sk#224]"]
+	91 [label="nodeID(91) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=657]"]
+	92 [label="nodeID(92) Project [hd_demo_sk#240]"]
+	93 [label="nodeID(93) Filter (((((hd_dep_count#243 = 4) AND (hd_vehicle_count#244 <= 6)) OR ((hd_dep_count#243 = 2) AND (hd_vehicle_count#244 <= 4))) OR ((hd_dep_count#243 = 0) AND (hd_vehicle_count#244 <= 2))) AND isnotnull(hd_demo_sk#240))"]
+	94 [label="nodeID(94) FileScan parquet tpcds_100_parquet.household_demographics[hd_demo_sk#240,hd_dep_count#243,hd_vehicle_count#244]"]
+	95 [label="nodeID(95) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=661]"]
+	96 [label="nodeID(96) Project [t_time_sk#245]"]
+	97 [label="nodeID(97) Filter ((((isnotnull(t_hour#248) AND isnotnull(t_minute#249)) AND (t_hour#248 = 10)) AND (t_minute#249 < 30)) AND isnotnull(t_time_sk#245))"]
+	98 [label="nodeID(98) FileScan parquet tpcds_100_parquet.time_dim[t_time_sk#245,t_hour#248,t_minute#249]"]
+	99 [label="nodeID(99) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=665]"]
+	100 [label="nodeID(100) Project [s_store_sk#255]"]
+	101 [label="nodeID(101) Filter ((isnotnull(s_store_name#260) AND (s_store_name#260 = ese)) AND isnotnull(s_store_sk#255))"]
+	102 [label="nodeID(102) FileScan parquet tpcds_100_parquet.store[s_store_sk#255,s_store_name#260]"]
+	103 [label="nodeID(103) BroadcastExchange IdentityBroadcastMode, [plan_id=691]"]
+	104 [label="nodeID(104) HashAggregate(keys=[], functions=[count(1)])"]
+	105 [label="nodeID(105) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=688]"]
+	106 [label="nodeID(106) HashAggregate(keys=[], functions=[partial_count(1)])"]
+	107 [label="nodeID(107) Project"]
+	108 [label="nodeID(108) BroadcastHashJoin [ss_store_sk#291], [s_store_sk#322], Inner, BuildRight, false"]
+	109 [label="nodeID(109) Project [ss_store_sk#291]"]
+	110 [label="nodeID(110) BroadcastHashJoin [ss_sold_time_sk#285], [t_time_sk#312], Inner, BuildRight, false"]
+	111 [label="nodeID(111) Project [ss_sold_time_sk#285, ss_store_sk#291]"]
+	112 [label="nodeID(112) BroadcastHashJoin [ss_hdemo_sk#289], [hd_demo_sk#307], Inner, BuildRight, false"]
+	113 [label="nodeID(113) Filter ((isnotnull(ss_hdemo_sk#289) AND isnotnull(ss_sold_time_sk#285)) AND isnotnull(ss_store_sk#291))"]
+	114 [label="nodeID(114) FileScan parquet tpcds_100_parquet.store_sales[ss_sold_time_sk#285,ss_hdemo_sk#289,ss_store_sk#291]"]
+	115 [label="nodeID(115) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=675]"]
+	116 [label="nodeID(116) Project [hd_demo_sk#307]"]
+	117 [label="nodeID(117) Filter (((((hd_dep_count#310 = 4) AND (hd_vehicle_count#311 <= 6)) OR ((hd_dep_count#310 = 2) AND (hd_vehicle_count#311 <= 4))) OR ((hd_dep_count#310 = 0) AND (hd_vehicle_count#311 <= 2))) AND isnotnull(hd_demo_sk#307))"]
+	118 [label="nodeID(118) FileScan parquet tpcds_100_parquet.household_demographics[hd_demo_sk#307,hd_dep_count#310,hd_vehicle_count#311]"]
+	119 [label="nodeID(119) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=679]"]
+	120 [label="nodeID(120) Project [t_time_sk#312]"]
+	121 [label="nodeID(121) Filter ((((isnotnull(t_hour#315) AND isnotnull(t_minute#316)) AND (t_hour#315 = 10)) AND (t_minute#316 >= 30)) AND isnotnull(t_time_sk#312))"]
+	122 [label="nodeID(122) FileScan parquet tpcds_100_parquet.time_dim[t_time_sk#312,t_hour#315,t_minute#316]"]
+	123 [label="nodeID(123) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=683]"]
+	124 [label="nodeID(124) Project [s_store_sk#322]"]
+	125 [label="nodeID(125) Filter ((isnotnull(s_store_name#327) AND (s_store_name#327 = ese)) AND isnotnull(s_store_sk#322))"]
+	126 [label="nodeID(126) FileScan parquet tpcds_100_parquet.store[s_store_sk#322,s_store_name#327]"]
+	127 [label="nodeID(127) BroadcastExchange IdentityBroadcastMode, [plan_id=709]"]
+	128 [label="nodeID(128) HashAggregate(keys=[], functions=[count(1)])"]
+	129 [label="nodeID(129) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=706]"]
+	130 [label="nodeID(130) HashAggregate(keys=[], functions=[partial_count(1)])"]
+	131 [label="nodeID(131) Project"]
+	132 [label="nodeID(132) BroadcastHashJoin [ss_store_sk#358], [s_store_sk#389], Inner, BuildRight, false"]
+	133 [label="nodeID(133) Project [ss_store_sk#358]"]
+	134 [label="nodeID(134) BroadcastHashJoin [ss_sold_time_sk#352], [t_time_sk#379], Inner, BuildRight, false"]
+	135 [label="nodeID(135) Project [ss_sold_time_sk#352, ss_store_sk#358]"]
+	136 [label="nodeID(136) BroadcastHashJoin [ss_hdemo_sk#356], [hd_demo_sk#374], Inner, BuildRight, false"]
+	137 [label="nodeID(137) Filter ((isnotnull(ss_hdemo_sk#356) AND isnotnull(ss_sold_time_sk#352)) AND isnotnull(ss_store_sk#358))"]
+	138 [label="nodeID(138) FileScan parquet tpcds_100_parquet.store_sales[ss_sold_time_sk#352,ss_hdemo_sk#356,ss_store_sk#358]"]
+	139 [label="nodeID(139) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=693]"]
+	140 [label="nodeID(140) Project [hd_demo_sk#374]"]
+	141 [label="nodeID(141) Filter (((((hd_dep_count#377 = 4) AND (hd_vehicle_count#378 <= 6)) OR ((hd_dep_count#377 = 2) AND (hd_vehicle_count#378 <= 4))) OR ((hd_dep_count#377 = 0) AND (hd_vehicle_count#378 <= 2))) AND isnotnull(hd_demo_sk#374))"]
+	142 [label="nodeID(142) FileScan parquet tpcds_100_parquet.household_demographics[hd_demo_sk#374,hd_dep_count#377,hd_vehicle_count#378]"]
+	143 [label="nodeID(143) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=697]"]
+	144 [label="nodeID(144) Project [t_time_sk#379]"]
+	145 [label="nodeID(145) Filter ((((isnotnull(t_hour#382) AND isnotnull(t_minute#383)) AND (t_hour#382 = 11)) AND (t_minute#383 < 30)) AND isnotnull(t_time_sk#379))"]
+	146 [label="nodeID(146) FileScan parquet tpcds_100_parquet.time_dim[t_time_sk#379,t_hour#382,t_minute#383]"]
+	147 [label="nodeID(147) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=701]"]
+	148 [label="nodeID(148) Project [s_store_sk#389]"]
+	149 [label="nodeID(149) Filter ((isnotnull(s_store_name#394) AND (s_store_name#394 = ese)) AND isnotnull(s_store_sk#389))"]
+	150 [label="nodeID(150) FileScan parquet tpcds_100_parquet.store[s_store_sk#389,s_store_name#394]"]
+	151 [label="nodeID(151) BroadcastExchange IdentityBroadcastMode, [plan_id=727]"]
+	152 [label="nodeID(152) HashAggregate(keys=[], functions=[count(1)])"]
+	153 [label="nodeID(153) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=724]"]
+	154 [label="nodeID(154) HashAggregate(keys=[], functions=[partial_count(1)])"]
+	155 [label="nodeID(155) Project"]
+	156 [label="nodeID(156) BroadcastHashJoin [ss_store_sk#425], [s_store_sk#456], Inner, BuildRight, false"]
+	157 [label="nodeID(157) Project [ss_store_sk#425]"]
+	158 [label="nodeID(158) BroadcastHashJoin [ss_sold_time_sk#419], [t_time_sk#446], Inner, BuildRight, false"]
+	159 [label="nodeID(159) Project [ss_sold_time_sk#419, ss_store_sk#425]"]
+	160 [label="nodeID(160) BroadcastHashJoin [ss_hdemo_sk#423], [hd_demo_sk#441], Inner, BuildRight, false"]
+	161 [label="nodeID(161) Filter ((isnotnull(ss_hdemo_sk#423) AND isnotnull(ss_sold_time_sk#419)) AND isnotnull(ss_store_sk#425))"]
+	162 [label="nodeID(162) FileScan parquet tpcds_100_parquet.store_sales[ss_sold_time_sk#419,ss_hdemo_sk#423,ss_store_sk#425]"]
+	163 [label="nodeID(163) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=711]"]
+	164 [label="nodeID(164) Project [hd_demo_sk#441]"]
+	165 [label="nodeID(165) Filter (((((hd_dep_count#444 = 4) AND (hd_vehicle_count#445 <= 6)) OR ((hd_dep_count#444 = 2) AND (hd_vehicle_count#445 <= 4))) OR ((hd_dep_count#444 = 0) AND (hd_vehicle_count#445 <= 2))) AND isnotnull(hd_demo_sk#441))"]
+	166 [label="nodeID(166) FileScan parquet tpcds_100_parquet.household_demographics[hd_demo_sk#441,hd_dep_count#444,hd_vehicle_count#445]"]
+	167 [label="nodeID(167) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=715]"]
+	168 [label="nodeID(168) Project [t_time_sk#446]"]
+	169 [label="nodeID(169) Filter ((((isnotnull(t_hour#449) AND isnotnull(t_minute#450)) AND (t_hour#449 = 11)) AND (t_minute#450 >= 30)) AND isnotnull(t_time_sk#446))"]
+	170 [label="nodeID(170) FileScan parquet tpcds_100_parquet.time_dim[t_time_sk#446,t_hour#449,t_minute#450]"]
+	171 [label="nodeID(171) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=719]"]
+	172 [label="nodeID(172) Project [s_store_sk#456]"]
+	173 [label="nodeID(173) Filter ((isnotnull(s_store_name#461) AND (s_store_name#461 = ese)) AND isnotnull(s_store_sk#456))"]
+	174 [label="nodeID(174) FileScan parquet tpcds_100_parquet.store[s_store_sk#456,s_store_name#461]"]
+	175 [label="nodeID(175) BroadcastExchange IdentityBroadcastMode, [plan_id=745]"]
+	176 [label="nodeID(176) HashAggregate(keys=[], functions=[count(1)])"]
+	177 [label="nodeID(177) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=742]"]
+	178 [label="nodeID(178) HashAggregate(keys=[], functions=[partial_count(1)])"]
+	179 [label="nodeID(179) Project"]
+	180 [label="nodeID(180) BroadcastHashJoin [ss_store_sk#492], [s_store_sk#523], Inner, BuildRight, false"]
+	181 [label="nodeID(181) Project [ss_store_sk#492]"]
+	182 [label="nodeID(182) BroadcastHashJoin [ss_sold_time_sk#486], [t_time_sk#513], Inner, BuildRight, false"]
+	183 [label="nodeID(183) Project [ss_sold_time_sk#486, ss_store_sk#492]"]
+	184 [label="nodeID(184) BroadcastHashJoin [ss_hdemo_sk#490], [hd_demo_sk#508], Inner, BuildRight, false"]
+	185 [label="nodeID(185) Filter ((isnotnull(ss_hdemo_sk#490) AND isnotnull(ss_sold_time_sk#486)) AND isnotnull(ss_store_sk#492))"]
+	186 [label="nodeID(186) FileScan parquet tpcds_100_parquet.store_sales[ss_sold_time_sk#486,ss_hdemo_sk#490,ss_store_sk#492]"]
+	187 [label="nodeID(187) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=729]"]
+	188 [label="nodeID(188) Project [hd_demo_sk#508]"]
+	189 [label="nodeID(189) Filter (((((hd_dep_count#511 = 4) AND (hd_vehicle_count#512 <= 6)) OR ((hd_dep_count#511 = 2) AND (hd_vehicle_count#512 <= 4))) OR ((hd_dep_count#511 = 0) AND (hd_vehicle_count#512 <= 2))) AND isnotnull(hd_demo_sk#508))"]
+	190 [label="nodeID(190) FileScan parquet tpcds_100_parquet.household_demographics[hd_demo_sk#508,hd_dep_count#511,hd_vehicle_count#512]"]
+	191 [label="nodeID(191) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=733]"]
+	192 [label="nodeID(192) Project [t_time_sk#513]"]
+	193 [label="nodeID(193) Filter ((((isnotnull(t_hour#516) AND isnotnull(t_minute#517)) AND (t_hour#516 = 12)) AND (t_minute#517 < 30)) AND isnotnull(t_time_sk#513))"]
+	194 [label="nodeID(194) FileScan parquet tpcds_100_parquet.time_dim[t_time_sk#513,t_hour#516,t_minute#517]"]
+	195 [label="nodeID(195) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=737]"]
+	196 [label="nodeID(196) Project [s_store_sk#523]"]
+	197 [label="nodeID(197) Filter ((isnotnull(s_store_name#528) AND (s_store_name#528 = ese)) AND isnotnull(s_store_sk#523))"]
+	198 [label="nodeID(198) FileScan parquet tpcds_100_parquet.store[s_store_sk#523,s_store_name#528]"]
+	1 -> 0
+	2 -> 1
+	3 -> 2
+	4 -> 3
+	5 -> 4
+	6 -> 5
+	7 -> 6
+	8 -> 7
+	9 -> 8
+	10 -> 9
+	11 -> 10
+	12 -> 11
+	13 -> 12
+	14 -> 13
+	15 -> 14
+	16 -> 15
+	17 -> 16
+	18 -> 17
+	19 -> 16
+	20 -> 19
+	21 -> 20
+	22 -> 21
+	23 -> 14
+	24 -> 23
+	25 -> 24
+	26 -> 25
+	27 -> 12
+	28 -> 27
+	29 -> 28
+	30 -> 29
+	31 -> 7
+	32 -> 31
+	33 -> 32
+	34 -> 33
+	35 -> 34
+	36 -> 35
+	37 -> 36
+	38 -> 37
+	39 -> 38
+	40 -> 39
+	41 -> 40
+	42 -> 41
+	43 -> 40
+	44 -> 43
+	45 -> 44
+	46 -> 45
+	47 -> 38
+	48 -> 47
+	49 -> 48
+	50 -> 49
+	51 -> 36
+	52 -> 51
+	53 -> 52
+	54 -> 53
+	55 -> 6
+	56 -> 55
+	57 -> 56
+	58 -> 57
+	59 -> 58
+	60 -> 59
+	61 -> 60
+	62 -> 61
+	63 -> 62
+	64 -> 63
+	65 -> 64
+	66 -> 65
+	67 -> 64
+	68 -> 67
+	69 -> 68
+	70 -> 69
+	71 -> 62
+	72 -> 71
+	73 -> 72
+	74 -> 73
+	75 -> 60
+	76 -> 75
+	77 -> 76
+	78 -> 77
+	79 -> 5
+	80 -> 79
+	81 -> 80
+	82 -> 81
+	83 -> 82
+	84 -> 83
+	85 -> 84
+	86 -> 85
+	87 -> 86
+	88 -> 87
+	89 -> 88
+	90 -> 89
+	91 -> 88
+	92 -> 91
+	93 -> 92
+	94 -> 93
+	95 -> 86
+	96 -> 95
+	97 -> 96
+	98 -> 97
+	99 -> 84
+	100 -> 99
+	101 -> 100
+	102 -> 101
+	103 -> 4
+	104 -> 103
+	105 -> 104
+	106 -> 105
+	107 -> 106
+	108 -> 107
+	109 -> 108
+	110 -> 109
+	111 -> 110
+	112 -> 111
+	113 -> 112
+	114 -> 113
+	115 -> 112
+	116 -> 115
+	117 -> 116
+	118 -> 117
+	119 -> 110
+	120 -> 119
+	121 -> 120
+	122 -> 121
+	123 -> 108
+	124 -> 123
+	125 -> 124
+	126 -> 125
+	127 -> 3
+	128 -> 127
+	129 -> 128
+	130 -> 129
+	131 -> 130
+	132 -> 131
+	133 -> 132
+	134 -> 133
+	135 -> 134
+	136 -> 135
+	137 -> 136
+	138 -> 137
+	139 -> 136
+	140 -> 139
+	141 -> 140
+	142 -> 141
+	143 -> 134
+	144 -> 143
+	145 -> 144
+	146 -> 145
+	147 -> 132
+	148 -> 147
+	149 -> 148
+	150 -> 149
+	151 -> 2
+	152 -> 151
+	153 -> 152
+	154 -> 153
+	155 -> 154
+	156 -> 155
+	157 -> 156
+	158 -> 157
+	159 -> 158
+	160 -> 159
+	161 -> 160
+	162 -> 161
+	163 -> 160
+	164 -> 163
+	165 -> 164
+	166 -> 165
+	167 -> 158
+	168 -> 167
+	169 -> 168
+	170 -> 169
+	171 -> 156
+	172 -> 171
+	173 -> 172
+	174 -> 173
+	175 -> 1
+	176 -> 175
+	177 -> 176
+	178 -> 177
+	179 -> 178
+	180 -> 179
+	181 -> 180
+	182 -> 181
+	183 -> 182
+	184 -> 183
+	185 -> 184
+	186 -> 185
+	187 -> 184
+	188 -> 187
+	189 -> 188
+	190 -> 189
+	191 -> 182
+	192 -> 191
+	193 -> 192
+	194 -> 193
+	195 -> 180
+	196 -> 195
+	197 -> 196
+	198 -> 197
+}

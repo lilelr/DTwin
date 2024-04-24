@@ -1,0 +1,87 @@
+// The Round Table
+digraph {
+	node [shape=box]
+	0 [label="NormalStage (end_node_id 0): length of beginNodesToChains is 8
+[8,0,0,8,0,0,0,0]
+Chain 0 is : HashAggregate(keys=[], functions=[count(1)])
+HashAggregate->BroadcastExchange->Empty->Empty->Empty->Empty->Empty->Empty->Error
+Chain 1 is : HashAggregate(keys=[], functions=[count(1)])
+HashAggregate->Empty->Empty->Empty->Empty->Empty->Empty->Error
+Chain 2 is : HashAggregate(keys=[], functions=[count(1)])
+HashAggregate->BroadcastExchange->Empty->Empty->Empty->Empty->Empty->Error
+Chain 3 is : HashAggregate(keys=[], functions=[count(1)])
+HashAggregate->BroadcastExchange->Empty->Empty->Empty->Empty->Error
+Chain 4 is : HashAggregate(keys=[], functions=[count(1)])
+HashAggregate->BroadcastExchange->Empty->Empty->Empty->Error
+Chain 5 is : HashAggregate(keys=[], functions=[count(1)])
+HashAggregate->BroadcastExchange->Empty->Empty->Error
+Chain 6 is : HashAggregate(keys=[], functions=[count(1)])
+HashAggregate->BroadcastExchange->Empty->Error
+Chain 7 is : HashAggregate(keys=[], functions=[count(1)])
+HashAggregate->BroadcastExchange->Error
+"]
+	42 [label="Broadcast stage(end_node_id 42): household_demographics,10000FileScan->Filter->Project->BroadcastExchange"]
+	42 -> 32
+	18 [label="Broadcast stage(end_node_id 18): household_demographics,10000FileScan->Filter->Project->BroadcastExchange"]
+	18 -> 8
+	66 [label="Broadcast stage(end_node_id 66): household_demographics,10000FileScan->Filter->Project->BroadcastExchange"]
+	66 -> 56
+	46 [label="Broadcast stage(end_node_id 46): time_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	46 -> 32
+	90 [label="Broadcast stage(end_node_id 90): household_demographics,10000FileScan->Filter->Project->BroadcastExchange"]
+	90 -> 80
+	22 [label="Broadcast stage(end_node_id 22): time_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	22 -> 8
+	70 [label="Broadcast stage(end_node_id 70): time_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	70 -> 56
+	114 [label="Broadcast stage(end_node_id 114): household_demographics,10000FileScan->Filter->Project->BroadcastExchange"]
+	114 -> 104
+	50 [label="Broadcast stage(end_node_id 50): store,10000FileScan->Filter->Project->BroadcastExchange"]
+	50 -> 32
+	94 [label="Broadcast stage(end_node_id 94): time_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	94 -> 80
+	138 [label="Broadcast stage(end_node_id 138): household_demographics,10000FileScan->Filter->Project->BroadcastExchange"]
+	138 -> 128
+	26 [label="Broadcast stage(end_node_id 26): store,10000FileScan->Filter->Project->BroadcastExchange"]
+	26 -> 8
+	74 [label="Broadcast stage(end_node_id 74): store,10000FileScan->Filter->Project->BroadcastExchange"]
+	74 -> 56
+	118 [label="Broadcast stage(end_node_id 118): time_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	118 -> 104
+	162 [label="Broadcast stage(end_node_id 162): household_demographics,10000FileScan->Filter->Project->BroadcastExchange"]
+	162 -> 152
+	98 [label="Broadcast stage(end_node_id 98): store,10000FileScan->Filter->Project->BroadcastExchange"]
+	98 -> 80
+	142 [label="Broadcast stage(end_node_id 142): time_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	142 -> 128
+	186 [label="Broadcast stage(end_node_id 186): household_demographics,10000FileScan->Filter->Project->BroadcastExchange"]
+	186 -> 176
+	122 [label="Broadcast stage(end_node_id 122): store,10000FileScan->Filter->Project->BroadcastExchange"]
+	122 -> 104
+	166 [label="Broadcast stage(end_node_id 166): time_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	166 -> 152
+	146 [label="Broadcast stage(end_node_id 146): store,10000FileScan->Filter->Project->BroadcastExchange"]
+	146 -> 128
+	190 [label="Broadcast stage(end_node_id 190): time_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	190 -> 176
+	170 [label="Broadcast stage(end_node_id 170): store,10000FileScan->Filter->Project->BroadcastExchange"]
+	170 -> 152
+	194 [label="Broadcast stage(end_node_id 194): store,10000FileScan->Filter->Project->BroadcastExchange"]
+	194 -> 176
+	32 [label="First stage (end_node_id 32): File Scan store_sales,9130.4FileScan->Filter->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeSinglePartition"]
+	32 -> 0
+	8 [label="First stage (end_node_id 8): File Scan store_sales,9130.4FileScan->Filter->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeSinglePartition"]
+	8 -> 0
+	56 [label="First stage (end_node_id 56): File Scan store_sales,9130.4FileScan->Filter->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeSinglePartition"]
+	56 -> 0
+	80 [label="First stage (end_node_id 80): File Scan store_sales,9130.4FileScan->Filter->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeSinglePartition"]
+	80 -> 0
+	104 [label="First stage (end_node_id 104): File Scan store_sales,9130.4FileScan->Filter->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeSinglePartition"]
+	104 -> 0
+	128 [label="First stage (end_node_id 128): File Scan store_sales,9130.4FileScan->Filter->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeSinglePartition"]
+	128 -> 0
+	152 [label="First stage (end_node_id 152): File Scan store_sales,9130.4FileScan->Filter->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeSinglePartition"]
+	152 -> 0
+	176 [label="First stage (end_node_id 176): File Scan store_sales,9130.4FileScan->Filter->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeSinglePartition"]
+	176 -> 0
+}

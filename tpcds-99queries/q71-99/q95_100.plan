@@ -1,0 +1,59 @@
+== Physical Plan ==
+AdaptiveSparkPlan isFinalPlan=false
++- HashAggregate(keys=[], functions=[sum(ws_ext_ship_cost#170), sum(ws_net_profit#175), count(distinct ws_order_number#159L)])
+   +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=205]
+      +- HashAggregate(keys=[], functions=[merge_sum(ws_ext_ship_cost#170), merge_sum(ws_net_profit#175), partial_count(distinct ws_order_number#159L)])
+         +- HashAggregate(keys=[ws_order_number#159L], functions=[merge_sum(ws_ext_ship_cost#170), merge_sum(ws_net_profit#175)])
+            +- HashAggregate(keys=[ws_order_number#159L], functions=[partial_sum(ws_ext_ship_cost#170), partial_sum(ws_net_profit#175)])
+               +- Project [ws_order_number#159L, ws_ext_ship_cost#170, ws_net_profit#175]
+                  +- BroadcastHashJoin [ws_web_site_sk#155], [web_site_sk#82], Inner, BuildRight, false
+                     :- Project [ws_web_site_sk#155, ws_order_number#159L, ws_ext_ship_cost#170, ws_net_profit#175]
+                     :  +- BroadcastHashJoin [ws_ship_addr_sk#153], [ca_address_sk#69], Inner, BuildRight, false
+                     :     :- Project [ws_ship_addr_sk#153, ws_web_site_sk#155, ws_order_number#159L, ws_ext_ship_cost#170, ws_net_profit#175]
+                     :     :  +- BroadcastHashJoin [ws_ship_date_sk#144], [d_date_sk#41], Inner, BuildRight, false
+                     :     :     :- SortMergeJoin [ws_order_number#159L], [wr_order_number#189L], LeftSemi
+                     :     :     :  :- SortMergeJoin [ws_order_number#159L], [ws_order_number#24L], LeftSemi
+                     :     :     :  :  :- Sort [ws_order_number#159L ASC NULLS FIRST], false, 0
+                     :     :     :  :  :  +- Exchange hashpartitioning(ws_order_number#159L, 200), ENSURE_REQUIREMENTS, [plan_id=171]
+                     :     :     :  :  :     +- Filter ((isnotnull(ws_ship_date_sk#144) AND isnotnull(ws_ship_addr_sk#153)) AND isnotnull(ws_web_site_sk#155))
+                     :     :     :  :  :        +- FileScan parquet tpcds_100_parquet.web_sales[ws_ship_date_sk#144,ws_ship_addr_sk#153,ws_web_site_sk#155,ws_order_number#159L,ws_ext_ship_cost#170,ws_net_profit#175] Batched: true, DataFilters: [isnotnull(ws_ship_date_sk#144), isnotnull(ws_ship_addr_sk#153), isnotnull(ws_web_site_sk#155)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/web_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ws_ship_date_sk), IsNotNull(ws_ship_addr_sk), IsNotNull(ws_web_site_sk)], ReadSchema: struct<ws_ship_date_sk:int,ws_ship_addr_sk:int,ws_web_site_sk:int,ws_order_number:bigint,ws_ext_s...
+                     :     :     :  :  +- Project [ws_order_number#24L]
+                     :     :     :  :     +- SortMergeJoin [ws_order_number#24L], [ws_order_number#125L], Inner, NOT (ws_warehouse_sk#22 = ws_warehouse_sk#123)
+                     :     :     :  :        :- Sort [ws_order_number#24L ASC NULLS FIRST], false, 0
+                     :     :     :  :        :  +- Exchange hashpartitioning(ws_order_number#24L, 200), ENSURE_REQUIREMENTS, [plan_id=163]
+                     :     :     :  :        :     +- Filter (isnotnull(ws_order_number#24L) AND isnotnull(ws_warehouse_sk#22))
+                     :     :     :  :        :        +- FileScan parquet tpcds_100_parquet.web_sales[ws_warehouse_sk#22,ws_order_number#24L] Batched: true, DataFilters: [isnotnull(ws_order_number#24L), isnotnull(ws_warehouse_sk#22)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/web_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ws_order_number), IsNotNull(ws_warehouse_sk)], ReadSchema: struct<ws_warehouse_sk:int,ws_order_number:bigint>
+                     :     :     :  :        +- Sort [ws_order_number#125L ASC NULLS FIRST], false, 0
+                     :     :     :  :           +- Exchange hashpartitioning(ws_order_number#125L, 200), ENSURE_REQUIREMENTS, [plan_id=164]
+                     :     :     :  :              +- Filter (isnotnull(ws_order_number#125L) AND isnotnull(ws_warehouse_sk#123))
+                     :     :     :  :                 +- FileScan parquet tpcds_100_parquet.web_sales[ws_warehouse_sk#123,ws_order_number#125L] Batched: true, DataFilters: [isnotnull(ws_order_number#125L), isnotnull(ws_warehouse_sk#123)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/web_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ws_order_number), IsNotNull(ws_warehouse_sk)], ReadSchema: struct<ws_warehouse_sk:int,ws_order_number:bigint>
+                     :     :     :  +- Project [wr_order_number#189L]
+                     :     :     :     +- SortMergeJoin [wr_order_number#189L], [ws_order_number#24L], Inner
+                     :     :     :        :- Sort [wr_order_number#189L ASC NULLS FIRST], false, 0
+                     :     :     :        :  +- Exchange hashpartitioning(wr_order_number#189L, 200), ENSURE_REQUIREMENTS, [plan_id=183]
+                     :     :     :        :     +- Filter isnotnull(wr_order_number#189L)
+                     :     :     :        :        +- FileScan parquet tpcds_100_parquet.web_returns[wr_order_number#189L] Batched: true, DataFilters: [isnotnull(wr_order_number#189L)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/web_returns], PartitionFilters: [], PushedFilters: [IsNotNull(wr_order_number)], ReadSchema: struct<wr_order_number:bigint>
+                     :     :     :        +- Project [ws_order_number#24L]
+                     :     :     :           +- SortMergeJoin [ws_order_number#24L], [ws_order_number#125L], Inner, NOT (ws_warehouse_sk#22 = ws_warehouse_sk#123)
+                     :     :     :              :- Sort [ws_order_number#24L ASC NULLS FIRST], false, 0
+                     :     :     :              :  +- Exchange hashpartitioning(ws_order_number#24L, 200), ENSURE_REQUIREMENTS, [plan_id=175]
+                     :     :     :              :     +- Filter (isnotnull(ws_order_number#24L) AND isnotnull(ws_warehouse_sk#22))
+                     :     :     :              :        +- FileScan parquet tpcds_100_parquet.web_sales[ws_warehouse_sk#22,ws_order_number#24L] Batched: true, DataFilters: [isnotnull(ws_order_number#24L), isnotnull(ws_warehouse_sk#22)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/web_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ws_order_number), IsNotNull(ws_warehouse_sk)], ReadSchema: struct<ws_warehouse_sk:int,ws_order_number:bigint>
+                     :     :     :              +- Sort [ws_order_number#125L ASC NULLS FIRST], false, 0
+                     :     :     :                 +- Exchange hashpartitioning(ws_order_number#125L, 200), ENSURE_REQUIREMENTS, [plan_id=176]
+                     :     :     :                    +- Filter (isnotnull(ws_order_number#125L) AND isnotnull(ws_warehouse_sk#123))
+                     :     :     :                       +- FileScan parquet tpcds_100_parquet.web_sales[ws_warehouse_sk#123,ws_order_number#125L] Batched: true, DataFilters: [isnotnull(ws_order_number#125L), isnotnull(ws_warehouse_sk#123)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/web_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ws_order_number), IsNotNull(ws_warehouse_sk)], ReadSchema: struct<ws_warehouse_sk:int,ws_order_number:bigint>
+                     :     :     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=190]
+                     :     :        +- Project [d_date_sk#41]
+                     :     :           +- Filter (((isnotnull(d_date#43) AND (cast(d_date#43 as date) >= 1999-02-01)) AND (cast(d_date#43 as date) <= 1999-04-02)) AND isnotnull(d_date_sk#41))
+                     :     :              +- FileScan parquet tpcds_100_parquet.date_dim[d_date_sk#41,d_date#43] Batched: true, DataFilters: [isnotnull(d_date#43), (cast(d_date#43 as date) >= 1999-02-01), (cast(d_date#43 as date) <= 1999-..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/date_dim], PartitionFilters: [], PushedFilters: [IsNotNull(d_date), IsNotNull(d_date_sk)], ReadSchema: struct<d_date_sk:int,d_date:string>
+                     :     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=194]
+                     :        +- Project [ca_address_sk#69]
+                     :           +- Filter ((isnotnull(ca_state#77) AND (ca_state#77 = IL)) AND isnotnull(ca_address_sk#69))
+                     :              +- FileScan parquet tpcds_100_parquet.customer_address[ca_address_sk#69,ca_state#77] Batched: true, DataFilters: [isnotnull(ca_state#77), (ca_state#77 = IL), isnotnull(ca_address_sk#69)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/customer_a..., PartitionFilters: [], PushedFilters: [IsNotNull(ca_state), EqualTo(ca_state,IL), IsNotNull(ca_address_sk)], ReadSchema: struct<ca_address_sk:int,ca_state:string>
+                     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=198]
+                        +- Project [web_site_sk#82]
+                           +- Filter ((isnotnull(web_company_name#96) AND (web_company_name#96 = pri)) AND isnotnull(web_site_sk#82))
+                              +- FileScan parquet tpcds_100_parquet.web_site[web_site_sk#82,web_company_name#96] Batched: true, DataFilters: [isnotnull(web_company_name#96), (web_company_name#96 = pri), isnotnull(web_site_sk#82)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/web_site], PartitionFilters: [], PushedFilters: [IsNotNull(web_company_name), EqualTo(web_company_name,pri), IsNotNull(web_site_sk)], ReadSchema: struct<web_site_sk:int,web_company_name:string>
+
+

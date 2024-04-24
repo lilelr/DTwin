@@ -1,0 +1,50 @@
+// The Round Table
+digraph {
+	0 [label="nodeID(0) "]
+	1 [label="nodeID(1) HashAggregate(keys=[], functions=[count(1)])"]
+	2 [label="nodeID(2) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=87]"]
+	3 [label="nodeID(3) HashAggregate(keys=[], functions=[partial_count(1)])"]
+	4 [label="nodeID(4) Project"]
+	5 [label="nodeID(5) BroadcastHashJoin [ss_store_sk#9], [s_store_sk#40], Inner, BuildRight, false"]
+	6 [label="nodeID(6) Project [ss_store_sk#9]"]
+	7 [label="nodeID(7) BroadcastHashJoin [ss_sold_time_sk#3], [t_time_sk#30], Inner, BuildRight, false"]
+	8 [label="nodeID(8) Project [ss_sold_time_sk#3, ss_store_sk#9]"]
+	9 [label="nodeID(9) BroadcastHashJoin [ss_hdemo_sk#7], [hd_demo_sk#25], Inner, BuildRight, false"]
+	10 [label="nodeID(10) Filter ((isnotnull(ss_hdemo_sk#7) AND isnotnull(ss_sold_time_sk#3)) AND isnotnull(ss_store_sk#9))"]
+	11 [label="nodeID(11) FileScan parquet tpcds_100_parquet.store_sales[ss_sold_time_sk#3,ss_hdemo_sk#7,ss_store_sk#9]"]
+	12 [label="nodeID(12) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=74]"]
+	13 [label="nodeID(13) Project [hd_demo_sk#25]"]
+	14 [label="nodeID(14) Filter ((isnotnull(hd_dep_count#28) AND (hd_dep_count#28 = 7)) AND isnotnull(hd_demo_sk#25))"]
+	15 [label="nodeID(15) FileScan parquet tpcds_100_parquet.household_demographics[hd_demo_sk#25,hd_dep_count#28]"]
+	16 [label="nodeID(16) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=78]"]
+	17 [label="nodeID(17) Project [t_time_sk#30]"]
+	18 [label="nodeID(18) Filter ((((isnotnull(t_hour#33) AND isnotnull(t_minute#34)) AND (t_hour#33 = 20)) AND (t_minute#34 >= 30)) AND isnotnull(t_time_sk#30))"]
+	19 [label="nodeID(19) FileScan parquet tpcds_100_parquet.time_dim[t_time_sk#30,t_hour#33,t_minute#34]"]
+	20 [label="nodeID(20) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=82]"]
+	21 [label="nodeID(21) Project [s_store_sk#40]"]
+	22 [label="nodeID(22) Filter ((isnotnull(s_store_name#45) AND (s_store_name#45 = ese)) AND isnotnull(s_store_sk#40))"]
+	23 [label="nodeID(23) FileScan parquet tpcds_100_parquet.store[s_store_sk#40,s_store_name#45]"]
+	1 -> 0
+	2 -> 1
+	3 -> 2
+	4 -> 3
+	5 -> 4
+	6 -> 5
+	7 -> 6
+	8 -> 7
+	9 -> 8
+	10 -> 9
+	11 -> 10
+	12 -> 9
+	13 -> 12
+	14 -> 13
+	15 -> 14
+	16 -> 7
+	17 -> 16
+	18 -> 17
+	19 -> 18
+	20 -> 5
+	21 -> 20
+	22 -> 21
+	23 -> 22
+}

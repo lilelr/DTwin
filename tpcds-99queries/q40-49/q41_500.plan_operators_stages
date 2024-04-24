@@ -1,0 +1,19 @@
+// The Round Table
+digraph {
+	node [shape=box]
+	2 [label="NormalStage (end_node_id 2): length of beginNodesToChains is 1
+[1,1,2,2,0,0,1,0]
+Chain 0 is : HashAggregate(keys=[i_manufact#40], functions=[count(1)])
+HashAggregate->Filter->Project->BroadcastExchange->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+"]
+	0 [label="NormalStage (end_node_id 0): length of beginNodesToChains is 1
+[1,0,0,1,0,0,0,0]
+Chain 0 is : HashAggregate(keys=[i_product_name#23], functions=[])
+HashAggregate->TakeOrderedAndProject
+"]
+	2 -> 0
+	13 [label="First stage (end_node_id 13): File Scan item,0FileScan->Filter->Project->HashAggregate->ExchangeHashpartitioning"]
+	13 -> 2
+	2 [label="First stage (end_node_id 2): File Scan item,0FileScan->Filter->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning"]
+	2 -> 0
+}

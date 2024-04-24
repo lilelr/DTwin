@@ -1,0 +1,17 @@
+// The Round Table
+digraph {
+	node [shape=box]
+	0 [label="NormalStage (end_node_id 0): length of beginNodesToChains is 1
+[1,0,0,1,0,0,1,0]
+Chain 0 is : HashAggregate(keys=[w_warehouse_name#8, i_item_id#21], functions=[sum(CASE WHEN (cast(d_date#44 as date) < 2000-03-11) THEN inv_quantity_on_hand#5 ELSE 0 END), sum(CASE WHEN (cast(d_date#44 as date) >= 2000-03-11) THEN inv_quantity_on_hand#5 ELSE 0 END)])
+HashAggregate->Filter->TakeOrderedAndProject
+"]
+	13 [label="Broadcast stage(end_node_id 13): warehouse,10000FileScan->Filter->BroadcastExchange"]
+	13 -> 3
+	16 [label="Broadcast stage(end_node_id 16): item,10000FileScan->Filter->Project->BroadcastExchange"]
+	16 -> 3
+	20 [label="Broadcast stage(end_node_id 20): date_dim,10000FileScan->Filter->BroadcastExchange"]
+	20 -> 3
+	3 [label="First stage (end_node_id 3): File Scan inventory,0FileScan->Filter->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning"]
+	3 -> 0
+}

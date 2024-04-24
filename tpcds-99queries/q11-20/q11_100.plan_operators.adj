@@ -1,0 +1,180 @@
+// The Round Table
+digraph {
+	0 [label="nodeID(0) "]
+	1 [label="nodeID(1) TakeOrderedAndProject(limit=100, orderBy=[customer_id#177 ASC NULLS FIRST,customer_first_name#178 ASC NULLS FIRST,customer_last_name#179 ASC NULLS FIRST,customer_preferred_cust_flag#180 ASC NULLS FIRST], output=[customer_id#177,customer_first_name#178,customer_last_name#179,customer_preferred_cust_flag#180])"]
+	2 [label="nodeID(2) Project [customer_id#177, customer_first_name#178, customer_last_name#179, customer_preferred_cust_flag#180]"]
+	3 [label="nodeID(3) SortMergeJoin [customer_id#0], [customer_id#197], Inner, (CASE WHEN (year_total#18 > 0.0) THEN (year_total#205 / year_total#18) ELSE 0.0 END > CASE WHEN (year_total#8 > 0.0) THEN (year_total#185 / year_total#8) ELSE 0.0 END)"]
+	4 [label="nodeID(4) Project [customer_id#0, year_total#8, customer_id#177, customer_first_name#178, customer_last_name#179, customer_preferred_cust_flag#180, year_total#185, year_total#18]"]
+	5 [label="nodeID(5) SortMergeJoin [customer_id#0], [customer_id#10], Inner"]
+	6 [label="nodeID(6) SortMergeJoin [customer_id#0], [customer_id#177], Inner"]
+	7 [label="nodeID(7) Sort [customer_id#0 ASC NULLS FIRST], false, 0"]
+	8 [label="nodeID(8) Exchange hashpartitioning(customer_id#0, 200), ENSURE_REQUIREMENTS, [plan_id=287]"]
+	9 [label="nodeID(9) Filter (isnotnull(year_total#8) AND (year_total#8 > 0.0))"]
+	10 [label="nodeID(10) HashAggregate(keys=[c_customer_id#21, c_first_name#28, c_last_name#29, c_preferred_cust_flag#30, c_birth_country#34, c_login#35, c_email_address#36, d_year#67], functions=[sum((ss_ext_list_price#55 - ss_ext_discount_amt#52))])"]
+	11 [label="nodeID(11) Exchange hashpartitioning(c_customer_id#21, c_first_name#28, c_last_name#29, c_preferred_cust_flag#30, c_birth_country#34, c_login#35, c_email_address#36, d_year#67, 200), ENSURE_REQUIREMENTS, [plan_id=267]"]
+	12 [label="nodeID(12) HashAggregate(keys=[c_customer_id#21, c_first_name#28, c_last_name#29, c_preferred_cust_flag#30, c_birth_country#34, c_login#35, c_email_address#36, d_year#67], functions=[partial_sum((ss_ext_list_price#55 - ss_ext_discount_amt#52))])"]
+	13 [label="nodeID(13) Project [c_customer_id#21, c_first_name#28, c_last_name#29, c_preferred_cust_flag#30, c_birth_country#34, c_login#35, c_email_address#36, ss_ext_discount_amt#52, ss_ext_list_price#55, d_year#67]"]
+	14 [label="nodeID(14) BroadcastHashJoin [ss_sold_date_sk#38], [d_date_sk#61], Inner, BuildRight, false"]
+	15 [label="nodeID(15) Project [c_customer_id#21, c_first_name#28, c_last_name#29, c_preferred_cust_flag#30, c_birth_country#34, c_login#35, c_email_address#36, ss_sold_date_sk#38, ss_ext_discount_amt#52, ss_ext_list_price#55]"]
+	16 [label="nodeID(16) SortMergeJoin [c_customer_sk#20], [ss_customer_sk#41], Inner"]
+	17 [label="nodeID(17) Sort [c_customer_sk#20 ASC NULLS FIRST], false, 0"]
+	18 [label="nodeID(18) Exchange hashpartitioning(c_customer_sk#20, 200), ENSURE_REQUIREMENTS, [plan_id=255]"]
+	19 [label="nodeID(19) Filter (isnotnull(c_customer_sk#20) AND isnotnull(c_customer_id#21))"]
+	20 [label="nodeID(20) FileScan parquet tpcds_100_parquet.customer[c_customer_sk#20,c_customer_id#21,c_first_name#28,c_last_name#29,c_preferred_cust_flag#30,c_birth_country#34,c_login#35,c_email_address#36]"]
+	21 [label="nodeID(21) Sort [ss_customer_sk#41 ASC NULLS FIRST], false, 0"]
+	22 [label="nodeID(22) Exchange hashpartitioning(ss_customer_sk#41, 200), ENSURE_REQUIREMENTS, [plan_id=256]"]
+	23 [label="nodeID(23) Filter (isnotnull(ss_customer_sk#41) AND isnotnull(ss_sold_date_sk#38))"]
+	24 [label="nodeID(24) FileScan parquet tpcds_100_parquet.store_sales[ss_sold_date_sk#38,ss_customer_sk#41,ss_ext_discount_amt#52,ss_ext_list_price#55]"]
+	25 [label="nodeID(25) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=262]"]
+	26 [label="nodeID(26) Filter ((isnotnull(d_year#67) AND (d_year#67 = 2001)) AND isnotnull(d_date_sk#61))"]
+	27 [label="nodeID(27) FileScan parquet tpcds_100_parquet.date_dim[d_date_sk#61,d_year#67]"]
+	28 [label="nodeID(28) Sort [customer_id#177 ASC NULLS FIRST], false, 0"]
+	29 [label="nodeID(29) Exchange hashpartitioning(customer_id#177, 200), ENSURE_REQUIREMENTS, [plan_id=288]"]
+	30 [label="nodeID(30) HashAggregate(keys=[c_customer_id#689, c_first_name#696, c_last_name#697, c_preferred_cust_flag#698, c_birth_country#702, c_login#703, c_email_address#704, d_year#735], functions=[sum((ss_ext_list_price#723 - ss_ext_discount_amt#720))])"]
+	31 [label="nodeID(31) Exchange hashpartitioning(c_customer_id#689, c_first_name#696, c_last_name#697, c_preferred_cust_flag#698, c_birth_country#702, c_login#703, c_email_address#704, d_year#735, 200), ENSURE_REQUIREMENTS, [plan_id=283]"]
+	32 [label="nodeID(32) HashAggregate(keys=[c_customer_id#689, c_first_name#696, c_last_name#697, c_preferred_cust_flag#698, c_birth_country#702, c_login#703, c_email_address#704, d_year#735], functions=[partial_sum((ss_ext_list_price#723 - ss_ext_discount_amt#720))])"]
+	33 [label="nodeID(33) Project [c_customer_id#689, c_first_name#696, c_last_name#697, c_preferred_cust_flag#698, c_birth_country#702, c_login#703, c_email_address#704, ss_ext_discount_amt#720, ss_ext_list_price#723, d_year#735]"]
+	34 [label="nodeID(34) BroadcastHashJoin [ss_sold_date_sk#706], [d_date_sk#729], Inner, BuildRight, false"]
+	35 [label="nodeID(35) Project [c_customer_id#689, c_first_name#696, c_last_name#697, c_preferred_cust_flag#698, c_birth_country#702, c_login#703, c_email_address#704, ss_sold_date_sk#706, ss_ext_discount_amt#720, ss_ext_list_price#723]"]
+	36 [label="nodeID(36) SortMergeJoin [c_customer_sk#688], [ss_customer_sk#709], Inner"]
+	37 [label="nodeID(37) Sort [c_customer_sk#688 ASC NULLS FIRST], false, 0"]
+	38 [label="nodeID(38) Exchange hashpartitioning(c_customer_sk#688, 200), ENSURE_REQUIREMENTS, [plan_id=271]"]
+	39 [label="nodeID(39) Filter (isnotnull(c_customer_sk#688) AND isnotnull(c_customer_id#689))"]
+	40 [label="nodeID(40) FileScan parquet tpcds_100_parquet.customer[c_customer_sk#688,c_customer_id#689,c_first_name#696,c_last_name#697,c_preferred_cust_flag#698,c_birth_country#702,c_login#703,c_email_address#704]"]
+	41 [label="nodeID(41) Sort [ss_customer_sk#709 ASC NULLS FIRST], false, 0"]
+	42 [label="nodeID(42) Exchange hashpartitioning(ss_customer_sk#709, 200), ENSURE_REQUIREMENTS, [plan_id=272]"]
+	43 [label="nodeID(43) Filter (isnotnull(ss_customer_sk#709) AND isnotnull(ss_sold_date_sk#706))"]
+	44 [label="nodeID(44) FileScan parquet tpcds_100_parquet.store_sales[ss_sold_date_sk#706,ss_customer_sk#709,ss_ext_discount_amt#720,ss_ext_list_price#723]"]
+	45 [label="nodeID(45) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=278]"]
+	46 [label="nodeID(46) Filter ((isnotnull(d_year#735) AND (d_year#735 = 2002)) AND isnotnull(d_date_sk#729))"]
+	47 [label="nodeID(47) FileScan parquet tpcds_100_parquet.date_dim[d_date_sk#729,d_year#735]"]
+	48 [label="nodeID(48) Sort [customer_id#10 ASC NULLS FIRST], false, 0"]
+	49 [label="nodeID(49) Exchange hashpartitioning(customer_id#10, 200), ENSURE_REQUIREMENTS, [plan_id=310]"]
+	50 [label="nodeID(50) Filter (isnotnull(year_total#18) AND (year_total#18 > 0.0))"]
+	51 [label="nodeID(51) HashAggregate(keys=[c_customer_id#917, c_first_name#924, c_last_name#925, c_preferred_cust_flag#926, c_birth_country#930, c_login#931, c_email_address#932, d_year#974], functions=[sum((ws_ext_list_price#959 - ws_ext_discount_amt#956))])"]
+	52 [label="nodeID(52) Exchange hashpartitioning(c_customer_id#917, c_first_name#924, c_last_name#925, c_preferred_cust_flag#926, c_birth_country#930, c_login#931, c_email_address#932, d_year#974, 200), ENSURE_REQUIREMENTS, [plan_id=305]"]
+	53 [label="nodeID(53) HashAggregate(keys=[c_customer_id#917, c_first_name#924, c_last_name#925, c_preferred_cust_flag#926, c_birth_country#930, c_login#931, c_email_address#932, d_year#974], functions=[partial_sum((ws_ext_list_price#959 - ws_ext_discount_amt#956))])"]
+	54 [label="nodeID(54) Project [c_customer_id#917, c_first_name#924, c_last_name#925, c_preferred_cust_flag#926, c_birth_country#930, c_login#931, c_email_address#932, ws_ext_discount_amt#956, ws_ext_list_price#959, d_year#974]"]
+	55 [label="nodeID(55) BroadcastHashJoin [ws_sold_date_sk#934], [d_date_sk#968], Inner, BuildRight, false"]
+	56 [label="nodeID(56) Project [c_customer_id#917, c_first_name#924, c_last_name#925, c_preferred_cust_flag#926, c_birth_country#930, c_login#931, c_email_address#932, ws_sold_date_sk#934, ws_ext_discount_amt#956, ws_ext_list_price#959]"]
+	57 [label="nodeID(57) SortMergeJoin [c_customer_sk#916], [ws_bill_customer_sk#938], Inner"]
+	58 [label="nodeID(58) Sort [c_customer_sk#916 ASC NULLS FIRST], false, 0"]
+	59 [label="nodeID(59) Exchange hashpartitioning(c_customer_sk#916, 200), ENSURE_REQUIREMENTS, [plan_id=293]"]
+	60 [label="nodeID(60) Filter (isnotnull(c_customer_sk#916) AND isnotnull(c_customer_id#917))"]
+	61 [label="nodeID(61) FileScan parquet tpcds_100_parquet.customer[c_customer_sk#916,c_customer_id#917,c_first_name#924,c_last_name#925,c_preferred_cust_flag#926,c_birth_country#930,c_login#931,c_email_address#932]"]
+	62 [label="nodeID(62) Sort [ws_bill_customer_sk#938 ASC NULLS FIRST], false, 0"]
+	63 [label="nodeID(63) Exchange hashpartitioning(ws_bill_customer_sk#938, 200), ENSURE_REQUIREMENTS, [plan_id=294]"]
+	64 [label="nodeID(64) Filter (isnotnull(ws_bill_customer_sk#938) AND isnotnull(ws_sold_date_sk#934))"]
+	65 [label="nodeID(65) FileScan parquet tpcds_100_parquet.web_sales[ws_sold_date_sk#934,ws_bill_customer_sk#938,ws_ext_discount_amt#956,ws_ext_list_price#959]"]
+	66 [label="nodeID(66) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=300]"]
+	67 [label="nodeID(67) Filter ((isnotnull(d_year#974) AND (d_year#974 = 2001)) AND isnotnull(d_date_sk#968))"]
+	68 [label="nodeID(68) FileScan parquet tpcds_100_parquet.date_dim[d_date_sk#968,d_year#974]"]
+	69 [label="nodeID(69) Sort [customer_id#197 ASC NULLS FIRST], false, 0"]
+	70 [label="nodeID(70) Exchange hashpartitioning(customer_id#197, 200), ENSURE_REQUIREMENTS, [plan_id=331]"]
+	71 [label="nodeID(71) HashAggregate(keys=[c_customer_id#1076, c_first_name#1083, c_last_name#1084, c_preferred_cust_flag#1085, c_birth_country#1089, c_login#1090, c_email_address#1091, d_year#1133], functions=[sum((ws_ext_list_price#1118 - ws_ext_discount_amt#1115))])"]
+	72 [label="nodeID(72) Exchange hashpartitioning(c_customer_id#1076, c_first_name#1083, c_last_name#1084, c_preferred_cust_flag#1085, c_birth_country#1089, c_login#1090, c_email_address#1091, d_year#1133, 200), ENSURE_REQUIREMENTS, [plan_id=327]"]
+	73 [label="nodeID(73) HashAggregate(keys=[c_customer_id#1076, c_first_name#1083, c_last_name#1084, c_preferred_cust_flag#1085, c_birth_country#1089, c_login#1090, c_email_address#1091, d_year#1133], functions=[partial_sum((ws_ext_list_price#1118 - ws_ext_discount_amt#1115))])"]
+	74 [label="nodeID(74) Project [c_customer_id#1076, c_first_name#1083, c_last_name#1084, c_preferred_cust_flag#1085, c_birth_country#1089, c_login#1090, c_email_address#1091, ws_ext_discount_amt#1115, ws_ext_list_price#1118, d_year#1133]"]
+	75 [label="nodeID(75) BroadcastHashJoin [ws_sold_date_sk#1093], [d_date_sk#1127], Inner, BuildRight, false"]
+	76 [label="nodeID(76) Project [c_customer_id#1076, c_first_name#1083, c_last_name#1084, c_preferred_cust_flag#1085, c_birth_country#1089, c_login#1090, c_email_address#1091, ws_sold_date_sk#1093, ws_ext_discount_amt#1115, ws_ext_list_price#1118]"]
+	77 [label="nodeID(77) SortMergeJoin [c_customer_sk#1075], [ws_bill_customer_sk#1097], Inner"]
+	78 [label="nodeID(78) Sort [c_customer_sk#1075 ASC NULLS FIRST], false, 0"]
+	79 [label="nodeID(79) Exchange hashpartitioning(c_customer_sk#1075, 200), ENSURE_REQUIREMENTS, [plan_id=315]"]
+	80 [label="nodeID(80) Filter (isnotnull(c_customer_sk#1075) AND isnotnull(c_customer_id#1076))"]
+	81 [label="nodeID(81) FileScan parquet tpcds_100_parquet.customer[c_customer_sk#1075,c_customer_id#1076,c_first_name#1083,c_last_name#1084,c_preferred_cust_flag#1085,c_birth_country#1089,c_login#1090,c_email_address#1091]"]
+	82 [label="nodeID(82) Sort [ws_bill_customer_sk#1097 ASC NULLS FIRST], false, 0"]
+	83 [label="nodeID(83) Exchange hashpartitioning(ws_bill_customer_sk#1097, 200), ENSURE_REQUIREMENTS, [plan_id=316]"]
+	84 [label="nodeID(84) Filter (isnotnull(ws_bill_customer_sk#1097) AND isnotnull(ws_sold_date_sk#1093))"]
+	85 [label="nodeID(85) FileScan parquet tpcds_100_parquet.web_sales[ws_sold_date_sk#1093,ws_bill_customer_sk#1097,ws_ext_discount_amt#1115,ws_ext_list_price#1118]"]
+	86 [label="nodeID(86) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=322]"]
+	87 [label="nodeID(87) Filter ((isnotnull(d_year#1133) AND (d_year#1133 = 2002)) AND isnotnull(d_date_sk#1127))"]
+	88 [label="nodeID(88) FileScan parquet tpcds_100_parquet.date_dim[d_date_sk#1127,d_year#1133]"]
+	1 -> 0
+	2 -> 1
+	3 -> 2
+	4 -> 3
+	5 -> 4
+	6 -> 5
+	7 -> 6
+	8 -> 7
+	9 -> 8
+	10 -> 9
+	11 -> 10
+	12 -> 11
+	13 -> 12
+	14 -> 13
+	15 -> 14
+	16 -> 15
+	17 -> 16
+	18 -> 17
+	19 -> 18
+	20 -> 19
+	21 -> 16
+	22 -> 21
+	23 -> 22
+	24 -> 23
+	25 -> 14
+	26 -> 25
+	27 -> 26
+	28 -> 6
+	29 -> 28
+	30 -> 29
+	31 -> 30
+	32 -> 31
+	33 -> 32
+	34 -> 33
+	35 -> 34
+	36 -> 35
+	37 -> 36
+	38 -> 37
+	39 -> 38
+	40 -> 39
+	41 -> 36
+	42 -> 41
+	43 -> 42
+	44 -> 43
+	45 -> 34
+	46 -> 45
+	47 -> 46
+	48 -> 5
+	49 -> 48
+	50 -> 49
+	51 -> 50
+	52 -> 51
+	53 -> 52
+	54 -> 53
+	55 -> 54
+	56 -> 55
+	57 -> 56
+	58 -> 57
+	59 -> 58
+	60 -> 59
+	61 -> 60
+	62 -> 57
+	63 -> 62
+	64 -> 63
+	65 -> 64
+	66 -> 55
+	67 -> 66
+	68 -> 67
+	69 -> 3
+	70 -> 69
+	71 -> 70
+	72 -> 71
+	73 -> 72
+	74 -> 73
+	75 -> 74
+	76 -> 75
+	77 -> 76
+	78 -> 77
+	79 -> 78
+	80 -> 79
+	81 -> 80
+	82 -> 77
+	83 -> 82
+	84 -> 83
+	85 -> 84
+	86 -> 75
+	87 -> 86
+	88 -> 87
+}

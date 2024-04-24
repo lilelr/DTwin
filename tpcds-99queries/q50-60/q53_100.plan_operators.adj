@@ -1,0 +1,60 @@
+// The Round Table
+digraph {
+	0 [label="nodeID(0) "]
+	1 [label="nodeID(1) TakeOrderedAndProject(limit=100, orderBy=[avg_quarterly_sales#1 ASC NULLS FIRST,sum_sales#0 ASC NULLS FIRST,i_manufact_id#15 ASC NULLS FIRST], output=[i_manufact_id#15,sum_sales#0,avg_quarterly_sales#1])"]
+	2 [label="nodeID(2) Project [i_manufact_id#15, sum_sales#0, avg_quarterly_sales#1]"]
+	3 [label="nodeID(3) Filter CASE WHEN (avg_quarterly_sales#1 > 0.0) THEN ((abs((sum_sales#0 - avg_quarterly_sales#1)) / avg_quarterly_sales#1) > 0.1) ELSE false END"]
+	4 [label="nodeID(4) Window [avg(_w0#111) windowspecdefinition(i_manufact_id#15, specifiedwindowframe(RowFrame, unboundedpreceding$(), unboundedfollowing$())) AS avg_quarterly_sales#1], [i_manufact_id#15]"]
+	5 [label="nodeID(5) Sort [i_manufact_id#15 ASC NULLS FIRST], false, 0"]
+	6 [label="nodeID(6) Exchange hashpartitioning(i_manufact_id#15, 200), ENSURE_REQUIREMENTS, [plan_id=109]"]
+	7 [label="nodeID(7) HashAggregate(keys=[i_manufact_id#15, d_qoy#57], functions=[sum(ss_sales_price#37)])"]
+	8 [label="nodeID(8) Exchange hashpartitioning(i_manufact_id#15, d_qoy#57, 200), ENSURE_REQUIREMENTS, [plan_id=106]"]
+	9 [label="nodeID(9) HashAggregate(keys=[i_manufact_id#15, d_qoy#57], functions=[partial_sum(ss_sales_price#37)])"]
+	10 [label="nodeID(10) Project [i_manufact_id#15, ss_sales_price#37, d_qoy#57]"]
+	11 [label="nodeID(11) BroadcastHashJoin [ss_store_sk#31], [s_store_sk#75], Inner, BuildRight, false"]
+	12 [label="nodeID(12) Project [i_manufact_id#15, ss_store_sk#31, ss_sales_price#37, d_qoy#57]"]
+	13 [label="nodeID(13) BroadcastHashJoin [ss_sold_date_sk#24], [d_date_sk#47], Inner, BuildRight, false"]
+	14 [label="nodeID(14) Project [i_manufact_id#15, ss_sold_date_sk#24, ss_store_sk#31, ss_sales_price#37]"]
+	15 [label="nodeID(15) BroadcastHashJoin [i_item_sk#2], [ss_item_sk#26], Inner, BuildLeft, false"]
+	16 [label="nodeID(16) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=93]"]
+	17 [label="nodeID(17) Project [i_item_sk#2, i_manufact_id#15]"]
+	18 [label="nodeID(18) Filter ((((i_category#14 IN (Books,Children,Electronics) AND i_class#12 IN (personal,portable,reference,self-help)) AND i_brand#10 IN (scholaramalgamalg #14,scholaramalgamalg #7,exportiunivamalg #9,scholaramalgamalg #9)) OR ((i_category#14 IN (Women,Music,Men) AND i_class#12 IN (accessories,classical,fragrances,pants)) AND i_brand#10 IN (amalgimporto #1,edu packscholar #1,exportiimporto #1,importoamalg #1))) AND isnotnull(i_item_sk#2))"]
+	19 [label="nodeID(19) FileScan parquet tpcds_100_parquet.item[i_item_sk#2,i_brand#10,i_class#12,i_category#14,i_manufact_id#15]"]
+	20 [label="nodeID(20) Filter ((isnotnull(ss_item_sk#26) AND isnotnull(ss_sold_date_sk#24)) AND isnotnull(ss_store_sk#31))"]
+	21 [label="nodeID(21) FileScan parquet tpcds_100_parquet.store_sales[ss_sold_date_sk#24,ss_item_sk#26,ss_store_sk#31,ss_sales_price#37]"]
+	22 [label="nodeID(22) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=97]"]
+	23 [label="nodeID(23) Project [d_date_sk#47, d_qoy#57]"]
+	24 [label="nodeID(24) Filter (d_month_seq#50 INSET 1200, 1201, 1202, 1203, 1204, 1205, 1206, 1207, 1208, 1209, 1210, 1211 AND isnotnull(d_date_sk#47))"]
+	25 [label="nodeID(25) FileScan parquet tpcds_100_parquet.date_dim[d_date_sk#47,d_month_seq#50,d_qoy#57]"]
+	26 [label="nodeID(26) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=101]"]
+	27 [label="nodeID(27) Filter isnotnull(s_store_sk#75)"]
+	28 [label="nodeID(28) FileScan parquet tpcds_100_parquet.store[s_store_sk#75]"]
+	1 -> 0
+	2 -> 1
+	3 -> 2
+	4 -> 3
+	5 -> 4
+	6 -> 5
+	7 -> 6
+	8 -> 7
+	9 -> 8
+	10 -> 9
+	11 -> 10
+	12 -> 11
+	13 -> 12
+	14 -> 13
+	15 -> 14
+	16 -> 15
+	17 -> 16
+	18 -> 17
+	19 -> 18
+	20 -> 15
+	21 -> 20
+	22 -> 13
+	23 -> 22
+	24 -> 23
+	25 -> 24
+	26 -> 11
+	27 -> 26
+	28 -> 27
+}

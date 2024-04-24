@@ -1,0 +1,120 @@
+// The Round Table
+digraph {
+	0 [label="nodeID(0) "]
+	1 [label="nodeID(1) HashAggregate(keys=[w_warehouse_name#124, w_warehouse_sq_ft#125, w_city#130, w_county#131, w_state#132, w_country#134, ship_carriers#0, year#1], functions=[sum(jan_sales#2), sum(feb_sales#3), sum(mar_sales#4), sum(apr_sales#5), sum(may_sales#6), sum(jun_sales#7), sum(jul_sales#8), sum(aug_sales#9), sum(sep_sales#10), sum(oct_sales#11), sum(nov_sales#12), sum(dec_sales#13), sum((jan_sales#2 / cast(w_warehouse_sq_ft#125 as double))), sum((feb_sales#3 / cast(w_warehouse_sq_ft#125 as double))), sum((mar_sales#4 / cast(w_warehouse_sq_ft#125 as double))), sum((apr_sales#5 / cast(w_warehouse_sq_ft#125 as double))), sum((may_sales#6 / cast(w_warehouse_sq_ft#125 as double))), sum((jun_sales#7 / cast(w_warehouse_sq_ft#125 as double))), sum((jul_sales#8 / cast(w_warehouse_sq_ft#125 as double))), sum((aug_sales#9 / cast(w_warehouse_sq_ft#125 as double))), sum((sep_sales#10 / cast(w_warehouse_sq_ft#125 as double))), sum((oct_sales#11 / cast(w_warehouse_sq_ft#125 as double))), sum((nov_sales#12 / cast(w_warehouse_sq_ft#125 as double))), sum((dec_sales#13 / cast(w_warehouse_sq_ft#125 as double))), ... 12 more fields])"]
+	2 [label="nodeID(2) Exchange hashpartitioning(w_warehouse_name#124, w_warehouse_sq_ft#125, w_city#130, w_county#131, w_state#132, w_country#134, ship_carriers#0, year#1, 200), ENSURE_REQUIREMENTS, [plan_id=240]"]
+	3 [label="nodeID(3) HashAggregate(keys=[w_warehouse_name#124, w_warehouse_sq_ft#125, w_city#130, w_county#131, w_state#132, w_country#134, ship_carriers#0, year#1], functions=[partial_sum(jan_sales#2), partial_sum(feb_sales#3), partial_sum(mar_sales#4), partial_sum(apr_sales#5), partial_sum(may_sales#6), partial_sum(jun_sales#7), partial_sum(jul_sales#8), partial_sum(aug_sales#9), partial_sum(sep_sales#10), partial_sum(oct_sales#11), partial_sum(nov_sales#12), partial_sum(dec_sales#13), partial_sum((jan_sales#2 / cast(w_warehouse_sq_ft#125 as double))), partial_sum((feb_sales#3 / cast(w_warehouse_sq_ft#125 as double))), partial_sum((mar_sales#4 / cast(w_warehouse_sq_ft#125 as double))), partial_sum((apr_sales#5 / cast(w_warehouse_sq_ft#125 as double))), partial_sum((may_sales#6 / cast(w_warehouse_sq_ft#125 as double))), partial_sum((jun_sales#7 / cast(w_warehouse_sq_ft#125 as double))), partial_sum((jul_sales#8 / cast(w_warehouse_sq_ft#125 as double))), partial_sum((aug_sales#9 / cast(w_warehouse_sq_ft#125 as double))), partial_sum((sep_sales#10 / cast(w_warehouse_sq_ft#125 as double))), partial_sum((oct_sales#11 / cast(w_warehouse_sq_ft#125 as double))), partial_sum((nov_sales#12 / cast(w_warehouse_sq_ft#125 as double))), partial_sum((dec_sales#13 / cast(w_warehouse_sq_ft#125 as double))), ... 12 more fields])"]
+	4 [label="nodeID(4) Union"]
+	5 [label="nodeID(5) HashAggregate(keys=[w_warehouse_name#124, w_warehouse_sq_ft#125, w_city#130, w_county#131, w_state#132, w_country#134, d_year#142], functions=[sum(CASE WHEN (d_moy#144 = 1) THEN (ws_ext_sales_price#111 * cast(ws_quantity#106 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#144 = 2) THEN (ws_ext_sales_price#111 * cast(ws_quantity#106 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#144 = 3) THEN (ws_ext_sales_price#111 * cast(ws_quantity#106 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#144 = 4) THEN (ws_ext_sales_price#111 * cast(ws_quantity#106 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#144 = 5) THEN (ws_ext_sales_price#111 * cast(ws_quantity#106 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#144 = 6) THEN (ws_ext_sales_price#111 * cast(ws_quantity#106 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#144 = 7) THEN (ws_ext_sales_price#111 * cast(ws_quantity#106 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#144 = 8) THEN (ws_ext_sales_price#111 * cast(ws_quantity#106 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#144 = 9) THEN (ws_ext_sales_price#111 * cast(ws_quantity#106 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#144 = 10) THEN (ws_ext_sales_price#111 * cast(ws_quantity#106 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#144 = 11) THEN (ws_ext_sales_price#111 * cast(ws_quantity#106 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#144 = 12) THEN (ws_ext_sales_price#111 * cast(ws_quantity#106 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#144 = 1) THEN (ws_net_paid#117 * cast(ws_quantity#106 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#144 = 2) THEN (ws_net_paid#117 * cast(ws_quantity#106 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#144 = 3) THEN (ws_net_paid#117 * cast(ws_quantity#106 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#144 = 4) THEN (ws_net_paid#117 * cast(ws_quantity#106 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#144 = 5) THEN (ws_net_paid#117 * cast(ws_quantity#106 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#144 = 6) THEN (ws_net_paid#117 * cast(ws_quantity#106 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#144 = 7) THEN (ws_net_paid#117 * cast(ws_quantity#106 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#144 = 8) THEN (ws_net_paid#117 * cast(ws_quantity#106 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#144 = 9) THEN (ws_net_paid#117 * cast(ws_quantity#106 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#144 = 10) THEN (ws_net_paid#117 * cast(ws_quantity#106 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#144 = 11) THEN (ws_net_paid#117 * cast(ws_quantity#106 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#144 = 12) THEN (ws_net_paid#117 * cast(ws_quantity#106 as double)) ELSE 0.0 END)])"]
+	6 [label="nodeID(6) Exchange hashpartitioning(w_warehouse_name#124, w_warehouse_sq_ft#125, w_city#130, w_county#131, w_state#132, w_country#134, d_year#142, 200), ENSURE_REQUIREMENTS, [plan_id=216]"]
+	7 [label="nodeID(7) HashAggregate(keys=[w_warehouse_name#124, w_warehouse_sq_ft#125, w_city#130, w_county#131, w_state#132, w_country#134, d_year#142], functions=[partial_sum(CASE WHEN (d_moy#144 = 1) THEN (ws_ext_sales_price#111 * cast(ws_quantity#106 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#144 = 2) THEN (ws_ext_sales_price#111 * cast(ws_quantity#106 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#144 = 3) THEN (ws_ext_sales_price#111 * cast(ws_quantity#106 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#144 = 4) THEN (ws_ext_sales_price#111 * cast(ws_quantity#106 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#144 = 5) THEN (ws_ext_sales_price#111 * cast(ws_quantity#106 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#144 = 6) THEN (ws_ext_sales_price#111 * cast(ws_quantity#106 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#144 = 7) THEN (ws_ext_sales_price#111 * cast(ws_quantity#106 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#144 = 8) THEN (ws_ext_sales_price#111 * cast(ws_quantity#106 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#144 = 9) THEN (ws_ext_sales_price#111 * cast(ws_quantity#106 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#144 = 10) THEN (ws_ext_sales_price#111 * cast(ws_quantity#106 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#144 = 11) THEN (ws_ext_sales_price#111 * cast(ws_quantity#106 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#144 = 12) THEN (ws_ext_sales_price#111 * cast(ws_quantity#106 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#144 = 1) THEN (ws_net_paid#117 * cast(ws_quantity#106 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#144 = 2) THEN (ws_net_paid#117 * cast(ws_quantity#106 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#144 = 3) THEN (ws_net_paid#117 * cast(ws_quantity#106 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#144 = 4) THEN (ws_net_paid#117 * cast(ws_quantity#106 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#144 = 5) THEN (ws_net_paid#117 * cast(ws_quantity#106 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#144 = 6) THEN (ws_net_paid#117 * cast(ws_quantity#106 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#144 = 7) THEN (ws_net_paid#117 * cast(ws_quantity#106 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#144 = 8) THEN (ws_net_paid#117 * cast(ws_quantity#106 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#144 = 9) THEN (ws_net_paid#117 * cast(ws_quantity#106 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#144 = 10) THEN (ws_net_paid#117 * cast(ws_quantity#106 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#144 = 11) THEN (ws_net_paid#117 * cast(ws_quantity#106 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#144 = 12) THEN (ws_net_paid#117 * cast(ws_quantity#106 as double)) ELSE 0.0 END)])"]
+	8 [label="nodeID(8) Project [ws_quantity#106, ws_ext_sales_price#111, ws_net_paid#117, w_warehouse_name#124, w_warehouse_sq_ft#125, w_city#130, w_county#131, w_state#132, w_country#134, d_year#142, d_moy#144]"]
+	9 [label="nodeID(9) BroadcastHashJoin [ws_ship_mode_sk#102], [sm_ship_mode_sk#174], Inner, BuildRight, false"]
+	10 [label="nodeID(10) Project [ws_ship_mode_sk#102, ws_quantity#106, ws_ext_sales_price#111, ws_net_paid#117, w_warehouse_name#124, w_warehouse_sq_ft#125, w_city#130, w_county#131, w_state#132, w_country#134, d_year#142, d_moy#144]"]
+	11 [label="nodeID(11) BroadcastHashJoin [ws_sold_time_sk#89], [t_time_sk#164], Inner, BuildRight, false"]
+	12 [label="nodeID(12) Project [ws_sold_time_sk#89, ws_ship_mode_sk#102, ws_quantity#106, ws_ext_sales_price#111, ws_net_paid#117, w_warehouse_name#124, w_warehouse_sq_ft#125, w_city#130, w_county#131, w_state#132, w_country#134, d_year#142, d_moy#144]"]
+	13 [label="nodeID(13) BroadcastHashJoin [ws_sold_date_sk#88], [d_date_sk#136], Inner, BuildRight, false"]
+	14 [label="nodeID(14) Project [ws_sold_date_sk#88, ws_sold_time_sk#89, ws_ship_mode_sk#102, ws_quantity#106, ws_ext_sales_price#111, ws_net_paid#117, w_warehouse_name#124, w_warehouse_sq_ft#125, w_city#130, w_county#131, w_state#132, w_country#134]"]
+	15 [label="nodeID(15) BroadcastHashJoin [ws_warehouse_sk#103], [w_warehouse_sk#122], Inner, BuildRight, false"]
+	16 [label="nodeID(16) Filter (((isnotnull(ws_warehouse_sk#103) AND isnotnull(ws_sold_date_sk#88)) AND isnotnull(ws_sold_time_sk#89)) AND isnotnull(ws_ship_mode_sk#102))"]
+	17 [label="nodeID(17) FileScan parquet tpcds_500_parquet.web_sales[ws_sold_date_sk#88,ws_sold_time_sk#89,ws_ship_mode_sk#102,ws_warehouse_sk#103,ws_quantity#106,ws_ext_sales_price#111,ws_net_paid#117"]
+	18 [label="nodeID(18) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=199]"]
+	19 [label="nodeID(19) Filter isnotnull(w_warehouse_sk#122)"]
+	20 [label="nodeID(20) FileScan parquet tpcds_500_parquet.warehouse[w_warehouse_sk#122,w_warehouse_name#124,w_warehouse_sq_ft#125,w_city#130,w_county#131,w_state#132,w_country#134"]
+	21 [label="nodeID(21) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=203]"]
+	22 [label="nodeID(22) Filter ((isnotnull(d_year#142) AND (d_year#142 = 2001)) AND isnotnull(d_date_sk#136))"]
+	23 [label="nodeID(23) FileScan parquet tpcds_500_parquet.date_dim[d_date_sk#136,d_year#142,d_moy#144"]
+	24 [label="nodeID(24) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=207]"]
+	25 [label="nodeID(25) Project [t_time_sk#164]"]
+	26 [label="nodeID(26) Filter (((isnotnull(t_time#166) AND (t_time#166 >= 30838)) AND (t_time#166 <= 59638)) AND isnotnull(t_time_sk#164))"]
+	27 [label="nodeID(27) FileScan parquet tpcds_500_parquet.time_dim[t_time_sk#164,t_time#166"]
+	28 [label="nodeID(28) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=211]"]
+	29 [label="nodeID(29) Project [sm_ship_mode_sk#174]"]
+	30 [label="nodeID(30) Filter (sm_carrier#178 IN (DHL,BARIAN) AND isnotnull(sm_ship_mode_sk#174))"]
+	31 [label="nodeID(31) FileScan parquet tpcds_500_parquet.ship_mode[sm_ship_mode_sk#174,sm_carrier#178"]
+	32 [label="nodeID(32) HashAggregate(keys=[w_warehouse_name#216, w_warehouse_sq_ft#217, w_city#222, w_county#223, w_state#224, w_country#226, d_year#234], functions=[sum(CASE WHEN (d_moy#236 = 1) THEN (cs_sales_price#201 * cast(cs_quantity#198 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#236 = 2) THEN (cs_sales_price#201 * cast(cs_quantity#198 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#236 = 3) THEN (cs_sales_price#201 * cast(cs_quantity#198 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#236 = 4) THEN (cs_sales_price#201 * cast(cs_quantity#198 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#236 = 5) THEN (cs_sales_price#201 * cast(cs_quantity#198 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#236 = 6) THEN (cs_sales_price#201 * cast(cs_quantity#198 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#236 = 7) THEN (cs_sales_price#201 * cast(cs_quantity#198 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#236 = 8) THEN (cs_sales_price#201 * cast(cs_quantity#198 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#236 = 9) THEN (cs_sales_price#201 * cast(cs_quantity#198 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#236 = 10) THEN (cs_sales_price#201 * cast(cs_quantity#198 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#236 = 11) THEN (cs_sales_price#201 * cast(cs_quantity#198 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#236 = 12) THEN (cs_sales_price#201 * cast(cs_quantity#198 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#236 = 1) THEN (cs_net_paid_inc_tax#210 * cast(cs_quantity#198 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#236 = 2) THEN (cs_net_paid_inc_tax#210 * cast(cs_quantity#198 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#236 = 3) THEN (cs_net_paid_inc_tax#210 * cast(cs_quantity#198 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#236 = 4) THEN (cs_net_paid_inc_tax#210 * cast(cs_quantity#198 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#236 = 5) THEN (cs_net_paid_inc_tax#210 * cast(cs_quantity#198 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#236 = 6) THEN (cs_net_paid_inc_tax#210 * cast(cs_quantity#198 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#236 = 7) THEN (cs_net_paid_inc_tax#210 * cast(cs_quantity#198 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#236 = 8) THEN (cs_net_paid_inc_tax#210 * cast(cs_quantity#198 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#236 = 9) THEN (cs_net_paid_inc_tax#210 * cast(cs_quantity#198 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#236 = 10) THEN (cs_net_paid_inc_tax#210 * cast(cs_quantity#198 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#236 = 11) THEN (cs_net_paid_inc_tax#210 * cast(cs_quantity#198 as double)) ELSE 0.0 END), sum(CASE WHEN (d_moy#236 = 12) THEN (cs_net_paid_inc_tax#210 * cast(cs_quantity#198 as double)) ELSE 0.0 END)])"]
+	33 [label="nodeID(33) Exchange hashpartitioning(w_warehouse_name#216, w_warehouse_sq_ft#217, w_city#222, w_county#223, w_state#224, w_country#226, d_year#234, 200), ENSURE_REQUIREMENTS, [plan_id=235]"]
+	34 [label="nodeID(34) HashAggregate(keys=[w_warehouse_name#216, w_warehouse_sq_ft#217, w_city#222, w_county#223, w_state#224, w_country#226, d_year#234], functions=[partial_sum(CASE WHEN (d_moy#236 = 1) THEN (cs_sales_price#201 * cast(cs_quantity#198 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#236 = 2) THEN (cs_sales_price#201 * cast(cs_quantity#198 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#236 = 3) THEN (cs_sales_price#201 * cast(cs_quantity#198 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#236 = 4) THEN (cs_sales_price#201 * cast(cs_quantity#198 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#236 = 5) THEN (cs_sales_price#201 * cast(cs_quantity#198 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#236 = 6) THEN (cs_sales_price#201 * cast(cs_quantity#198 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#236 = 7) THEN (cs_sales_price#201 * cast(cs_quantity#198 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#236 = 8) THEN (cs_sales_price#201 * cast(cs_quantity#198 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#236 = 9) THEN (cs_sales_price#201 * cast(cs_quantity#198 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#236 = 10) THEN (cs_sales_price#201 * cast(cs_quantity#198 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#236 = 11) THEN (cs_sales_price#201 * cast(cs_quantity#198 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#236 = 12) THEN (cs_sales_price#201 * cast(cs_quantity#198 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#236 = 1) THEN (cs_net_paid_inc_tax#210 * cast(cs_quantity#198 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#236 = 2) THEN (cs_net_paid_inc_tax#210 * cast(cs_quantity#198 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#236 = 3) THEN (cs_net_paid_inc_tax#210 * cast(cs_quantity#198 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#236 = 4) THEN (cs_net_paid_inc_tax#210 * cast(cs_quantity#198 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#236 = 5) THEN (cs_net_paid_inc_tax#210 * cast(cs_quantity#198 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#236 = 6) THEN (cs_net_paid_inc_tax#210 * cast(cs_quantity#198 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#236 = 7) THEN (cs_net_paid_inc_tax#210 * cast(cs_quantity#198 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#236 = 8) THEN (cs_net_paid_inc_tax#210 * cast(cs_quantity#198 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#236 = 9) THEN (cs_net_paid_inc_tax#210 * cast(cs_quantity#198 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#236 = 10) THEN (cs_net_paid_inc_tax#210 * cast(cs_quantity#198 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#236 = 11) THEN (cs_net_paid_inc_tax#210 * cast(cs_quantity#198 as double)) ELSE 0.0 END), partial_sum(CASE WHEN (d_moy#236 = 12) THEN (cs_net_paid_inc_tax#210 * cast(cs_quantity#198 as double)) ELSE 0.0 END)])"]
+	35 [label="nodeID(35) Project [cs_quantity#198, cs_sales_price#201, cs_net_paid_inc_tax#210, w_warehouse_name#216, w_warehouse_sq_ft#217, w_city#222, w_county#223, w_state#224, w_country#226, d_year#234, d_moy#236]"]
+	36 [label="nodeID(36) BroadcastHashJoin [cs_ship_mode_sk#193], [sm_ship_mode_sk#266], Inner, BuildRight, false"]
+	37 [label="nodeID(37) Project [cs_ship_mode_sk#193, cs_quantity#198, cs_sales_price#201, cs_net_paid_inc_tax#210, w_warehouse_name#216, w_warehouse_sq_ft#217, w_city#222, w_county#223, w_state#224, w_country#226, d_year#234, d_moy#236]"]
+	38 [label="nodeID(38) BroadcastHashJoin [cs_sold_time_sk#181], [t_time_sk#256], Inner, BuildRight, false"]
+	39 [label="nodeID(39) Project [cs_sold_time_sk#181, cs_ship_mode_sk#193, cs_quantity#198, cs_sales_price#201, cs_net_paid_inc_tax#210, w_warehouse_name#216, w_warehouse_sq_ft#217, w_city#222, w_county#223, w_state#224, w_country#226, d_year#234, d_moy#236]"]
+	40 [label="nodeID(40) BroadcastHashJoin [cs_sold_date_sk#180], [d_date_sk#228], Inner, BuildRight, false"]
+	41 [label="nodeID(41) Project [cs_sold_date_sk#180, cs_sold_time_sk#181, cs_ship_mode_sk#193, cs_quantity#198, cs_sales_price#201, cs_net_paid_inc_tax#210, w_warehouse_name#216, w_warehouse_sq_ft#217, w_city#222, w_county#223, w_state#224, w_country#226]"]
+	42 [label="nodeID(42) BroadcastHashJoin [cs_warehouse_sk#194], [w_warehouse_sk#214], Inner, BuildRight, false"]
+	43 [label="nodeID(43) Filter (((isnotnull(cs_warehouse_sk#194) AND isnotnull(cs_sold_date_sk#180)) AND isnotnull(cs_sold_time_sk#181)) AND isnotnull(cs_ship_mode_sk#193))"]
+	44 [label="nodeID(44) FileScan parquet tpcds_500_parquet.catalog_sales[cs_sold_date_sk#180,cs_sold_time_sk#181,cs_ship_mode_sk#193,cs_warehouse_sk#194,cs_quantity#198,cs_sales_price#201,cs_net_paid_inc_tax#210"]
+	45 [label="nodeID(45) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=218]"]
+	46 [label="nodeID(46) Filter isnotnull(w_warehouse_sk#214)"]
+	47 [label="nodeID(47) FileScan parquet tpcds_500_parquet.warehouse[w_warehouse_sk#214,w_warehouse_name#216,w_warehouse_sq_ft#217,w_city#222,w_county#223,w_state#224,w_country#226"]
+	48 [label="nodeID(48) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=222]"]
+	49 [label="nodeID(49) Filter ((isnotnull(d_year#234) AND (d_year#234 = 2001)) AND isnotnull(d_date_sk#228))"]
+	50 [label="nodeID(50) FileScan parquet tpcds_500_parquet.date_dim[d_date_sk#228,d_year#234,d_moy#236"]
+	51 [label="nodeID(51) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=226]"]
+	52 [label="nodeID(52) Project [t_time_sk#256]"]
+	53 [label="nodeID(53) Filter (((isnotnull(t_time#258) AND (t_time#258 >= 30838)) AND (t_time#258 <= 59638)) AND isnotnull(t_time_sk#256))"]
+	54 [label="nodeID(54) FileScan parquet tpcds_500_parquet.time_dim[t_time_sk#256,t_time#258"]
+	55 [label="nodeID(55) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=230]"]
+	56 [label="nodeID(56) Project [sm_ship_mode_sk#266]"]
+	57 [label="nodeID(57) Filter (sm_carrier#270 IN (DHL,BARIAN) AND isnotnull(sm_ship_mode_sk#266))"]
+	58 [label="nodeID(58) FileScan parquet tpcds_500_parquet.ship_mode[sm_ship_mode_sk#266,sm_carrier#270"]
+	1 -> 0
+	2 -> 1
+	3 -> 2
+	4 -> 3
+	5 -> 4
+	6 -> 5
+	7 -> 6
+	8 -> 7
+	9 -> 8
+	10 -> 9
+	11 -> 10
+	12 -> 11
+	13 -> 12
+	14 -> 13
+	15 -> 14
+	16 -> 15
+	17 -> 16
+	18 -> 15
+	19 -> 18
+	20 -> 19
+	21 -> 13
+	22 -> 21
+	23 -> 22
+	24 -> 11
+	25 -> 24
+	26 -> 25
+	27 -> 26
+	28 -> 9
+	29 -> 28
+	30 -> 29
+	31 -> 30
+	32 -> 4
+	33 -> 32
+	34 -> 33
+	35 -> 34
+	36 -> 35
+	37 -> 36
+	38 -> 37
+	39 -> 38
+	40 -> 39
+	41 -> 40
+	42 -> 41
+	43 -> 42
+	44 -> 43
+	45 -> 42
+	46 -> 45
+	47 -> 46
+	48 -> 40
+	49 -> 48
+	50 -> 49
+	51 -> 38
+	52 -> 51
+	53 -> 52
+	54 -> 53
+	55 -> 36
+	56 -> 55
+	57 -> 56
+	58 -> 57
+}

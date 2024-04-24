@@ -1,0 +1,202 @@
+== Physical Plan ==
+AdaptiveSparkPlan isFinalPlan=false
++- BroadcastNestedLoopJoin BuildRight, Cross
+   :- BroadcastNestedLoopJoin BuildRight, Cross
+   :  :- BroadcastNestedLoopJoin BuildRight, Cross
+   :  :  :- BroadcastNestedLoopJoin BuildRight, Cross
+   :  :  :  :- BroadcastNestedLoopJoin BuildRight, Cross
+   :  :  :  :  :- BroadcastNestedLoopJoin BuildRight, Cross
+   :  :  :  :  :  :- BroadcastNestedLoopJoin BuildRight, Cross
+   :  :  :  :  :  :  :- HashAggregate(keys=[], functions=[count(1)])
+   :  :  :  :  :  :  :  +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=619]
+   :  :  :  :  :  :  :     +- HashAggregate(keys=[], functions=[partial_count(1)])
+   :  :  :  :  :  :  :        +- Project
+   :  :  :  :  :  :  :           +- BroadcastHashJoin [ss_store_sk#23], [s_store_sk#54], Inner, BuildRight, false
+   :  :  :  :  :  :  :              :- Project [ss_store_sk#23]
+   :  :  :  :  :  :  :              :  +- BroadcastHashJoin [ss_sold_time_sk#17], [t_time_sk#44], Inner, BuildRight, false
+   :  :  :  :  :  :  :              :     :- Project [ss_sold_time_sk#17, ss_store_sk#23]
+   :  :  :  :  :  :  :              :     :  +- BroadcastHashJoin [ss_hdemo_sk#21], [hd_demo_sk#39], Inner, BuildRight, false
+   :  :  :  :  :  :  :              :     :     :- Filter ((isnotnull(ss_hdemo_sk#21) AND isnotnull(ss_sold_time_sk#17)) AND isnotnull(ss_store_sk#23))
+   :  :  :  :  :  :  :              :     :     :  +- FileScan parquet tpcds_100_parquet.store_sales[ss_sold_time_sk#17,ss_hdemo_sk#21,ss_store_sk#23] Batched: true, DataFilters: [isnotnull(ss_hdemo_sk#21), isnotnull(ss_sold_time_sk#17), isnotnull(ss_store_sk#23)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/store_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ss_hdemo_sk), IsNotNull(ss_sold_time_sk), IsNotNull(ss_store_sk)], ReadSchema: struct<ss_sold_time_sk:int,ss_hdemo_sk:int,ss_store_sk:int>
+   :  :  :  :  :  :  :              :     :     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=606]
+   :  :  :  :  :  :  :              :     :        +- Project [hd_demo_sk#39]
+   :  :  :  :  :  :  :              :     :           +- Filter (((((hd_dep_count#42 = 4) AND (hd_vehicle_count#43 <= 6)) OR ((hd_dep_count#42 = 2) AND (hd_vehicle_count#43 <= 4))) OR ((hd_dep_count#42 = 0) AND (hd_vehicle_count#43 <= 2))) AND isnotnull(hd_demo_sk#39))
+   :  :  :  :  :  :  :              :     :              +- FileScan parquet tpcds_100_parquet.household_demographics[hd_demo_sk#39,hd_dep_count#42,hd_vehicle_count#43] Batched: true, DataFilters: [((((hd_dep_count#42 = 4) AND (hd_vehicle_count#43 <= 6)) OR ((hd_dep_count#42 = 2) AND (hd_vehic..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/household_..., PartitionFilters: [], PushedFilters: [Or(Or(And(EqualTo(hd_dep_count,4),LessThanOrEqual(hd_vehicle_count,6)),And(EqualTo(hd_dep_count,..., ReadSchema: struct<hd_demo_sk:int,hd_dep_count:int,hd_vehicle_count:int>
+   :  :  :  :  :  :  :              :     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=610]
+   :  :  :  :  :  :  :              :        +- Project [t_time_sk#44]
+   :  :  :  :  :  :  :              :           +- Filter ((((isnotnull(t_hour#47) AND isnotnull(t_minute#48)) AND (t_hour#47 = 8)) AND (t_minute#48 >= 30)) AND isnotnull(t_time_sk#44))
+   :  :  :  :  :  :  :              :              +- FileScan parquet tpcds_100_parquet.time_dim[t_time_sk#44,t_hour#47,t_minute#48] Batched: true, DataFilters: [isnotnull(t_hour#47), isnotnull(t_minute#48), (t_hour#47 = 8), (t_minute#48 >= 30), isnotnull(t_..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/time_dim], PartitionFilters: [], PushedFilters: [IsNotNull(t_hour), IsNotNull(t_minute), EqualTo(t_hour,8), GreaterThanOrEqual(t_minute,30), IsNo..., ReadSchema: struct<t_time_sk:int,t_hour:int,t_minute:int>
+   :  :  :  :  :  :  :              +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=614]
+   :  :  :  :  :  :  :                 +- Project [s_store_sk#54]
+   :  :  :  :  :  :  :                    +- Filter ((isnotnull(s_store_name#59) AND (s_store_name#59 = ese)) AND isnotnull(s_store_sk#54))
+   :  :  :  :  :  :  :                       +- FileScan parquet tpcds_100_parquet.store[s_store_sk#54,s_store_name#59] Batched: true, DataFilters: [isnotnull(s_store_name#59), (s_store_name#59 = ese), isnotnull(s_store_sk#54)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/store], PartitionFilters: [], PushedFilters: [IsNotNull(s_store_name), EqualTo(s_store_name,ese), IsNotNull(s_store_sk)], ReadSchema: struct<s_store_sk:int,s_store_name:string>
+   :  :  :  :  :  :  +- BroadcastExchange IdentityBroadcastMode, [plan_id=637]
+   :  :  :  :  :  :     +- HashAggregate(keys=[], functions=[count(1)])
+   :  :  :  :  :  :        +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=634]
+   :  :  :  :  :  :           +- HashAggregate(keys=[], functions=[partial_count(1)])
+   :  :  :  :  :  :              +- Project
+   :  :  :  :  :  :                 +- BroadcastHashJoin [ss_store_sk#90], [s_store_sk#121], Inner, BuildRight, false
+   :  :  :  :  :  :                    :- Project [ss_store_sk#90]
+   :  :  :  :  :  :                    :  +- BroadcastHashJoin [ss_sold_time_sk#84], [t_time_sk#111], Inner, BuildRight, false
+   :  :  :  :  :  :                    :     :- Project [ss_sold_time_sk#84, ss_store_sk#90]
+   :  :  :  :  :  :                    :     :  +- BroadcastHashJoin [ss_hdemo_sk#88], [hd_demo_sk#106], Inner, BuildRight, false
+   :  :  :  :  :  :                    :     :     :- Filter ((isnotnull(ss_hdemo_sk#88) AND isnotnull(ss_sold_time_sk#84)) AND isnotnull(ss_store_sk#90))
+   :  :  :  :  :  :                    :     :     :  +- FileScan parquet tpcds_100_parquet.store_sales[ss_sold_time_sk#84,ss_hdemo_sk#88,ss_store_sk#90] Batched: true, DataFilters: [isnotnull(ss_hdemo_sk#88), isnotnull(ss_sold_time_sk#84), isnotnull(ss_store_sk#90)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/store_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ss_hdemo_sk), IsNotNull(ss_sold_time_sk), IsNotNull(ss_store_sk)], ReadSchema: struct<ss_sold_time_sk:int,ss_hdemo_sk:int,ss_store_sk:int>
+   :  :  :  :  :  :                    :     :     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=621]
+   :  :  :  :  :  :                    :     :        +- Project [hd_demo_sk#106]
+   :  :  :  :  :  :                    :     :           +- Filter (((((hd_dep_count#109 = 4) AND (hd_vehicle_count#110 <= 6)) OR ((hd_dep_count#109 = 2) AND (hd_vehicle_count#110 <= 4))) OR ((hd_dep_count#109 = 0) AND (hd_vehicle_count#110 <= 2))) AND isnotnull(hd_demo_sk#106))
+   :  :  :  :  :  :                    :     :              +- FileScan parquet tpcds_100_parquet.household_demographics[hd_demo_sk#106,hd_dep_count#109,hd_vehicle_count#110] Batched: true, DataFilters: [((((hd_dep_count#109 = 4) AND (hd_vehicle_count#110 <= 6)) OR ((hd_dep_count#109 = 2) AND (hd_ve..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/household_..., PartitionFilters: [], PushedFilters: [Or(Or(And(EqualTo(hd_dep_count,4),LessThanOrEqual(hd_vehicle_count,6)),And(EqualTo(hd_dep_count,..., ReadSchema: struct<hd_demo_sk:int,hd_dep_count:int,hd_vehicle_count:int>
+   :  :  :  :  :  :                    :     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=625]
+   :  :  :  :  :  :                    :        +- Project [t_time_sk#111]
+   :  :  :  :  :  :                    :           +- Filter ((((isnotnull(t_hour#114) AND isnotnull(t_minute#115)) AND (t_hour#114 = 9)) AND (t_minute#115 < 30)) AND isnotnull(t_time_sk#111))
+   :  :  :  :  :  :                    :              +- FileScan parquet tpcds_100_parquet.time_dim[t_time_sk#111,t_hour#114,t_minute#115] Batched: true, DataFilters: [isnotnull(t_hour#114), isnotnull(t_minute#115), (t_hour#114 = 9), (t_minute#115 < 30), isnotnull..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/time_dim], PartitionFilters: [], PushedFilters: [IsNotNull(t_hour), IsNotNull(t_minute), EqualTo(t_hour,9), LessThan(t_minute,30), IsNotNull(t_ti..., ReadSchema: struct<t_time_sk:int,t_hour:int,t_minute:int>
+   :  :  :  :  :  :                    +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=629]
+   :  :  :  :  :  :                       +- Project [s_store_sk#121]
+   :  :  :  :  :  :                          +- Filter ((isnotnull(s_store_name#126) AND (s_store_name#126 = ese)) AND isnotnull(s_store_sk#121))
+   :  :  :  :  :  :                             +- FileScan parquet tpcds_100_parquet.store[s_store_sk#121,s_store_name#126] Batched: true, DataFilters: [isnotnull(s_store_name#126), (s_store_name#126 = ese), isnotnull(s_store_sk#121)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/store], PartitionFilters: [], PushedFilters: [IsNotNull(s_store_name), EqualTo(s_store_name,ese), IsNotNull(s_store_sk)], ReadSchema: struct<s_store_sk:int,s_store_name:string>
+   :  :  :  :  :  +- BroadcastExchange IdentityBroadcastMode, [plan_id=655]
+   :  :  :  :  :     +- HashAggregate(keys=[], functions=[count(1)])
+   :  :  :  :  :        +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=652]
+   :  :  :  :  :           +- HashAggregate(keys=[], functions=[partial_count(1)])
+   :  :  :  :  :              +- Project
+   :  :  :  :  :                 +- BroadcastHashJoin [ss_store_sk#157], [s_store_sk#188], Inner, BuildRight, false
+   :  :  :  :  :                    :- Project [ss_store_sk#157]
+   :  :  :  :  :                    :  +- BroadcastHashJoin [ss_sold_time_sk#151], [t_time_sk#178], Inner, BuildRight, false
+   :  :  :  :  :                    :     :- Project [ss_sold_time_sk#151, ss_store_sk#157]
+   :  :  :  :  :                    :     :  +- BroadcastHashJoin [ss_hdemo_sk#155], [hd_demo_sk#173], Inner, BuildRight, false
+   :  :  :  :  :                    :     :     :- Filter ((isnotnull(ss_hdemo_sk#155) AND isnotnull(ss_sold_time_sk#151)) AND isnotnull(ss_store_sk#157))
+   :  :  :  :  :                    :     :     :  +- FileScan parquet tpcds_100_parquet.store_sales[ss_sold_time_sk#151,ss_hdemo_sk#155,ss_store_sk#157] Batched: true, DataFilters: [isnotnull(ss_hdemo_sk#155), isnotnull(ss_sold_time_sk#151), isnotnull(ss_store_sk#157)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/store_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ss_hdemo_sk), IsNotNull(ss_sold_time_sk), IsNotNull(ss_store_sk)], ReadSchema: struct<ss_sold_time_sk:int,ss_hdemo_sk:int,ss_store_sk:int>
+   :  :  :  :  :                    :     :     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=639]
+   :  :  :  :  :                    :     :        +- Project [hd_demo_sk#173]
+   :  :  :  :  :                    :     :           +- Filter (((((hd_dep_count#176 = 4) AND (hd_vehicle_count#177 <= 6)) OR ((hd_dep_count#176 = 2) AND (hd_vehicle_count#177 <= 4))) OR ((hd_dep_count#176 = 0) AND (hd_vehicle_count#177 <= 2))) AND isnotnull(hd_demo_sk#173))
+   :  :  :  :  :                    :     :              +- FileScan parquet tpcds_100_parquet.household_demographics[hd_demo_sk#173,hd_dep_count#176,hd_vehicle_count#177] Batched: true, DataFilters: [((((hd_dep_count#176 = 4) AND (hd_vehicle_count#177 <= 6)) OR ((hd_dep_count#176 = 2) AND (hd_ve..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/household_..., PartitionFilters: [], PushedFilters: [Or(Or(And(EqualTo(hd_dep_count,4),LessThanOrEqual(hd_vehicle_count,6)),And(EqualTo(hd_dep_count,..., ReadSchema: struct<hd_demo_sk:int,hd_dep_count:int,hd_vehicle_count:int>
+   :  :  :  :  :                    :     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=643]
+   :  :  :  :  :                    :        +- Project [t_time_sk#178]
+   :  :  :  :  :                    :           +- Filter ((((isnotnull(t_hour#181) AND isnotnull(t_minute#182)) AND (t_hour#181 = 9)) AND (t_minute#182 >= 30)) AND isnotnull(t_time_sk#178))
+   :  :  :  :  :                    :              +- FileScan parquet tpcds_100_parquet.time_dim[t_time_sk#178,t_hour#181,t_minute#182] Batched: true, DataFilters: [isnotnull(t_hour#181), isnotnull(t_minute#182), (t_hour#181 = 9), (t_minute#182 >= 30), isnotnul..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/time_dim], PartitionFilters: [], PushedFilters: [IsNotNull(t_hour), IsNotNull(t_minute), EqualTo(t_hour,9), GreaterThanOrEqual(t_minute,30), IsNo..., ReadSchema: struct<t_time_sk:int,t_hour:int,t_minute:int>
+   :  :  :  :  :                    +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=647]
+   :  :  :  :  :                       +- Project [s_store_sk#188]
+   :  :  :  :  :                          +- Filter ((isnotnull(s_store_name#193) AND (s_store_name#193 = ese)) AND isnotnull(s_store_sk#188))
+   :  :  :  :  :                             +- FileScan parquet tpcds_100_parquet.store[s_store_sk#188,s_store_name#193] Batched: true, DataFilters: [isnotnull(s_store_name#193), (s_store_name#193 = ese), isnotnull(s_store_sk#188)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/store], PartitionFilters: [], PushedFilters: [IsNotNull(s_store_name), EqualTo(s_store_name,ese), IsNotNull(s_store_sk)], ReadSchema: struct<s_store_sk:int,s_store_name:string>
+   :  :  :  :  +- BroadcastExchange IdentityBroadcastMode, [plan_id=673]
+   :  :  :  :     +- HashAggregate(keys=[], functions=[count(1)])
+   :  :  :  :        +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=670]
+   :  :  :  :           +- HashAggregate(keys=[], functions=[partial_count(1)])
+   :  :  :  :              +- Project
+   :  :  :  :                 +- BroadcastHashJoin [ss_store_sk#224], [s_store_sk#255], Inner, BuildRight, false
+   :  :  :  :                    :- Project [ss_store_sk#224]
+   :  :  :  :                    :  +- BroadcastHashJoin [ss_sold_time_sk#218], [t_time_sk#245], Inner, BuildRight, false
+   :  :  :  :                    :     :- Project [ss_sold_time_sk#218, ss_store_sk#224]
+   :  :  :  :                    :     :  +- BroadcastHashJoin [ss_hdemo_sk#222], [hd_demo_sk#240], Inner, BuildRight, false
+   :  :  :  :                    :     :     :- Filter ((isnotnull(ss_hdemo_sk#222) AND isnotnull(ss_sold_time_sk#218)) AND isnotnull(ss_store_sk#224))
+   :  :  :  :                    :     :     :  +- FileScan parquet tpcds_100_parquet.store_sales[ss_sold_time_sk#218,ss_hdemo_sk#222,ss_store_sk#224] Batched: true, DataFilters: [isnotnull(ss_hdemo_sk#222), isnotnull(ss_sold_time_sk#218), isnotnull(ss_store_sk#224)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/store_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ss_hdemo_sk), IsNotNull(ss_sold_time_sk), IsNotNull(ss_store_sk)], ReadSchema: struct<ss_sold_time_sk:int,ss_hdemo_sk:int,ss_store_sk:int>
+   :  :  :  :                    :     :     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=657]
+   :  :  :  :                    :     :        +- Project [hd_demo_sk#240]
+   :  :  :  :                    :     :           +- Filter (((((hd_dep_count#243 = 4) AND (hd_vehicle_count#244 <= 6)) OR ((hd_dep_count#243 = 2) AND (hd_vehicle_count#244 <= 4))) OR ((hd_dep_count#243 = 0) AND (hd_vehicle_count#244 <= 2))) AND isnotnull(hd_demo_sk#240))
+   :  :  :  :                    :     :              +- FileScan parquet tpcds_100_parquet.household_demographics[hd_demo_sk#240,hd_dep_count#243,hd_vehicle_count#244] Batched: true, DataFilters: [((((hd_dep_count#243 = 4) AND (hd_vehicle_count#244 <= 6)) OR ((hd_dep_count#243 = 2) AND (hd_ve..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/household_..., PartitionFilters: [], PushedFilters: [Or(Or(And(EqualTo(hd_dep_count,4),LessThanOrEqual(hd_vehicle_count,6)),And(EqualTo(hd_dep_count,..., ReadSchema: struct<hd_demo_sk:int,hd_dep_count:int,hd_vehicle_count:int>
+   :  :  :  :                    :     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=661]
+   :  :  :  :                    :        +- Project [t_time_sk#245]
+   :  :  :  :                    :           +- Filter ((((isnotnull(t_hour#248) AND isnotnull(t_minute#249)) AND (t_hour#248 = 10)) AND (t_minute#249 < 30)) AND isnotnull(t_time_sk#245))
+   :  :  :  :                    :              +- FileScan parquet tpcds_100_parquet.time_dim[t_time_sk#245,t_hour#248,t_minute#249] Batched: true, DataFilters: [isnotnull(t_hour#248), isnotnull(t_minute#249), (t_hour#248 = 10), (t_minute#249 < 30), isnotnul..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/time_dim], PartitionFilters: [], PushedFilters: [IsNotNull(t_hour), IsNotNull(t_minute), EqualTo(t_hour,10), LessThan(t_minute,30), IsNotNull(t_t..., ReadSchema: struct<t_time_sk:int,t_hour:int,t_minute:int>
+   :  :  :  :                    +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=665]
+   :  :  :  :                       +- Project [s_store_sk#255]
+   :  :  :  :                          +- Filter ((isnotnull(s_store_name#260) AND (s_store_name#260 = ese)) AND isnotnull(s_store_sk#255))
+   :  :  :  :                             +- FileScan parquet tpcds_100_parquet.store[s_store_sk#255,s_store_name#260] Batched: true, DataFilters: [isnotnull(s_store_name#260), (s_store_name#260 = ese), isnotnull(s_store_sk#255)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/store], PartitionFilters: [], PushedFilters: [IsNotNull(s_store_name), EqualTo(s_store_name,ese), IsNotNull(s_store_sk)], ReadSchema: struct<s_store_sk:int,s_store_name:string>
+   :  :  :  +- BroadcastExchange IdentityBroadcastMode, [plan_id=691]
+   :  :  :     +- HashAggregate(keys=[], functions=[count(1)])
+   :  :  :        +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=688]
+   :  :  :           +- HashAggregate(keys=[], functions=[partial_count(1)])
+   :  :  :              +- Project
+   :  :  :                 +- BroadcastHashJoin [ss_store_sk#291], [s_store_sk#322], Inner, BuildRight, false
+   :  :  :                    :- Project [ss_store_sk#291]
+   :  :  :                    :  +- BroadcastHashJoin [ss_sold_time_sk#285], [t_time_sk#312], Inner, BuildRight, false
+   :  :  :                    :     :- Project [ss_sold_time_sk#285, ss_store_sk#291]
+   :  :  :                    :     :  +- BroadcastHashJoin [ss_hdemo_sk#289], [hd_demo_sk#307], Inner, BuildRight, false
+   :  :  :                    :     :     :- Filter ((isnotnull(ss_hdemo_sk#289) AND isnotnull(ss_sold_time_sk#285)) AND isnotnull(ss_store_sk#291))
+   :  :  :                    :     :     :  +- FileScan parquet tpcds_100_parquet.store_sales[ss_sold_time_sk#285,ss_hdemo_sk#289,ss_store_sk#291] Batched: true, DataFilters: [isnotnull(ss_hdemo_sk#289), isnotnull(ss_sold_time_sk#285), isnotnull(ss_store_sk#291)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/store_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ss_hdemo_sk), IsNotNull(ss_sold_time_sk), IsNotNull(ss_store_sk)], ReadSchema: struct<ss_sold_time_sk:int,ss_hdemo_sk:int,ss_store_sk:int>
+   :  :  :                    :     :     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=675]
+   :  :  :                    :     :        +- Project [hd_demo_sk#307]
+   :  :  :                    :     :           +- Filter (((((hd_dep_count#310 = 4) AND (hd_vehicle_count#311 <= 6)) OR ((hd_dep_count#310 = 2) AND (hd_vehicle_count#311 <= 4))) OR ((hd_dep_count#310 = 0) AND (hd_vehicle_count#311 <= 2))) AND isnotnull(hd_demo_sk#307))
+   :  :  :                    :     :              +- FileScan parquet tpcds_100_parquet.household_demographics[hd_demo_sk#307,hd_dep_count#310,hd_vehicle_count#311] Batched: true, DataFilters: [((((hd_dep_count#310 = 4) AND (hd_vehicle_count#311 <= 6)) OR ((hd_dep_count#310 = 2) AND (hd_ve..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/household_..., PartitionFilters: [], PushedFilters: [Or(Or(And(EqualTo(hd_dep_count,4),LessThanOrEqual(hd_vehicle_count,6)),And(EqualTo(hd_dep_count,..., ReadSchema: struct<hd_demo_sk:int,hd_dep_count:int,hd_vehicle_count:int>
+   :  :  :                    :     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=679]
+   :  :  :                    :        +- Project [t_time_sk#312]
+   :  :  :                    :           +- Filter ((((isnotnull(t_hour#315) AND isnotnull(t_minute#316)) AND (t_hour#315 = 10)) AND (t_minute#316 >= 30)) AND isnotnull(t_time_sk#312))
+   :  :  :                    :              +- FileScan parquet tpcds_100_parquet.time_dim[t_time_sk#312,t_hour#315,t_minute#316] Batched: true, DataFilters: [isnotnull(t_hour#315), isnotnull(t_minute#316), (t_hour#315 = 10), (t_minute#316 >= 30), isnotnu..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/time_dim], PartitionFilters: [], PushedFilters: [IsNotNull(t_hour), IsNotNull(t_minute), EqualTo(t_hour,10), GreaterThanOrEqual(t_minute,30), IsN..., ReadSchema: struct<t_time_sk:int,t_hour:int,t_minute:int>
+   :  :  :                    +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=683]
+   :  :  :                       +- Project [s_store_sk#322]
+   :  :  :                          +- Filter ((isnotnull(s_store_name#327) AND (s_store_name#327 = ese)) AND isnotnull(s_store_sk#322))
+   :  :  :                             +- FileScan parquet tpcds_100_parquet.store[s_store_sk#322,s_store_name#327] Batched: true, DataFilters: [isnotnull(s_store_name#327), (s_store_name#327 = ese), isnotnull(s_store_sk#322)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/store], PartitionFilters: [], PushedFilters: [IsNotNull(s_store_name), EqualTo(s_store_name,ese), IsNotNull(s_store_sk)], ReadSchema: struct<s_store_sk:int,s_store_name:string>
+   :  :  +- BroadcastExchange IdentityBroadcastMode, [plan_id=709]
+   :  :     +- HashAggregate(keys=[], functions=[count(1)])
+   :  :        +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=706]
+   :  :           +- HashAggregate(keys=[], functions=[partial_count(1)])
+   :  :              +- Project
+   :  :                 +- BroadcastHashJoin [ss_store_sk#358], [s_store_sk#389], Inner, BuildRight, false
+   :  :                    :- Project [ss_store_sk#358]
+   :  :                    :  +- BroadcastHashJoin [ss_sold_time_sk#352], [t_time_sk#379], Inner, BuildRight, false
+   :  :                    :     :- Project [ss_sold_time_sk#352, ss_store_sk#358]
+   :  :                    :     :  +- BroadcastHashJoin [ss_hdemo_sk#356], [hd_demo_sk#374], Inner, BuildRight, false
+   :  :                    :     :     :- Filter ((isnotnull(ss_hdemo_sk#356) AND isnotnull(ss_sold_time_sk#352)) AND isnotnull(ss_store_sk#358))
+   :  :                    :     :     :  +- FileScan parquet tpcds_100_parquet.store_sales[ss_sold_time_sk#352,ss_hdemo_sk#356,ss_store_sk#358] Batched: true, DataFilters: [isnotnull(ss_hdemo_sk#356), isnotnull(ss_sold_time_sk#352), isnotnull(ss_store_sk#358)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/store_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ss_hdemo_sk), IsNotNull(ss_sold_time_sk), IsNotNull(ss_store_sk)], ReadSchema: struct<ss_sold_time_sk:int,ss_hdemo_sk:int,ss_store_sk:int>
+   :  :                    :     :     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=693]
+   :  :                    :     :        +- Project [hd_demo_sk#374]
+   :  :                    :     :           +- Filter (((((hd_dep_count#377 = 4) AND (hd_vehicle_count#378 <= 6)) OR ((hd_dep_count#377 = 2) AND (hd_vehicle_count#378 <= 4))) OR ((hd_dep_count#377 = 0) AND (hd_vehicle_count#378 <= 2))) AND isnotnull(hd_demo_sk#374))
+   :  :                    :     :              +- FileScan parquet tpcds_100_parquet.household_demographics[hd_demo_sk#374,hd_dep_count#377,hd_vehicle_count#378] Batched: true, DataFilters: [((((hd_dep_count#377 = 4) AND (hd_vehicle_count#378 <= 6)) OR ((hd_dep_count#377 = 2) AND (hd_ve..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/household_..., PartitionFilters: [], PushedFilters: [Or(Or(And(EqualTo(hd_dep_count,4),LessThanOrEqual(hd_vehicle_count,6)),And(EqualTo(hd_dep_count,..., ReadSchema: struct<hd_demo_sk:int,hd_dep_count:int,hd_vehicle_count:int>
+   :  :                    :     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=697]
+   :  :                    :        +- Project [t_time_sk#379]
+   :  :                    :           +- Filter ((((isnotnull(t_hour#382) AND isnotnull(t_minute#383)) AND (t_hour#382 = 11)) AND (t_minute#383 < 30)) AND isnotnull(t_time_sk#379))
+   :  :                    :              +- FileScan parquet tpcds_100_parquet.time_dim[t_time_sk#379,t_hour#382,t_minute#383] Batched: true, DataFilters: [isnotnull(t_hour#382), isnotnull(t_minute#383), (t_hour#382 = 11), (t_minute#383 < 30), isnotnul..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/time_dim], PartitionFilters: [], PushedFilters: [IsNotNull(t_hour), IsNotNull(t_minute), EqualTo(t_hour,11), LessThan(t_minute,30), IsNotNull(t_t..., ReadSchema: struct<t_time_sk:int,t_hour:int,t_minute:int>
+   :  :                    +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=701]
+   :  :                       +- Project [s_store_sk#389]
+   :  :                          +- Filter ((isnotnull(s_store_name#394) AND (s_store_name#394 = ese)) AND isnotnull(s_store_sk#389))
+   :  :                             +- FileScan parquet tpcds_100_parquet.store[s_store_sk#389,s_store_name#394] Batched: true, DataFilters: [isnotnull(s_store_name#394), (s_store_name#394 = ese), isnotnull(s_store_sk#389)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/store], PartitionFilters: [], PushedFilters: [IsNotNull(s_store_name), EqualTo(s_store_name,ese), IsNotNull(s_store_sk)], ReadSchema: struct<s_store_sk:int,s_store_name:string>
+   :  +- BroadcastExchange IdentityBroadcastMode, [plan_id=727]
+   :     +- HashAggregate(keys=[], functions=[count(1)])
+   :        +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=724]
+   :           +- HashAggregate(keys=[], functions=[partial_count(1)])
+   :              +- Project
+   :                 +- BroadcastHashJoin [ss_store_sk#425], [s_store_sk#456], Inner, BuildRight, false
+   :                    :- Project [ss_store_sk#425]
+   :                    :  +- BroadcastHashJoin [ss_sold_time_sk#419], [t_time_sk#446], Inner, BuildRight, false
+   :                    :     :- Project [ss_sold_time_sk#419, ss_store_sk#425]
+   :                    :     :  +- BroadcastHashJoin [ss_hdemo_sk#423], [hd_demo_sk#441], Inner, BuildRight, false
+   :                    :     :     :- Filter ((isnotnull(ss_hdemo_sk#423) AND isnotnull(ss_sold_time_sk#419)) AND isnotnull(ss_store_sk#425))
+   :                    :     :     :  +- FileScan parquet tpcds_100_parquet.store_sales[ss_sold_time_sk#419,ss_hdemo_sk#423,ss_store_sk#425] Batched: true, DataFilters: [isnotnull(ss_hdemo_sk#423), isnotnull(ss_sold_time_sk#419), isnotnull(ss_store_sk#425)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/store_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ss_hdemo_sk), IsNotNull(ss_sold_time_sk), IsNotNull(ss_store_sk)], ReadSchema: struct<ss_sold_time_sk:int,ss_hdemo_sk:int,ss_store_sk:int>
+   :                    :     :     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=711]
+   :                    :     :        +- Project [hd_demo_sk#441]
+   :                    :     :           +- Filter (((((hd_dep_count#444 = 4) AND (hd_vehicle_count#445 <= 6)) OR ((hd_dep_count#444 = 2) AND (hd_vehicle_count#445 <= 4))) OR ((hd_dep_count#444 = 0) AND (hd_vehicle_count#445 <= 2))) AND isnotnull(hd_demo_sk#441))
+   :                    :     :              +- FileScan parquet tpcds_100_parquet.household_demographics[hd_demo_sk#441,hd_dep_count#444,hd_vehicle_count#445] Batched: true, DataFilters: [((((hd_dep_count#444 = 4) AND (hd_vehicle_count#445 <= 6)) OR ((hd_dep_count#444 = 2) AND (hd_ve..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/household_..., PartitionFilters: [], PushedFilters: [Or(Or(And(EqualTo(hd_dep_count,4),LessThanOrEqual(hd_vehicle_count,6)),And(EqualTo(hd_dep_count,..., ReadSchema: struct<hd_demo_sk:int,hd_dep_count:int,hd_vehicle_count:int>
+   :                    :     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=715]
+   :                    :        +- Project [t_time_sk#446]
+   :                    :           +- Filter ((((isnotnull(t_hour#449) AND isnotnull(t_minute#450)) AND (t_hour#449 = 11)) AND (t_minute#450 >= 30)) AND isnotnull(t_time_sk#446))
+   :                    :              +- FileScan parquet tpcds_100_parquet.time_dim[t_time_sk#446,t_hour#449,t_minute#450] Batched: true, DataFilters: [isnotnull(t_hour#449), isnotnull(t_minute#450), (t_hour#449 = 11), (t_minute#450 >= 30), isnotnu..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/time_dim], PartitionFilters: [], PushedFilters: [IsNotNull(t_hour), IsNotNull(t_minute), EqualTo(t_hour,11), GreaterThanOrEqual(t_minute,30), IsN..., ReadSchema: struct<t_time_sk:int,t_hour:int,t_minute:int>
+   :                    +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=719]
+   :                       +- Project [s_store_sk#456]
+   :                          +- Filter ((isnotnull(s_store_name#461) AND (s_store_name#461 = ese)) AND isnotnull(s_store_sk#456))
+   :                             +- FileScan parquet tpcds_100_parquet.store[s_store_sk#456,s_store_name#461] Batched: true, DataFilters: [isnotnull(s_store_name#461), (s_store_name#461 = ese), isnotnull(s_store_sk#456)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/store], PartitionFilters: [], PushedFilters: [IsNotNull(s_store_name), EqualTo(s_store_name,ese), IsNotNull(s_store_sk)], ReadSchema: struct<s_store_sk:int,s_store_name:string>
+   +- BroadcastExchange IdentityBroadcastMode, [plan_id=745]
+      +- HashAggregate(keys=[], functions=[count(1)])
+         +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=742]
+            +- HashAggregate(keys=[], functions=[partial_count(1)])
+               +- Project
+                  +- BroadcastHashJoin [ss_store_sk#492], [s_store_sk#523], Inner, BuildRight, false
+                     :- Project [ss_store_sk#492]
+                     :  +- BroadcastHashJoin [ss_sold_time_sk#486], [t_time_sk#513], Inner, BuildRight, false
+                     :     :- Project [ss_sold_time_sk#486, ss_store_sk#492]
+                     :     :  +- BroadcastHashJoin [ss_hdemo_sk#490], [hd_demo_sk#508], Inner, BuildRight, false
+                     :     :     :- Filter ((isnotnull(ss_hdemo_sk#490) AND isnotnull(ss_sold_time_sk#486)) AND isnotnull(ss_store_sk#492))
+                     :     :     :  +- FileScan parquet tpcds_100_parquet.store_sales[ss_sold_time_sk#486,ss_hdemo_sk#490,ss_store_sk#492] Batched: true, DataFilters: [isnotnull(ss_hdemo_sk#490), isnotnull(ss_sold_time_sk#486), isnotnull(ss_store_sk#492)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/store_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ss_hdemo_sk), IsNotNull(ss_sold_time_sk), IsNotNull(ss_store_sk)], ReadSchema: struct<ss_sold_time_sk:int,ss_hdemo_sk:int,ss_store_sk:int>
+                     :     :     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=729]
+                     :     :        +- Project [hd_demo_sk#508]
+                     :     :           +- Filter (((((hd_dep_count#511 = 4) AND (hd_vehicle_count#512 <= 6)) OR ((hd_dep_count#511 = 2) AND (hd_vehicle_count#512 <= 4))) OR ((hd_dep_count#511 = 0) AND (hd_vehicle_count#512 <= 2))) AND isnotnull(hd_demo_sk#508))
+                     :     :              +- FileScan parquet tpcds_100_parquet.household_demographics[hd_demo_sk#508,hd_dep_count#511,hd_vehicle_count#512] Batched: true, DataFilters: [((((hd_dep_count#511 = 4) AND (hd_vehicle_count#512 <= 6)) OR ((hd_dep_count#511 = 2) AND (hd_ve..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/household_..., PartitionFilters: [], PushedFilters: [Or(Or(And(EqualTo(hd_dep_count,4),LessThanOrEqual(hd_vehicle_count,6)),And(EqualTo(hd_dep_count,..., ReadSchema: struct<hd_demo_sk:int,hd_dep_count:int,hd_vehicle_count:int>
+                     :     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=733]
+                     :        +- Project [t_time_sk#513]
+                     :           +- Filter ((((isnotnull(t_hour#516) AND isnotnull(t_minute#517)) AND (t_hour#516 = 12)) AND (t_minute#517 < 30)) AND isnotnull(t_time_sk#513))
+                     :              +- FileScan parquet tpcds_100_parquet.time_dim[t_time_sk#513,t_hour#516,t_minute#517] Batched: true, DataFilters: [isnotnull(t_hour#516), isnotnull(t_minute#517), (t_hour#516 = 12), (t_minute#517 < 30), isnotnul..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/time_dim], PartitionFilters: [], PushedFilters: [IsNotNull(t_hour), IsNotNull(t_minute), EqualTo(t_hour,12), LessThan(t_minute,30), IsNotNull(t_t..., ReadSchema: struct<t_time_sk:int,t_hour:int,t_minute:int>
+                     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=737]
+                        +- Project [s_store_sk#523]
+                           +- Filter ((isnotnull(s_store_name#528) AND (s_store_name#528 = ese)) AND isnotnull(s_store_sk#523))
+                              +- FileScan parquet tpcds_100_parquet.store[s_store_sk#523,s_store_name#528] Batched: true, DataFilters: [isnotnull(s_store_name#528), (s_store_name#528 = ese), isnotnull(s_store_sk#523)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/store], PartitionFilters: [], PushedFilters: [IsNotNull(s_store_name), EqualTo(s_store_name,ese), IsNotNull(s_store_sk)], ReadSchema: struct<s_store_sk:int,s_store_name:string>
+
+

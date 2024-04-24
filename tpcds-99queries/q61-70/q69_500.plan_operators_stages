@@ -1,0 +1,39 @@
+// The Round Table
+digraph {
+	node [shape=box]
+	2 [label="NormalStage (end_node_id 2): length of beginNodesToChains is 4
+[4,8,12,4,4,9,0,0]
+Chain 0 is : Sort [ss_customer_sk#52 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->SortMergeJoin->SortMergeJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+Chain 1 is : Sort [ws_bill_customer_sk#106 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->SortMergeJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+Chain 2 is : Sort [c_customer_sk#9 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->SortMergeJoin->SortMergeJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+Chain 3 is : Sort [cs_ship_customer_sk#144 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+"]
+	0 [label="NormalStage (end_node_id 0): length of beginNodesToChains is 1
+[1,0,0,1,0,0,0,0]
+Chain 0 is : HashAggregate(keys=[cd_gender#41, cd_marital_status#42, cd_education_status#43, cd_purchase_estimate#44, cd_credit_rating#45], functions=[count(1)])
+HashAggregate->TakeOrderedAndProject
+"]
+	2 -> 0
+	46 [label="Broadcast stage(end_node_id 46): customer_address,10000FileScan->Filter->Project->BroadcastExchange"]
+	46 -> 2
+	50 [label="Broadcast stage(end_node_id 50): customer_demographics,10000FileScan->Filter->BroadcastExchange"]
+	50 -> 2
+	22 [label="Broadcast stage(end_node_id 22): date_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	22 -> 17
+	32 [label="Broadcast stage(end_node_id 32): date_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	32 -> 27
+	42 [label="Broadcast stage(end_node_id 42): date_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	42 -> 37
+	17 [label="First stage (end_node_id 17): File Scan store_sales,6087.0FileScan->Filter->BroadcastHashJoin->Project->ExchangeHashpartitioning"]
+	17 -> 2
+	27 [label="First stage (end_node_id 27): File Scan web_sales,1558.8FileScan->Filter->BroadcastHashJoin->Project->ExchangeHashpartitioning"]
+	27 -> 2
+	13 [label="First stage (end_node_id 13): File Scan customer,2212.5FileScan->Filter->ExchangeHashpartitioning"]
+	13 -> 2
+	37 [label="First stage (end_node_id 37): File Scan catalog_sales,3311.8FileScan->Filter->BroadcastHashJoin->Project->ExchangeHashpartitioning"]
+	37 -> 2
+}

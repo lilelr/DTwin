@@ -1,0 +1,68 @@
+== Physical Plan ==
+AdaptiveSparkPlan isFinalPlan=false
++- BroadcastNestedLoopJoin BuildRight, Cross
+   :- BroadcastNestedLoopJoin BuildRight, Cross
+   :  :- BroadcastNestedLoopJoin BuildRight, Cross
+   :  :  :- BroadcastNestedLoopJoin BuildRight, Cross
+   :  :  :  :- BroadcastNestedLoopJoin BuildRight, Cross
+   :  :  :  :  :- HashAggregate(keys=[], functions=[avg(ss_list_price#30), count(ss_list_price#30), count(distinct ss_list_price#198)])
+   :  :  :  :  :  +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=153]
+   :  :  :  :  :     +- HashAggregate(keys=[], functions=[merge_avg(ss_list_price#30), merge_count(ss_list_price#30), partial_count(distinct ss_list_price#198)])
+   :  :  :  :  :        +- HashAggregate(keys=[ss_list_price#198], functions=[merge_avg(ss_list_price#30), merge_count(ss_list_price#30)])
+   :  :  :  :  :           +- Exchange hashpartitioning(ss_list_price#198, 200), ENSURE_REQUIREMENTS, [plan_id=149]
+   :  :  :  :  :              +- HashAggregate(keys=[knownfloatingpointnormalized(normalizenanandzero(ss_list_price#30)) AS ss_list_price#198], functions=[partial_avg(ss_list_price#30), partial_count(ss_list_price#30)])
+   :  :  :  :  :                 +- Project [ss_list_price#30]
+   :  :  :  :  :                    +- Filter (((isnotnull(ss_quantity#28) AND (ss_quantity#28 >= 0)) AND (ss_quantity#28 <= 5)) AND ((((ss_list_price#30 >= 8.0) AND (ss_list_price#30 <= 18.0)) OR ((ss_coupon_amt#37 >= 459.0) AND (ss_coupon_amt#37 <= 1459.0))) OR ((ss_wholesale_cost#29 >= 57.0) AND (ss_wholesale_cost#29 <= 77.0))))
+   :  :  :  :  :                       +- FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#28,ss_wholesale_cost#29,ss_list_price#30,ss_coupon_amt#37] Batched: true, DataFilters: [isnotnull(ss_quantity#28), (ss_quantity#28 >= 0), (ss_quantity#28 <= 5), ((((ss_list_price#30 >=..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/store_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ss_quantity), GreaterThanOrEqual(ss_quantity,0), LessThanOrEqual(ss_quantity,5), Or(Or..., ReadSchema: struct<ss_quantity:int,ss_wholesale_cost:double,ss_list_price:double,ss_coupon_amt:double>
+   :  :  :  :  +- BroadcastExchange IdentityBroadcastMode, [plan_id=162]
+   :  :  :  :     +- HashAggregate(keys=[], functions=[avg(ss_list_price#53), count(ss_list_price#53), count(distinct ss_list_price#209)])
+   :  :  :  :        +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=159]
+   :  :  :  :           +- HashAggregate(keys=[], functions=[merge_avg(ss_list_price#53), merge_count(ss_list_price#53), partial_count(distinct ss_list_price#209)])
+   :  :  :  :              +- HashAggregate(keys=[ss_list_price#209], functions=[merge_avg(ss_list_price#53), merge_count(ss_list_price#53)])
+   :  :  :  :                 +- Exchange hashpartitioning(ss_list_price#209, 200), ENSURE_REQUIREMENTS, [plan_id=155]
+   :  :  :  :                    +- HashAggregate(keys=[knownfloatingpointnormalized(normalizenanandzero(ss_list_price#53)) AS ss_list_price#209], functions=[partial_avg(ss_list_price#53), partial_count(ss_list_price#53)])
+   :  :  :  :                       +- Project [ss_list_price#53]
+   :  :  :  :                          +- Filter (((isnotnull(ss_quantity#51) AND (ss_quantity#51 >= 6)) AND (ss_quantity#51 <= 10)) AND ((((ss_list_price#53 >= 90.0) AND (ss_list_price#53 <= 100.0)) OR ((ss_coupon_amt#60 >= 2323.0) AND (ss_coupon_amt#60 <= 3323.0))) OR ((ss_wholesale_cost#52 >= 31.0) AND (ss_wholesale_cost#52 <= 51.0))))
+   :  :  :  :                             +- FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#51,ss_wholesale_cost#52,ss_list_price#53,ss_coupon_amt#60] Batched: true, DataFilters: [isnotnull(ss_quantity#51), (ss_quantity#51 >= 6), (ss_quantity#51 <= 10), ((((ss_list_price#53 >..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/store_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ss_quantity), GreaterThanOrEqual(ss_quantity,6), LessThanOrEqual(ss_quantity,10), Or(O..., ReadSchema: struct<ss_quantity:int,ss_wholesale_cost:double,ss_list_price:double,ss_coupon_amt:double>
+   :  :  :  +- BroadcastExchange IdentityBroadcastMode, [plan_id=171]
+   :  :  :     +- HashAggregate(keys=[], functions=[avg(ss_list_price#76), count(ss_list_price#76), count(distinct ss_list_price#220)])
+   :  :  :        +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=168]
+   :  :  :           +- HashAggregate(keys=[], functions=[merge_avg(ss_list_price#76), merge_count(ss_list_price#76), partial_count(distinct ss_list_price#220)])
+   :  :  :              +- HashAggregate(keys=[ss_list_price#220], functions=[merge_avg(ss_list_price#76), merge_count(ss_list_price#76)])
+   :  :  :                 +- Exchange hashpartitioning(ss_list_price#220, 200), ENSURE_REQUIREMENTS, [plan_id=164]
+   :  :  :                    +- HashAggregate(keys=[knownfloatingpointnormalized(normalizenanandzero(ss_list_price#76)) AS ss_list_price#220], functions=[partial_avg(ss_list_price#76), partial_count(ss_list_price#76)])
+   :  :  :                       +- Project [ss_list_price#76]
+   :  :  :                          +- Filter (((isnotnull(ss_quantity#74) AND (ss_quantity#74 >= 11)) AND (ss_quantity#74 <= 15)) AND ((((ss_list_price#76 >= 142.0) AND (ss_list_price#76 <= 152.0)) OR ((ss_coupon_amt#83 >= 12214.0) AND (ss_coupon_amt#83 <= 13214.0))) OR ((ss_wholesale_cost#75 >= 79.0) AND (ss_wholesale_cost#75 <= 99.0))))
+   :  :  :                             +- FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#74,ss_wholesale_cost#75,ss_list_price#76,ss_coupon_amt#83] Batched: true, DataFilters: [isnotnull(ss_quantity#74), (ss_quantity#74 >= 11), (ss_quantity#74 <= 15), ((((ss_list_price#76 ..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/store_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ss_quantity), GreaterThanOrEqual(ss_quantity,11), LessThanOrEqual(ss_quantity,15), Or(..., ReadSchema: struct<ss_quantity:int,ss_wholesale_cost:double,ss_list_price:double,ss_coupon_amt:double>
+   :  :  +- BroadcastExchange IdentityBroadcastMode, [plan_id=180]
+   :  :     +- HashAggregate(keys=[], functions=[avg(ss_list_price#99), count(ss_list_price#99), count(distinct ss_list_price#231)])
+   :  :        +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=177]
+   :  :           +- HashAggregate(keys=[], functions=[merge_avg(ss_list_price#99), merge_count(ss_list_price#99), partial_count(distinct ss_list_price#231)])
+   :  :              +- HashAggregate(keys=[ss_list_price#231], functions=[merge_avg(ss_list_price#99), merge_count(ss_list_price#99)])
+   :  :                 +- Exchange hashpartitioning(ss_list_price#231, 200), ENSURE_REQUIREMENTS, [plan_id=173]
+   :  :                    +- HashAggregate(keys=[knownfloatingpointnormalized(normalizenanandzero(ss_list_price#99)) AS ss_list_price#231], functions=[partial_avg(ss_list_price#99), partial_count(ss_list_price#99)])
+   :  :                       +- Project [ss_list_price#99]
+   :  :                          +- Filter (((isnotnull(ss_quantity#97) AND (ss_quantity#97 >= 16)) AND (ss_quantity#97 <= 20)) AND ((((ss_list_price#99 >= 135.0) AND (ss_list_price#99 <= 145.0)) OR ((ss_coupon_amt#106 >= 6071.0) AND (ss_coupon_amt#106 <= 7071.0))) OR ((ss_wholesale_cost#98 >= 38.0) AND (ss_wholesale_cost#98 <= 58.0))))
+   :  :                             +- FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#97,ss_wholesale_cost#98,ss_list_price#99,ss_coupon_amt#106] Batched: true, DataFilters: [isnotnull(ss_quantity#97), (ss_quantity#97 >= 16), (ss_quantity#97 <= 20), ((((ss_list_price#99 ..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/store_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ss_quantity), GreaterThanOrEqual(ss_quantity,16), LessThanOrEqual(ss_quantity,20), Or(..., ReadSchema: struct<ss_quantity:int,ss_wholesale_cost:double,ss_list_price:double,ss_coupon_amt:double>
+   :  +- BroadcastExchange IdentityBroadcastMode, [plan_id=189]
+   :     +- HashAggregate(keys=[], functions=[avg(ss_list_price#122), count(ss_list_price#122), count(distinct ss_list_price#242)])
+   :        +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=186]
+   :           +- HashAggregate(keys=[], functions=[merge_avg(ss_list_price#122), merge_count(ss_list_price#122), partial_count(distinct ss_list_price#242)])
+   :              +- HashAggregate(keys=[ss_list_price#242], functions=[merge_avg(ss_list_price#122), merge_count(ss_list_price#122)])
+   :                 +- Exchange hashpartitioning(ss_list_price#242, 200), ENSURE_REQUIREMENTS, [plan_id=182]
+   :                    +- HashAggregate(keys=[knownfloatingpointnormalized(normalizenanandzero(ss_list_price#122)) AS ss_list_price#242], functions=[partial_avg(ss_list_price#122), partial_count(ss_list_price#122)])
+   :                       +- Project [ss_list_price#122]
+   :                          +- Filter (((isnotnull(ss_quantity#120) AND (ss_quantity#120 >= 21)) AND (ss_quantity#120 <= 25)) AND ((((ss_list_price#122 >= 122.0) AND (ss_list_price#122 <= 132.0)) OR ((ss_coupon_amt#129 >= 836.0) AND (ss_coupon_amt#129 <= 1836.0))) OR ((ss_wholesale_cost#121 >= 17.0) AND (ss_wholesale_cost#121 <= 37.0))))
+   :                             +- FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#120,ss_wholesale_cost#121,ss_list_price#122,ss_coupon_amt#129] Batched: true, DataFilters: [isnotnull(ss_quantity#120), (ss_quantity#120 >= 21), (ss_quantity#120 <= 25), ((((ss_list_price#..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/store_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ss_quantity), GreaterThanOrEqual(ss_quantity,21), LessThanOrEqual(ss_quantity,25), Or(..., ReadSchema: struct<ss_quantity:int,ss_wholesale_cost:double,ss_list_price:double,ss_coupon_amt:double>
+   +- BroadcastExchange IdentityBroadcastMode, [plan_id=198]
+      +- HashAggregate(keys=[], functions=[avg(ss_list_price#145), count(ss_list_price#145), count(distinct ss_list_price#253)])
+         +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=195]
+            +- HashAggregate(keys=[], functions=[merge_avg(ss_list_price#145), merge_count(ss_list_price#145), partial_count(distinct ss_list_price#253)])
+               +- HashAggregate(keys=[ss_list_price#253], functions=[merge_avg(ss_list_price#145), merge_count(ss_list_price#145)])
+                  +- Exchange hashpartitioning(ss_list_price#253, 200), ENSURE_REQUIREMENTS, [plan_id=191]
+                     +- HashAggregate(keys=[knownfloatingpointnormalized(normalizenanandzero(ss_list_price#145)) AS ss_list_price#253], functions=[partial_avg(ss_list_price#145), partial_count(ss_list_price#145)])
+                        +- Project [ss_list_price#145]
+                           +- Filter (((isnotnull(ss_quantity#143) AND (ss_quantity#143 >= 26)) AND (ss_quantity#143 <= 30)) AND ((((ss_list_price#145 >= 154.0) AND (ss_list_price#145 <= 164.0)) OR ((ss_coupon_amt#152 >= 7326.0) AND (ss_coupon_amt#152 <= 8326.0))) OR ((ss_wholesale_cost#144 >= 7.0) AND (ss_wholesale_cost#144 <= 27.0))))
+                              +- FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#143,ss_wholesale_cost#144,ss_list_price#145,ss_coupon_amt#152] Batched: true, DataFilters: [isnotnull(ss_quantity#143), (ss_quantity#143 >= 26), (ss_quantity#143 <= 30), ((((ss_list_price#..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/store_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ss_quantity), GreaterThanOrEqual(ss_quantity,26), LessThanOrEqual(ss_quantity,30), Or(..., ReadSchema: struct<ss_quantity:int,ss_wholesale_cost:double,ss_list_price:double,ss_coupon_amt:double>
+
+

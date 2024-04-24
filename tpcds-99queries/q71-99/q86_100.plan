@@ -1,0 +1,26 @@
+== Physical Plan ==
+AdaptiveSparkPlan isFinalPlan=false
++- TakeOrderedAndProject(limit=100, orderBy=[lochierarchy#1 DESC NULLS LAST,CASE WHEN (lochierarchy#1 = 0) THEN i_category#97 END ASC NULLS FIRST,rank_within_parent#2 ASC NULLS FIRST], output=[total_sum#0,i_category#97,i_class#98,lochierarchy#1,rank_within_parent#2])
+   +- Project [total_sum#0, i_category#97, i_class#98, lochierarchy#1, rank_within_parent#2]
+      +- Window [rank(_w3#113) windowspecdefinition(_w1#111, _w2#112, _w3#113 DESC NULLS LAST, specifiedwindowframe(RowFrame, unboundedpreceding$(), currentrow$())) AS rank_within_parent#2], [_w1#111, _w2#112], [_w3#113 DESC NULLS LAST]
+         +- Sort [_w1#111 ASC NULLS FIRST, _w2#112 ASC NULLS FIRST, _w3#113 DESC NULLS LAST], false, 0
+            +- Exchange hashpartitioning(_w1#111, _w2#112, 200), ENSURE_REQUIREMENTS, [plan_id=88]
+               +- HashAggregate(keys=[i_category#97, i_class#98, spark_grouping_id#96L], functions=[sum(ws_net_paid#34)])
+                  +- Exchange hashpartitioning(i_category#97, i_class#98, spark_grouping_id#96L, 200), ENSURE_REQUIREMENTS, [plan_id=85]
+                     +- HashAggregate(keys=[i_category#97, i_class#98, spark_grouping_id#96L], functions=[partial_sum(ws_net_paid#34)])
+                        +- Expand [[ws_net_paid#34, i_category#79, i_class#77, 0], [ws_net_paid#34, i_category#79, null, 1], [ws_net_paid#34, null, null, 3]], [ws_net_paid#34, i_category#97, i_class#98, spark_grouping_id#96L]
+                           +- Project [ws_net_paid#34, i_category#79, i_class#77]
+                              +- BroadcastHashJoin [ws_item_sk#8], [i_item_sk#67], Inner, BuildRight, false
+                                 :- Project [ws_item_sk#8, ws_net_paid#34]
+                                 :  +- BroadcastHashJoin [ws_sold_date_sk#5], [d_date_sk#39], Inner, BuildRight, false
+                                 :     :- Filter (isnotnull(ws_sold_date_sk#5) AND isnotnull(ws_item_sk#8))
+                                 :     :  +- FileScan parquet tpcds_100_parquet.web_sales[ws_sold_date_sk#5,ws_item_sk#8,ws_net_paid#34] Batched: true, DataFilters: [isnotnull(ws_sold_date_sk#5), isnotnull(ws_item_sk#8)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/web_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ws_sold_date_sk), IsNotNull(ws_item_sk)], ReadSchema: struct<ws_sold_date_sk:int,ws_item_sk:int,ws_net_paid:double>
+                                 :     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=75]
+                                 :        +- Project [d_date_sk#39]
+                                 :           +- Filter (((isnotnull(d_month_seq#42) AND (d_month_seq#42 >= 1200)) AND (d_month_seq#42 <= 1211)) AND isnotnull(d_date_sk#39))
+                                 :              +- FileScan parquet tpcds_100_parquet.date_dim[d_date_sk#39,d_month_seq#42] Batched: true, DataFilters: [isnotnull(d_month_seq#42), (d_month_seq#42 >= 1200), (d_month_seq#42 <= 1211), isnotnull(d_date_..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/date_dim], PartitionFilters: [], PushedFilters: [IsNotNull(d_month_seq), GreaterThanOrEqual(d_month_seq,1200), LessThanOrEqual(d_month_seq,1211),..., ReadSchema: struct<d_date_sk:int,d_month_seq:int>
+                                 +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=79]
+                                    +- Filter isnotnull(i_item_sk#67)
+                                       +- FileScan parquet tpcds_100_parquet.item[i_item_sk#67,i_class#77,i_category#79] Batched: true, DataFilters: [isnotnull(i_item_sk#67)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_100/tpcds_parquet/item], PartitionFilters: [], PushedFilters: [IsNotNull(i_item_sk)], ReadSchema: struct<i_item_sk:int,i_class:string,i_category:string>
+
+

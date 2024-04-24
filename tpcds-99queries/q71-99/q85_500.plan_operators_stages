@@ -1,0 +1,33 @@
+// The Round Table
+digraph {
+	node [shape=box]
+	2 [label="NormalStage (end_node_id 2): length of beginNodesToChains is 2
+[2,12,14,2,2,2,0,0]
+Chain 0 is : Sort [ws_item_sk#3 ASC NULLS FIRST, ws_order_number#17L ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+Chain 1 is : Sort [wr_item_sk#36 ASC NULLS FIRST, wr_order_number#47L ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+"]
+	0 [label="NormalStage (end_node_id 0): length of beginNodesToChains is 1
+[1,0,0,1,0,0,0,0]
+Chain 0 is : HashAggregate(keys=[r_reason_desc#124], functions=[avg(ws_quantity#18), avg(wr_refunded_cash#54), avg(wr_fee#52)])
+HashAggregate->TakeOrderedAndProject
+"]
+	2 -> 0
+	26 [label="Broadcast stage(end_node_id 26): web_page,10000FileScan->Filter->BroadcastExchange"]
+	26 -> 2
+	29 [label="Broadcast stage(end_node_id 29): customer_demographics,10000FileScan->Filter->BroadcastExchange"]
+	29 -> 2
+	32 [label="Broadcast stage(end_node_id 32): customer_demographics,10000FileScan->Filter->BroadcastExchange"]
+	32 -> 2
+	35 [label="Broadcast stage(end_node_id 35): customer_address,10000FileScan->Filter->Project->BroadcastExchange"]
+	35 -> 2
+	39 [label="Broadcast stage(end_node_id 39): date_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	39 -> 2
+	43 [label="Broadcast stage(end_node_id 43): reason,10000FileScan->Filter->BroadcastExchange"]
+	43 -> 2
+	19 [label="First stage (end_node_id 19): File Scan web_sales,5455.9FileScan->Filter->ExchangeHashpartitioning"]
+	19 -> 2
+	23 [label="First stage (end_node_id 23): File Scan web_returns,0FileScan->Filter->ExchangeHashpartitioning"]
+	23 -> 2
+}

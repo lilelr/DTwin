@@ -1,0 +1,60 @@
+// The Round Table
+digraph {
+	0 [label=TakeOrderedAndProject]
+	1 [label=HashAggregate]
+	2 [label="Exchange hashpartitioning"]
+	3 [label=HashAggregate]
+	4 [label=Expand]
+	5 [label=Project]
+	6 [label=BroadcastHashJoin]
+	7 [label=Project]
+	8 [label=BroadcastHashJoin]
+	9 [label=Project]
+	10 [label=BroadcastHashJoin]
+	11 [label=Project]
+	12 [label=BroadcastHashJoin]
+	13 [label=Filter]
+	14 [label="Scan parquet tpcds_100_parquet.store_sales"]
+	15 [label=BroadcastExchange]
+	16 [label=Project]
+	17 [label=Filter]
+	18 [label="Scan parquet tpcds_100_parquet.customer_demographics"]
+	19 [label=BroadcastExchange]
+	20 [label=Project]
+	21 [label=Filter]
+	22 [label="Scan parquet tpcds_100_parquet.date_dim"]
+	23 [label=BroadcastExchange]
+	24 [label=Filter]
+	25 [label="Scan parquet tpcds_100_parquet.store"]
+	26 [label=BroadcastExchange]
+	27 [label=Filter]
+	28 [label="Scan parquet tpcds_100_parquet.item"]
+	1 -> 0
+	2 -> 1
+	3 -> 2
+	4 -> 3
+	5 -> 4
+	6 -> 5
+	7 -> 6
+	8 -> 7
+	9 -> 8
+	10 -> 9
+	11 -> 10
+	12 -> 11
+	13 -> 12
+	14 -> 13
+	15 -> 12
+	16 -> 15
+	17 -> 16
+	18 -> 17
+	19 -> 10
+	20 -> 19
+	21 -> 20
+	22 -> 21
+	23 -> 8
+	24 -> 23
+	25 -> 24
+	26 -> 6
+	27 -> 26
+	28 -> 27
+}

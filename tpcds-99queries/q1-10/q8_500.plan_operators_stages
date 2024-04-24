@@ -1,0 +1,41 @@
+// The Round Table
+digraph {
+	node [shape=box]
+	30 [label="NormalStage (end_node_id 30): length of beginNodesToChains is 1
+[1,0,1,1,0,0,1,0]
+Chain 0 is : HashAggregate(keys=[ca_zip#125], functions=[count(1)])
+HashAggregate->Filter->Project->ExchangeHashpartitioning
+"]
+	21 [label="NormalStage (end_node_id 21): length of beginNodesToChains is 2
+[2,0,2,2,2,2,0,0]
+Chain 0 is : Sort [coalesce(ca_zip#1, ) ASC NULLS FIRST, isnull(ca_zip#1) ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->HashAggregate->ExchangeHashpartitioning
+Chain 1 is : Sort [coalesce(substr(ca_zip#94, 1, 5), ) ASC NULLS FIRST, isnull(substr(ca_zip#94, 1, 5)) ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->HashAggregate->ExchangeHashpartitioning
+"]
+	2 [label="NormalStage (end_node_id 2): length of beginNodesToChains is 1
+[1,1,1,2,0,0,0,0]
+Chain 0 is : HashAggregate(keys=[ca_zip#0], functions=[])
+HashAggregate->BroadcastExchange->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+"]
+	0 [label="NormalStage (end_node_id 0): length of beginNodesToChains is 1
+[1,0,0,1,0,0,0,0]
+Chain 0 is : HashAggregate(keys=[s_store_name#61], functions=[sum(ss_net_profit#27)])
+HashAggregate->TakeOrderedAndProject
+"]
+	30 -> 21
+	21 -> 2
+	2 -> 0
+	38 [label="Broadcast stage(end_node_id 38): customer_address,10000FileScan->Filter->BroadcastExchange"]
+	38 -> 34
+	12 [label="Broadcast stage(end_node_id 12): date_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	12 -> 2
+	16 [label="Broadcast stage(end_node_id 16): store,10000FileScan->Filter->BroadcastExchange"]
+	16 -> 2
+	34 [label="First stage (end_node_id 34): File Scan customer,1475.0FileScan->Filter->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning"]
+	34 -> 30
+	2 [label="First stage (end_node_id 2): File Scan store_sales,9130.4FileScan->Filter->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning"]
+	2 -> 0
+	26 [label="First stage (end_node_id 26): File Scan customer_address,0FileScan->Filter->ExchangeHashpartitioning"]
+	26 -> 21
+}

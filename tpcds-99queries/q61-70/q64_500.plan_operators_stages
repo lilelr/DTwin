@@ -1,0 +1,195 @@
+// The Round Table
+digraph {
+	node [shape=box]
+	63 [label="NormalStage (end_node_id 63): length of beginNodesToChains is 2
+[2,0,2,2,2,2,0,0]
+Chain 0 is : Sort [cs_item_sk#37 ASC NULLS FIRST, cs_order_number#39L ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->HashAggregate->ExchangeHashpartitioning
+Chain 1 is : Sort [cr_item_sk#58 ASC NULLS FIRST, cr_order_number#72L ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->HashAggregate->ExchangeHashpartitioning
+"]
+	40 [label="NormalStage (end_node_id 40): length of beginNodesToChains is 2
+[2,4,7,1,2,2,1,0]
+Chain 0 is : HashAggregate(keys=[cs_item_sk#37], functions=[sum(cs_ext_list_price#47), sum(((cr_refunded_cash#79 + cr_reversed_charge#80) + cr_store_credit#81))])
+HashAggregate->Filter->Project->Sort->SortMergeJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->ExchangeHashpartitioning
+Chain 1 is : Sort [ss_item_sk#85 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->ExchangeHashpartitioning
+"]
+	22 [label="NormalStage (end_node_id 22): length of beginNodesToChains is 2
+[2,14,16,0,2,2,0,0]
+Chain 0 is : Sort [ss_customer_sk#86 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->ExchangeHashpartitioning
+Chain 1 is : Sort [c_customer_sk#183 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->ExchangeHashpartitioning
+"]
+	18 [label="NormalStage (end_node_id 18): length of beginNodesToChains is 2
+[2,0,2,0,2,2,0,0]
+Chain 0 is : Sort [ss_addr_sk#89 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->ExchangeHashpartitioning
+Chain 1 is : Sort [ca_address_sk#234 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->ExchangeHashpartitioning
+"]
+	7 [label="NormalStage (end_node_id 7): length of beginNodesToChains is 2
+[2,6,8,2,2,2,0,0]
+Chain 0 is : Sort [c_current_addr_sk#187 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+Chain 1 is : Sort [ca_address_sk#342 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+"]
+	5 [label="NormalStage (end_node_id 5): length of beginNodesToChains is 1
+[1,0,0,1,0,0,0,0]
+Chain 0 is : HashAggregate(keys=[i_product_name#271, i_item_sk#250, s_store_name#159, s_zip#179, ca_street_number#236, ca_street_name#237, ca_city#240, ca_zip#243, ca_street_number#344, ca_street_name#345, ca_city#348, ca_zip#351, d_year#132, d_year#278, d_year#306], functions=[count(1), sum(ss_wholesale_cost#94), sum(ss_list_price#95), sum(ss_coupon_amt#102)])
+HashAggregate->ExchangeHashpartitioning
+"]
+	0 [label="NormalStage (end_node_id 0): length of beginNodesToChains is 2
+[2,0,2,0,4,2,0,0]
+Chain 0 is : Sort [item_sk#3 ASC NULLS FIRST, store_name#4 ASC NULLS FIRST, store_zip#5 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->Empty->Sort
+Chain 1 is : Sort [item_sk#385 ASC NULLS FIRST, store_name#386 ASC NULLS FIRST, store_zip#387 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->Empty->Sort
+"]
+	183 [label="NormalStage (end_node_id 183): length of beginNodesToChains is 2
+[2,0,2,2,2,2,0,0]
+Chain 0 is : Sort [cs_item_sk#837 ASC NULLS FIRST, cs_order_number#839L ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->HashAggregate->ExchangeHashpartitioning
+Chain 1 is : Sort [cr_item_sk#858 ASC NULLS FIRST, cr_order_number#872L ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->HashAggregate->ExchangeHashpartitioning
+"]
+	160 [label="NormalStage (end_node_id 160): length of beginNodesToChains is 2
+[2,4,7,1,2,2,1,0]
+Chain 0 is : HashAggregate(keys=[cs_item_sk#837], functions=[sum(cs_ext_list_price#847), sum(((cr_refunded_cash#879 + cr_reversed_charge#880) + cr_store_credit#881))])
+HashAggregate->Filter->Project->Sort->SortMergeJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->ExchangeHashpartitioning
+Chain 1 is : Sort [ss_item_sk#781 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->ExchangeHashpartitioning
+"]
+	142 [label="NormalStage (end_node_id 142): length of beginNodesToChains is 2
+[2,14,16,0,2,2,0,0]
+Chain 0 is : Sort [ss_customer_sk#782 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->ExchangeHashpartitioning
+Chain 1 is : Sort [c_customer_sk#996 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->ExchangeHashpartitioning
+"]
+	138 [label="NormalStage (end_node_id 138): length of beginNodesToChains is 2
+[2,0,2,0,2,2,0,0]
+Chain 0 is : Sort [ss_addr_sk#785 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->ExchangeHashpartitioning
+Chain 1 is : Sort [ca_address_sk#1061 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->ExchangeHashpartitioning
+"]
+	127 [label="NormalStage (end_node_id 127): length of beginNodesToChains is 2
+[2,6,8,2,2,2,0,0]
+Chain 0 is : Sort [c_current_addr_sk#1000 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+Chain 1 is : Sort [ca_address_sk#1074 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+"]
+	125 [label="NormalStage (end_node_id 125): length of beginNodesToChains is 1
+[1,0,0,1,0,0,0,0]
+Chain 0 is : HashAggregate(keys=[i_product_name#1114, i_item_sk#1093, s_store_name#972, s_zip#992, ca_street_number#1063, ca_street_name#1064, ca_city#1067, ca_zip#1070, ca_street_number#1076, ca_street_name#1077, ca_city#1080, ca_zip#1083, d_year#889, d_year#917, d_year#945], functions=[count(1), sum(ss_wholesale_cost#790), sum(ss_list_price#791), sum(ss_coupon_amt#798)])
+HashAggregate->ExchangeHashpartitioning
+"]
+	48 [label="NormalStage (end_node_id 48): length of beginNodesToChains is 2
+[2,0,2,0,2,2,0,0]
+Chain 0 is : Sort [ss_item_sk#85 ASC NULLS FIRST, ss_ticket_number#92L ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->ExchangeHashpartitioning
+Chain 1 is : Sort [sr_item_sk#108 ASC NULLS FIRST, sr_ticket_number#115L ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->ExchangeHashpartitioning
+"]
+	168 [label="NormalStage (end_node_id 168): length of beginNodesToChains is 2
+[2,0,2,0,2,2,0,0]
+Chain 0 is : Sort [ss_item_sk#781 ASC NULLS FIRST, ss_ticket_number#788L ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->ExchangeHashpartitioning
+Chain 1 is : Sort [sr_item_sk#804 ASC NULLS FIRST, sr_ticket_number#811L ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->ExchangeHashpartitioning
+"]
+	63 -> 40
+	40 -> 22
+	22 -> 18
+	18 -> 7
+	7 -> 5
+	5 -> 0
+	183 -> 160
+	160 -> 142
+	142 -> 138
+	138 -> 127
+	127 -> 125
+	125 -> 0
+	48 -> 40
+	168 -> 160
+	114 [label="Broadcast stage(end_node_id 114): income_band,10000FileScan->Filter->BroadcastExchange"]
+	114 -> 7
+	234 [label="Broadcast stage(end_node_id 234): income_band,10000FileScan->Filter->BroadcastExchange"]
+	234 -> 127
+	117 [label="Broadcast stage(end_node_id 117): income_band,10000FileScan->Filter->BroadcastExchange"]
+	117 -> 7
+	237 [label="Broadcast stage(end_node_id 237): income_band,10000FileScan->Filter->BroadcastExchange"]
+	237 -> 127
+	120 [label="Broadcast stage(end_node_id 120): item,10000FileScan->Filter->Project->BroadcastExchange"]
+	120 -> 7
+	240 [label="Broadcast stage(end_node_id 240): item,10000FileScan->Filter->Project->BroadcastExchange"]
+	240 -> 127
+	85 [label="Broadcast stage(end_node_id 85): date_dim,10000FileScan->Filter->BroadcastExchange"]
+	85 -> 22
+	205 [label="Broadcast stage(end_node_id 205): date_dim,10000FileScan->Filter->BroadcastExchange"]
+	205 -> 142
+	88 [label="Broadcast stage(end_node_id 88): date_dim,10000FileScan->Filter->BroadcastExchange"]
+	88 -> 22
+	208 [label="Broadcast stage(end_node_id 208): date_dim,10000FileScan->Filter->BroadcastExchange"]
+	208 -> 142
+	91 [label="Broadcast stage(end_node_id 91): customer_demographics,10000FileScan->Filter->BroadcastExchange"]
+	91 -> 22
+	211 [label="Broadcast stage(end_node_id 211): customer_demographics,10000FileScan->Filter->BroadcastExchange"]
+	211 -> 142
+	94 [label="Broadcast stage(end_node_id 94): customer_demographics,10000FileScan->Filter->BroadcastExchange"]
+	94 -> 22
+	214 [label="Broadcast stage(end_node_id 214): customer_demographics,10000FileScan->Filter->BroadcastExchange"]
+	214 -> 142
+	97 [label="Broadcast stage(end_node_id 97): promotion,10000FileScan->Filter->BroadcastExchange"]
+	97 -> 22
+	217 [label="Broadcast stage(end_node_id 217): promotion,10000FileScan->Filter->BroadcastExchange"]
+	217 -> 142
+	100 [label="Broadcast stage(end_node_id 100): household_demographics,10000FileScan->Filter->BroadcastExchange"]
+	100 -> 22
+	220 [label="Broadcast stage(end_node_id 220): household_demographics,10000FileScan->Filter->BroadcastExchange"]
+	220 -> 142
+	103 [label="Broadcast stage(end_node_id 103): household_demographics,10000FileScan->Filter->BroadcastExchange"]
+	103 -> 22
+	223 [label="Broadcast stage(end_node_id 223): household_demographics,10000FileScan->Filter->BroadcastExchange"]
+	223 -> 142
+	75 [label="Broadcast stage(end_node_id 75): date_dim,10000FileScan->Filter->BroadcastExchange"]
+	75 -> 40
+	195 [label="Broadcast stage(end_node_id 195): date_dim,10000FileScan->Filter->BroadcastExchange"]
+	195 -> 160
+	78 [label="Broadcast stage(end_node_id 78): store,10000FileScan->Filter->BroadcastExchange"]
+	78 -> 40
+	198 [label="Broadcast stage(end_node_id 198): store,10000FileScan->Filter->BroadcastExchange"]
+	198 -> 160
+	68 [label="First stage (end_node_id 68): File Scan catalog_sales,4967.6FileScan->Filter->ExchangeHashpartitioning"]
+	68 -> 63
+	72 [label="First stage (end_node_id 72): File Scan catalog_returns,0FileScan->Filter->ExchangeHashpartitioning"]
+	72 -> 63
+	188 [label="First stage (end_node_id 188): File Scan catalog_sales,4967.6FileScan->Filter->ExchangeHashpartitioning"]
+	188 -> 183
+	192 [label="First stage (end_node_id 192): File Scan catalog_returns,0FileScan->Filter->ExchangeHashpartitioning"]
+	192 -> 183
+	111 [label="First stage (end_node_id 111): File Scan customer_address,0FileScan->Filter->ExchangeHashpartitioning"]
+	111 -> 7
+	231 [label="First stage (end_node_id 231): File Scan customer_address,0FileScan->Filter->ExchangeHashpartitioning"]
+	231 -> 127
+	107 [label="First stage (end_node_id 107): File Scan customer_address,0FileScan->Filter->ExchangeHashpartitioning"]
+	107 -> 18
+	227 [label="First stage (end_node_id 227): File Scan customer_address,0FileScan->Filter->ExchangeHashpartitioning"]
+	227 -> 138
+	82 [label="First stage (end_node_id 82): File Scan customer,4425.0FileScan->Filter->ExchangeHashpartitioning"]
+	82 -> 22
+	202 [label="First stage (end_node_id 202): File Scan customer,4425.0FileScan->Filter->ExchangeHashpartitioning"]
+	202 -> 142
+	52 [label="First stage (end_node_id 52): File Scan store_sales,36521.7FileScan->Filter->ExchangeHashpartitioning"]
+	52 -> 48
+	56 [label="First stage (end_node_id 56): File Scan store_returns,830.0FileScan->Filter->ExchangeHashpartitioning"]
+	56 -> 48
+	172 [label="First stage (end_node_id 172): File Scan store_sales,36521.7FileScan->Filter->ExchangeHashpartitioning"]
+	172 -> 168
+	176 [label="First stage (end_node_id 176): File Scan store_returns,830.0FileScan->Filter->ExchangeHashpartitioning"]
+	176 -> 168
+}

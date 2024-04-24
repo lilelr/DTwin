@@ -1,0 +1,35 @@
+// The Round Table
+digraph {
+	node [shape=box]
+	6 [label="NormalStage (end_node_id 6): length of beginNodesToChains is 2
+[2,2,3,3,2,2,1,0]
+Chain 0 is : HashAggregate(keys=[s_state#155], functions=[sum(ss_net_profit#130)])
+HashAggregate->Sort->Empty->Filter->Project->SortMergeJoin->BroadcastExchange->BroadcastHashJoin->Project->Expand->HashAggregate->ExchangeHashpartitioning
+Chain 1 is : Sort [s_state#83 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->BroadcastExchange->BroadcastHashJoin->Project->Expand->HashAggregate->ExchangeHashpartitioning
+"]
+	4 [label="NormalStage (end_node_id 4): length of beginNodesToChains is 1
+[1,0,0,1,0,0,0,0]
+Chain 0 is : HashAggregate(keys=[s_state#193, s_county#194, spark_grouping_id#192L], functions=[sum(ss_net_profit#30)])
+HashAggregate->ExchangeHashpartitioning
+"]
+	0 [label="NormalStage (end_node_id 0): length of beginNodesToChains is 1
+[1,0,1,0,1,0,0,0]
+Chain 0 is : Sort [_w1#207 ASC NULLS FIRST, _w2#208 ASC NULLS FIRST, _w3#209 DESC NULLS LAST], false, 0
+Sort->Empty->Project->TakeOrderedAndProject
+"]
+	6 -> 4
+	4 -> 0
+	38 [label="Broadcast stage(end_node_id 38): store,10000FileScan->Filter->BroadcastExchange"]
+	38 -> 30
+	41 [label="Broadcast stage(end_node_id 41): date_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	41 -> 30
+	15 [label="Broadcast stage(end_node_id 15): date_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	15 -> 6
+	30 [label="First stage (end_node_id 30): File Scan store_sales,9130.4FileScan->Filter->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning"]
+	30 -> 6
+	6 [label="First stage (end_node_id 6): File Scan store_sales,9130.4FileScan->Filter->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning"]
+	6 -> 4
+	22 [label="First stage (end_node_id 22): File Scan store,0FileScan->Filter->ExchangeHashpartitioning"]
+	22 -> 6
+}

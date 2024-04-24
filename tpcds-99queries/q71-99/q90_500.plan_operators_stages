@@ -1,0 +1,27 @@
+// The Round Table
+digraph {
+	node [shape=box]
+	0 [label="NormalStage (end_node_id 0): length of beginNodesToChains is 2
+[2,0,2,2,0,0,0,0]
+Chain 0 is : HashAggregate(keys=[], functions=[count(1)])
+HashAggregate->BroadcastExchange->Empty->Project
+Chain 1 is : HashAggregate(keys=[], functions=[count(1)])
+HashAggregate->Empty->Project
+"]
+	37 [label="Broadcast stage(end_node_id 37): household_demographics,10000FileScan->Filter->Project->BroadcastExchange"]
+	37 -> 27
+	13 [label="Broadcast stage(end_node_id 13): household_demographics,10000FileScan->Filter->Project->BroadcastExchange"]
+	13 -> 3
+	41 [label="Broadcast stage(end_node_id 41): time_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	41 -> 27
+	17 [label="Broadcast stage(end_node_id 17): time_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	17 -> 3
+	45 [label="Broadcast stage(end_node_id 45): web_page,10000FileScan->Filter->Project->BroadcastExchange"]
+	45 -> 27
+	21 [label="Broadcast stage(end_node_id 21): web_page,10000FileScan->Filter->Project->BroadcastExchange"]
+	21 -> 3
+	27 [label="First stage (end_node_id 27): File Scan web_sales,2338.2FileScan->Filter->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeSinglePartition"]
+	27 -> 0
+	3 [label="First stage (end_node_id 3): File Scan web_sales,2338.2FileScan->Filter->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeSinglePartition"]
+	3 -> 0
+}

@@ -1,0 +1,19 @@
+// The Round Table
+digraph {
+	node [shape=box]
+	0 [label="NormalStage (end_node_id 0): length of beginNodesToChains is 1
+[1,0,0,1,0,0,0,0]
+Chain 0 is : HashAggregate(keys=[i_item_id#128, s_state#129, spark_grouping_id#127L], functions=[avg(ss_quantity#15), avg(ss_list_price#17), avg(ss_coupon_amt#24), avg(ss_sales_price#18)])
+HashAggregate->TakeOrderedAndProject
+"]
+	15 [label="Broadcast stage(end_node_id 15): customer_demographics,10000FileScan->Filter->Project->BroadcastExchange"]
+	15 -> 2
+	19 [label="Broadcast stage(end_node_id 19): date_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	19 -> 2
+	23 [label="Broadcast stage(end_node_id 23): store,10000FileScan->Filter->BroadcastExchange"]
+	23 -> 2
+	26 [label="Broadcast stage(end_node_id 26): item,10000FileScan->Filter->BroadcastExchange"]
+	26 -> 2
+	2 [label="First stage (end_node_id 2): File Scan store_sales,24347.8FileScan->Filter->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning"]
+	2 -> 0
+}

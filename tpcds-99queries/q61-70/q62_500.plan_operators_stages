@@ -1,0 +1,19 @@
+// The Round Table
+digraph {
+	node [shape=box]
+	0 [label="NormalStage (end_node_id 0): length of beginNodesToChains is 1
+[1,0,0,1,0,0,0,0]
+Chain 0 is : HashAggregate(keys=[_groupingexpression#132, sm_type#55, web_name#63], functions=[sum(CASE WHEN ((ws_ship_date_sk#7 - ws_sold_date_sk#5) <= 30) THEN 1 ELSE 0 END), sum(CASE WHEN (((ws_ship_date_sk#7 - ws_sold_date_sk#5) > 30) AND ((ws_ship_date_sk#7 - ws_sold_date_sk#5) <= 60)) THEN 1 ELSE 0 END), sum(CASE WHEN (((ws_ship_date_sk#7 - ws_sold_date_sk#5) > 60) AND ((ws_ship_date_sk#7 - ws_sold_date_sk#5) <= 90)) THEN 1 ELSE 0 END), sum(CASE WHEN (((ws_ship_date_sk#7 - ws_sold_date_sk#5) > 90) AND ((ws_ship_date_sk#7 - ws_sold_date_sk#5) <= 120)) THEN 1 ELSE 0 END), sum(CASE WHEN ((ws_ship_date_sk#7 - ws_sold_date_sk#5) > 120) THEN 1 ELSE 0 END)])
+HashAggregate->TakeOrderedAndProject
+"]
+	14 [label="Broadcast stage(end_node_id 14): warehouse,10000FileScan->Filter->BroadcastExchange"]
+	14 -> 2
+	17 [label="Broadcast stage(end_node_id 17): ship_mode,10000FileScan->Filter->BroadcastExchange"]
+	17 -> 2
+	20 [label="Broadcast stage(end_node_id 20): web_site,10000FileScan->Filter->BroadcastExchange"]
+	20 -> 2
+	23 [label="Broadcast stage(end_node_id 23): date_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	23 -> 2
+	2 [label="First stage (end_node_id 2): File Scan web_sales,3897.1FileScan->Filter->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning"]
+	2 -> 0
+}

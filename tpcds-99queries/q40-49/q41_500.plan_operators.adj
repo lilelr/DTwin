@@ -1,0 +1,38 @@
+// The Round Table
+digraph {
+	0 [label="nodeID(0) "]
+	1 [label="nodeID(1) HashAggregate(keys=[i_product_name#23], functions=[])"]
+	2 [label="nodeID(2) Exchange hashpartitioning(i_product_name#23, 200), ENSURE_REQUIREMENTS, [plan_id=62]"]
+	3 [label="nodeID(3) HashAggregate(keys=[i_product_name#23], functions=[])"]
+	4 [label="nodeID(4) Project [i_product_name#23]"]
+	5 [label="nodeID(5) BroadcastHashJoin [i_manufact#16], [i_manufact#40], Inner, BuildRight, false"]
+	6 [label="nodeID(6) Project [i_manufact#16, i_product_name#23]"]
+	7 [label="nodeID(7) Filter (((isnotnull(i_manufact_id#15) AND (i_manufact_id#15 >= 738)) AND (i_manufact_id#15 <= 778)) AND isnotnull(i_manufact#16))"]
+	8 [label="nodeID(8) FileScan parquet tpcds_500_parquet.item[i_manufact_id#15,i_manufact#16,i_product_name#23"]
+	9 [label="nodeID(9) BroadcastExchange HashedRelationBroadcastMode(List(input[0, string, true]),false), [plan_id=57]"]
+	10 [label="nodeID(10) Project [i_manufact#40]"]
+	11 [label="nodeID(11) Filter (item_cnt#0L > 0)"]
+	12 [label="nodeID(12) HashAggregate(keys=[i_manufact#40], functions=[count(1)])"]
+	13 [label="nodeID(13) Exchange hashpartitioning(i_manufact#40, 200), ENSURE_REQUIREMENTS, [plan_id=52]"]
+	14 [label="nodeID(14) HashAggregate(keys=[i_manufact#40], functions=[partial_count(1)])"]
+	15 [label="nodeID(15) Project [i_manufact#40]"]
+	16 [label="nodeID(16) Filter (((((i_category#38 = Women) AND (((((i_color#43 = powder) OR (i_color#43 = khaki)) AND ((i_units#44 = Ounce) OR (i_units#44 = Oz))) AND ((i_size#41 = medium) OR (i_size#41 = extra large))) OR ((((i_color#43 = brown) OR (i_color#43 = honeydew)) AND ((i_units#44 = Bunch) OR (i_units#44 = Ton))) AND ((i_size#41 = N/A) OR (i_size#41 = small))))) OR ((i_category#38 = Men) AND (((((i_color#43 = floral) OR (i_color#43 = deep)) AND ((i_units#44 = N/A) OR (i_units#44 = Dozen))) AND ((i_size#41 = petite) OR (i_size#41 = large))) OR ((((i_color#43 = light) OR (i_color#43 = cornflower)) AND ((i_units#44 = Box) OR (i_units#44 = Pound))) AND ((i_size#41 = medium) OR (i_size#41 = extra large)))))) OR (((i_category#38 = Women) AND (((((i_color#43 = midnight) OR (i_color#43 = snow)) AND ((i_units#44 = Pallet) OR (i_units#44 = Gross))) AND ((i_size#41 = medium) OR (i_size#41 = extra large))) OR ((((i_color#43 = cyan) OR (i_color#43 = papaya)) AND ((i_units#44 = Cup) OR (i_units#44 = Dram))) AND ((i_size#41 = N/A) OR (i_size#41 = small))))) OR ((i_category#38 = Men) AND (((((i_color#43 = orange) OR (i_color#43 = frosted)) AND ((i_units#44 = Each) OR (i_units#44 = Tbl))) AND ((i_size#41 = petite) OR (i_size#41 = large))) OR ((((i_color#43 = forest) OR (i_color#43 = ghost)) AND ((i_units#44 = Lb) OR (i_units#44 = Bundle))) AND ((i_size#41 = medium) OR (i_size#41 = extra large))))))) AND isnotnull(i_manufact#40))"]
+	17 [label="nodeID(17) FileScan parquet tpcds_500_parquet.item[i_category#38,i_manufact#40,i_size#41,i_color#43,i_units#44"]
+	1 -> 0
+	2 -> 1
+	3 -> 2
+	4 -> 3
+	5 -> 4
+	6 -> 5
+	7 -> 6
+	8 -> 7
+	9 -> 5
+	10 -> 9
+	11 -> 10
+	12 -> 11
+	13 -> 12
+	14 -> 13
+	15 -> 14
+	16 -> 15
+	17 -> 16
+}

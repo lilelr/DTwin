@@ -1,0 +1,31 @@
+// The Round Table
+digraph {
+	node [shape=box]
+	6 [label="NormalStage (end_node_id 6): length of beginNodesToChains is 1
+[1,0,0,1,0,0,0,0]
+Chain 0 is : HashAggregate(keys=[ss_ticket_number#12L, ss_customer_sk#6, ss_addr_sk#9, ca_city#94], functions=[sum(ss_coupon_amt#22), sum(ss_net_profit#25)])
+HashAggregate->ExchangeHashpartitioning
+"]
+	0 [label="NormalStage (end_node_id 0): length of beginNodesToChains is 2
+[2,2,4,0,2,2,0,0]
+Chain 0 is : Sort [ss_customer_sk#6 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->BroadcastHashJoin->Project->TakeOrderedAndProject
+Chain 1 is : Sort [c_customer_sk#101 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->BroadcastHashJoin->Project->TakeOrderedAndProject
+"]
+	6 -> 0
+	20 [label="Broadcast stage(end_node_id 20): date_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	20 -> 8
+	24 [label="Broadcast stage(end_node_id 24): store,10000FileScan->Filter->Project->BroadcastExchange"]
+	24 -> 8
+	28 [label="Broadcast stage(end_node_id 28): household_demographics,10000FileScan->Filter->Project->BroadcastExchange"]
+	28 -> 8
+	32 [label="Broadcast stage(end_node_id 32): customer_address,10000FileScan->Filter->BroadcastExchange"]
+	32 -> 8
+	39 [label="Broadcast stage(end_node_id 39): customer_address,10000FileScan->Filter->BroadcastExchange"]
+	39 -> 0
+	8 [label="First stage (end_node_id 8): File Scan store_sales,24347.8FileScan->Filter->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning"]
+	8 -> 6
+	36 [label="First stage (end_node_id 36): File Scan customer,2950.0FileScan->Filter->ExchangeHashpartitioning"]
+	36 -> 0
+}

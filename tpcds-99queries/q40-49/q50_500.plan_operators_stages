@@ -1,0 +1,27 @@
+// The Round Table
+digraph {
+	node [shape=box]
+	2 [label="NormalStage (end_node_id 2): length of beginNodesToChains is 2
+[2,6,8,2,2,2,0,0]
+Chain 0 is : Sort [ss_ticket_number#14L ASC NULLS FIRST, ss_item_sk#7 ASC NULLS FIRST, ss_customer_sk#8 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+Chain 1 is : Sort [sr_ticket_number#37L ASC NULLS FIRST, sr_item_sk#30 ASC NULLS FIRST, sr_customer_sk#31 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+"]
+	0 [label="NormalStage (end_node_id 0): length of beginNodesToChains is 1
+[1,0,0,1,0,0,0,0]
+Chain 0 is : HashAggregate(keys=[s_store_name#53, s_company_id#64, s_street_number#66, s_street_name#67, s_street_type#68, s_suite_number#69, s_city#70, s_county#71, s_state#72, s_zip#73], functions=[sum(CASE WHEN ((sr_returned_date_sk#28 - ss_sold_date_sk#5) <= 30) THEN 1 ELSE 0 END), sum(CASE WHEN (((sr_returned_date_sk#28 - ss_sold_date_sk#5) > 30) AND ((sr_returned_date_sk#28 - ss_sold_date_sk#5) <= 60)) THEN 1 ELSE 0 END), sum(CASE WHEN (((sr_returned_date_sk#28 - ss_sold_date_sk#5) > 60) AND ((sr_returned_date_sk#28 - ss_sold_date_sk#5) <= 90)) THEN 1 ELSE 0 END), sum(CASE WHEN (((sr_returned_date_sk#28 - ss_sold_date_sk#5) > 90) AND ((sr_returned_date_sk#28 - ss_sold_date_sk#5) <= 120)) THEN 1 ELSE 0 END), sum(CASE WHEN ((sr_returned_date_sk#28 - ss_sold_date_sk#5) > 120) THEN 1 ELSE 0 END)])
+HashAggregate->TakeOrderedAndProject
+"]
+	2 -> 0
+	20 [label="Broadcast stage(end_node_id 20): store,10000FileScan->Filter->BroadcastExchange"]
+	20 -> 2
+	23 [label="Broadcast stage(end_node_id 23): date_dim,10000FileScan->Filter->BroadcastExchange"]
+	23 -> 2
+	26 [label="Broadcast stage(end_node_id 26): date_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	26 -> 2
+	13 [label="First stage (end_node_id 13): File Scan store_sales,15217.4FileScan->Filter->ExchangeHashpartitioning"]
+	13 -> 2
+	17 [label="First stage (end_node_id 17): File Scan store_returns,1660.0FileScan->Filter->ExchangeHashpartitioning"]
+	17 -> 2
+}

@@ -1,0 +1,53 @@
+== Physical Plan ==
+AdaptiveSparkPlan isFinalPlan=false
++- Sort [d_week_seq1#0 ASC NULLS FIRST], true, 0
+   +- Exchange rangepartitioning(d_week_seq1#0 ASC NULLS FIRST, 200), ENSURE_REQUIREMENTS, [plan_id=178]
+      +- Project [d_week_seq1#0, round((sun_sales1#1 / sun_sales2#9), 2) AS round((sun_sales1 / sun_sales2), 2)#189, round((mon_sales1#2 / mon_sales2#10), 2) AS round((mon_sales1 / mon_sales2), 2)#190, round((tue_sales1#3 / tue_sales2#11), 2) AS round((tue_sales1 / tue_sales2), 2)#191, round((wed_sales1#4 / wed_sales2#12), 2) AS round((wed_sales1 / wed_sales2), 2)#192, round((thu_sales1#5 / thu_sales2#13), 2) AS round((thu_sales1 / thu_sales2), 2)#193, round((fri_sales1#6 / fri_sales2#14), 2) AS round((fri_sales1 / fri_sales2), 2)#194, round((sat_sales1#7 / sat_sales2#15), 2) AS round((sat_sales1 / sat_sales2), 2)#195]
+         +- SortMergeJoin [d_week_seq1#0], [(d_week_seq2#8 - 53)], Inner
+            :- Sort [d_week_seq1#0 ASC NULLS FIRST], false, 0
+            :  +- Project [d_week_seq#99 AS d_week_seq1#0, sun_sales#20 AS sun_sales1#1, mon_sales#21 AS mon_sales1#2, tue_sales#22 AS tue_sales1#3, wed_sales#23 AS wed_sales1#4, thu_sales#24 AS thu_sales1#5, fri_sales#25 AS fri_sales1#6, sat_sales#26 AS sat_sales1#7]
+            :     +- BroadcastHashJoin [d_week_seq#99], [d_week_seq#127], Inner, BuildRight, false
+            :        :- HashAggregate(keys=[d_week_seq#99], functions=[sum(CASE WHEN (d_day_name#109 = Sunday) THEN sales_price#17 END), sum(CASE WHEN (d_day_name#109 = Monday) THEN sales_price#17 END), sum(CASE WHEN (d_day_name#109 = Tuesday) THEN sales_price#17 END), sum(CASE WHEN (d_day_name#109 = Wednesday) THEN sales_price#17 END), sum(CASE WHEN (d_day_name#109 = Thursday) THEN sales_price#17 END), sum(CASE WHEN (d_day_name#109 = Friday) THEN sales_price#17 END), sum(CASE WHEN (d_day_name#109 = Saturday) THEN sales_price#17 END)])
+            :        :  +- Exchange hashpartitioning(d_week_seq#99, 200), ENSURE_REQUIREMENTS, [plan_id=153]
+            :        :     +- HashAggregate(keys=[d_week_seq#99], functions=[partial_sum(CASE WHEN (d_day_name#109 = Sunday) THEN sales_price#17 END), partial_sum(CASE WHEN (d_day_name#109 = Monday) THEN sales_price#17 END), partial_sum(CASE WHEN (d_day_name#109 = Tuesday) THEN sales_price#17 END), partial_sum(CASE WHEN (d_day_name#109 = Wednesday) THEN sales_price#17 END), partial_sum(CASE WHEN (d_day_name#109 = Thursday) THEN sales_price#17 END), partial_sum(CASE WHEN (d_day_name#109 = Friday) THEN sales_price#17 END), partial_sum(CASE WHEN (d_day_name#109 = Saturday) THEN sales_price#17 END)])
+            :        :        +- Project [sales_price#17, d_week_seq#99, d_day_name#109]
+            :        :           +- BroadcastHashJoin [sold_date_sk#16], [d_date_sk#95], Inner, BuildRight, false
+            :        :              :- Union
+            :        :              :  :- Project [ws_sold_date_sk#27 AS sold_date_sk#16, ws_ext_sales_price#50 AS sales_price#17]
+            :        :              :  :  +- Filter isnotnull(ws_sold_date_sk#27)
+            :        :              :  :     +- FileScan parquet tpcds_1000_parquet.web_sales[ws_sold_date_sk#27,ws_ext_sales_price#50] Batched: true, DataFilters: [isnotnull(ws_sold_date_sk#27)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_1000/tpcds_parquet/web_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ws_sold_date_sk)], ReadSchema: struct<ws_sold_date_sk:int,ws_ext_sales_price:double>
+            :        :              :  +- Project [cs_sold_date_sk#61 AS sold_date_sk#18, cs_ext_sales_price#84 AS sales_price#19]
+            :        :              :     +- Filter isnotnull(cs_sold_date_sk#61)
+            :        :              :        +- FileScan parquet tpcds_1000_parquet.catalog_sales[cs_sold_date_sk#61,cs_ext_sales_price#84] Batched: true, DataFilters: [isnotnull(cs_sold_date_sk#61)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_1000/tpcds_parquet/catalog_s..., PartitionFilters: [], PushedFilters: [IsNotNull(cs_sold_date_sk)], ReadSchema: struct<cs_sold_date_sk:int,cs_ext_sales_price:double>
+            :        :              +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=148]
+            :        :                 +- Filter (isnotnull(d_date_sk#95) AND isnotnull(d_week_seq#99))
+            :        :                    +- FileScan parquet tpcds_1000_parquet.date_dim[d_date_sk#95,d_week_seq#99,d_day_name#109] Batched: true, DataFilters: [isnotnull(d_date_sk#95), isnotnull(d_week_seq#99)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_1000/tpcds_parquet/date_dim], PartitionFilters: [], PushedFilters: [IsNotNull(d_date_sk), IsNotNull(d_week_seq)], ReadSchema: struct<d_date_sk:int,d_week_seq:int,d_day_name:string>
+            :        +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=156]
+            :           +- Project [d_week_seq#127]
+            :              +- Filter ((isnotnull(d_year#129) AND (d_year#129 = 2001)) AND isnotnull(d_week_seq#127))
+            :                 +- FileScan parquet tpcds_1000_parquet.date_dim[d_week_seq#127,d_year#129] Batched: true, DataFilters: [isnotnull(d_year#129), (d_year#129 = 2001), isnotnull(d_week_seq#127)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_1000/tpcds_parquet/date_dim], PartitionFilters: [], PushedFilters: [IsNotNull(d_year), EqualTo(d_year,2001), IsNotNull(d_week_seq)], ReadSchema: struct<d_week_seq:int,d_year:int>
+            +- Sort [(d_week_seq2#8 - 53) ASC NULLS FIRST], false, 0
+               +- Exchange hashpartitioning((d_week_seq2#8 - 53), 200), ENSURE_REQUIREMENTS, [plan_id=172]
+                  +- Project [d_week_seq#99 AS d_week_seq2#8, sun_sales#20 AS sun_sales2#9, mon_sales#21 AS mon_sales2#10, tue_sales#22 AS tue_sales2#11, wed_sales#23 AS wed_sales2#12, thu_sales#24 AS thu_sales2#13, fri_sales#25 AS fri_sales2#14, sat_sales#26 AS sat_sales2#15]
+                     +- BroadcastHashJoin [d_week_seq#99], [d_week_seq#155], Inner, BuildRight, false
+                        :- HashAggregate(keys=[d_week_seq#99], functions=[sum(CASE WHEN (d_day_name#109 = Sunday) THEN sales_price#17 END), sum(CASE WHEN (d_day_name#109 = Monday) THEN sales_price#17 END), sum(CASE WHEN (d_day_name#109 = Tuesday) THEN sales_price#17 END), sum(CASE WHEN (d_day_name#109 = Wednesday) THEN sales_price#17 END), sum(CASE WHEN (d_day_name#109 = Thursday) THEN sales_price#17 END), sum(CASE WHEN (d_day_name#109 = Friday) THEN sales_price#17 END), sum(CASE WHEN (d_day_name#109 = Saturday) THEN sales_price#17 END)])
+                        :  +- Exchange hashpartitioning(d_week_seq#99, 200), ENSURE_REQUIREMENTS, [plan_id=164]
+                        :     +- HashAggregate(keys=[d_week_seq#99], functions=[partial_sum(CASE WHEN (d_day_name#109 = Sunday) THEN sales_price#17 END), partial_sum(CASE WHEN (d_day_name#109 = Monday) THEN sales_price#17 END), partial_sum(CASE WHEN (d_day_name#109 = Tuesday) THEN sales_price#17 END), partial_sum(CASE WHEN (d_day_name#109 = Wednesday) THEN sales_price#17 END), partial_sum(CASE WHEN (d_day_name#109 = Thursday) THEN sales_price#17 END), partial_sum(CASE WHEN (d_day_name#109 = Friday) THEN sales_price#17 END), partial_sum(CASE WHEN (d_day_name#109 = Saturday) THEN sales_price#17 END)])
+                        :        +- Project [sales_price#17, d_week_seq#99, d_day_name#109]
+                        :           +- BroadcastHashJoin [sold_date_sk#16], [d_date_sk#95], Inner, BuildRight, false
+                        :              :- Union
+                        :              :  :- Project [ws_sold_date_sk#27 AS sold_date_sk#16, ws_ext_sales_price#50 AS sales_price#17]
+                        :              :  :  +- Filter isnotnull(ws_sold_date_sk#27)
+                        :              :  :     +- FileScan parquet tpcds_1000_parquet.web_sales[ws_sold_date_sk#27,ws_ext_sales_price#50] Batched: true, DataFilters: [isnotnull(ws_sold_date_sk#27)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_1000/tpcds_parquet/web_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ws_sold_date_sk)], ReadSchema: struct<ws_sold_date_sk:int,ws_ext_sales_price:double>
+                        :              :  +- Project [cs_sold_date_sk#61 AS sold_date_sk#18, cs_ext_sales_price#84 AS sales_price#19]
+                        :              :     +- Filter isnotnull(cs_sold_date_sk#61)
+                        :              :        +- FileScan parquet tpcds_1000_parquet.catalog_sales[cs_sold_date_sk#61,cs_ext_sales_price#84] Batched: true, DataFilters: [isnotnull(cs_sold_date_sk#61)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_1000/tpcds_parquet/catalog_s..., PartitionFilters: [], PushedFilters: [IsNotNull(cs_sold_date_sk)], ReadSchema: struct<cs_sold_date_sk:int,cs_ext_sales_price:double>
+                        :              +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=159]
+                        :                 +- Filter (isnotnull(d_date_sk#95) AND isnotnull(d_week_seq#99))
+                        :                    +- FileScan parquet tpcds_1000_parquet.date_dim[d_date_sk#95,d_week_seq#99,d_day_name#109] Batched: true, DataFilters: [isnotnull(d_date_sk#95), isnotnull(d_week_seq#99)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_1000/tpcds_parquet/date_dim], PartitionFilters: [], PushedFilters: [IsNotNull(d_date_sk), IsNotNull(d_week_seq)], ReadSchema: struct<d_date_sk:int,d_week_seq:int,d_day_name:string>
+                        +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=167]
+                           +- Project [d_week_seq#155]
+                              +- Filter ((isnotnull(d_year#157) AND (d_year#157 = 2002)) AND isnotnull(d_week_seq#155))
+                                 +- FileScan parquet tpcds_1000_parquet.date_dim[d_week_seq#155,d_year#157] Batched: true, DataFilters: [isnotnull(d_year#157), (d_year#157 = 2002), isnotnull(d_week_seq#155)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_1000/tpcds_parquet/date_dim], PartitionFilters: [], PushedFilters: [IsNotNull(d_year), EqualTo(d_year,2002), IsNotNull(d_week_seq)], ReadSchema: struct<d_week_seq:int,d_year:int>
+
+

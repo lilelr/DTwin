@@ -1,0 +1,64 @@
+// The Round Table
+digraph {
+	0 [label="nodeID(0) "]
+	1 [label="nodeID(1) TakeOrderedAndProject(limit=100, orderBy=[s_store_name#53 ASC NULLS FIRST,s_company_id#64 ASC NULLS FIRST,s_street_number#66 ASC NULLS FIRST,s_street_name#67 ASC NULLS FIRST,s_street_type#68 ASC NULLS FIRST,s_suite_number#69 ASC NULLS FIRST,s_city#70 ASC NULLS FIRST,s_county#71 ASC NULLS FIRST,s_state#72 ASC NULLS FIRST,s_zip#73 ASC NULLS FIRST], output=[s_store_name#53,s_company_id#64,s_street_number#66,s_street_name#67,s_street_type#68,s_suite_number#69,s_city#70,s_county#71,s_state#72,s_zip#73,30 days#0L,31-60 days#1L,61-90 days#2L,91-120 days#3L,>120 days#4L])"]
+	2 [label="nodeID(2) HashAggregate(keys=[s_store_name#53, s_company_id#64, s_street_number#66, s_street_name#67, s_street_type#68, s_suite_number#69, s_city#70, s_county#71, s_state#72, s_zip#73], functions=[sum(CASE WHEN ((sr_returned_date_sk#28 - ss_sold_date_sk#5) <= 30) THEN 1 ELSE 0 END), sum(CASE WHEN (((sr_returned_date_sk#28 - ss_sold_date_sk#5) > 30) AND ((sr_returned_date_sk#28 - ss_sold_date_sk#5) <= 60)) THEN 1 ELSE 0 END), sum(CASE WHEN (((sr_returned_date_sk#28 - ss_sold_date_sk#5) > 60) AND ((sr_returned_date_sk#28 - ss_sold_date_sk#5) <= 90)) THEN 1 ELSE 0 END), sum(CASE WHEN (((sr_returned_date_sk#28 - ss_sold_date_sk#5) > 90) AND ((sr_returned_date_sk#28 - ss_sold_date_sk#5) <= 120)) THEN 1 ELSE 0 END), sum(CASE WHEN ((sr_returned_date_sk#28 - ss_sold_date_sk#5) > 120) THEN 1 ELSE 0 END)])"]
+	3 [label="nodeID(3) Exchange hashpartitioning(s_store_name#53, s_company_id#64, s_street_number#66, s_street_name#67, s_street_type#68, s_suite_number#69, s_city#70, s_county#71, s_state#72, s_zip#73, 200), ENSURE_REQUIREMENTS, [plan_id=117]"]
+	4 [label="nodeID(4) HashAggregate(keys=[s_store_name#53, s_company_id#64, s_street_number#66, s_street_name#67, s_street_type#68, s_suite_number#69, s_city#70, s_county#71, s_state#72, s_zip#73], functions=[partial_sum(CASE WHEN ((sr_returned_date_sk#28 - ss_sold_date_sk#5) <= 30) THEN 1 ELSE 0 END), partial_sum(CASE WHEN (((sr_returned_date_sk#28 - ss_sold_date_sk#5) > 30) AND ((sr_returned_date_sk#28 - ss_sold_date_sk#5) <= 60)) THEN 1 ELSE 0 END), partial_sum(CASE WHEN (((sr_returned_date_sk#28 - ss_sold_date_sk#5) > 60) AND ((sr_returned_date_sk#28 - ss_sold_date_sk#5) <= 90)) THEN 1 ELSE 0 END), partial_sum(CASE WHEN (((sr_returned_date_sk#28 - ss_sold_date_sk#5) > 90) AND ((sr_returned_date_sk#28 - ss_sold_date_sk#5) <= 120)) THEN 1 ELSE 0 END), partial_sum(CASE WHEN ((sr_returned_date_sk#28 - ss_sold_date_sk#5) > 120) THEN 1 ELSE 0 END)])"]
+	5 [label="nodeID(5) Project [ss_sold_date_sk#5, sr_returned_date_sk#28, s_store_name#53, s_company_id#64, s_street_number#66, s_street_name#67, s_street_type#68, s_suite_number#69, s_city#70, s_county#71, s_state#72, s_zip#73]"]
+	6 [label="nodeID(6) BroadcastHashJoin [sr_returned_date_sk#28], [d_date_sk#105], Inner, BuildRight, false"]
+	7 [label="nodeID(7) Project [ss_sold_date_sk#5, sr_returned_date_sk#28, s_store_name#53, s_company_id#64, s_street_number#66, s_street_name#67, s_street_type#68, s_suite_number#69, s_city#70, s_county#71, s_state#72, s_zip#73]"]
+	8 [label="nodeID(8) BroadcastHashJoin [ss_sold_date_sk#5], [d_date_sk#77], Inner, BuildRight, false"]
+	9 [label="nodeID(9) Project [ss_sold_date_sk#5, sr_returned_date_sk#28, s_store_name#53, s_company_id#64, s_street_number#66, s_street_name#67, s_street_type#68, s_suite_number#69, s_city#70, s_county#71, s_state#72, s_zip#73]"]
+	10 [label="nodeID(10) BroadcastHashJoin [ss_store_sk#12], [s_store_sk#48], Inner, BuildRight, false"]
+	11 [label="nodeID(11) Project [ss_sold_date_sk#5, ss_store_sk#12, sr_returned_date_sk#28]"]
+	12 [label="nodeID(12) SortMergeJoin [ss_ticket_number#14L, ss_item_sk#7, ss_customer_sk#8], [sr_ticket_number#37L, sr_item_sk#30, sr_customer_sk#31], Inner"]
+	13 [label="nodeID(13) Sort [ss_ticket_number#14L ASC NULLS FIRST, ss_item_sk#7 ASC NULLS FIRST, ss_customer_sk#8 ASC NULLS FIRST], false, 0"]
+	14 [label="nodeID(14) Exchange hashpartitioning(ss_ticket_number#14L, ss_item_sk#7, ss_customer_sk#8, 200), ENSURE_REQUIREMENTS, [plan_id=97]"]
+	15 [label="nodeID(15) Filter ((((isnotnull(ss_ticket_number#14L) AND isnotnull(ss_item_sk#7)) AND isnotnull(ss_customer_sk#8)) AND isnotnull(ss_store_sk#12)) AND isnotnull(ss_sold_date_sk#5))"]
+	16 [label="nodeID(16) FileScan parquet tpcds_100_parquet.store_sales[ss_sold_date_sk#5,ss_item_sk#7,ss_customer_sk#8,ss_store_sk#12,ss_ticket_number#14L]"]
+	17 [label="nodeID(17) Sort [sr_ticket_number#37L ASC NULLS FIRST, sr_item_sk#30 ASC NULLS FIRST, sr_customer_sk#31 ASC NULLS FIRST], false, 0"]
+	18 [label="nodeID(18) Exchange hashpartitioning(sr_ticket_number#37L, sr_item_sk#30, sr_customer_sk#31, 200), ENSURE_REQUIREMENTS, [plan_id=98]"]
+	19 [label="nodeID(19) Filter (((isnotnull(sr_ticket_number#37L) AND isnotnull(sr_item_sk#30)) AND isnotnull(sr_customer_sk#31)) AND isnotnull(sr_returned_date_sk#28))"]
+	20 [label="nodeID(20) FileScan parquet tpcds_100_parquet.store_returns[sr_returned_date_sk#28,sr_item_sk#30,sr_customer_sk#31,sr_ticket_number#37L]"]
+	21 [label="nodeID(21) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=104]"]
+	22 [label="nodeID(22) Filter isnotnull(s_store_sk#48)"]
+	23 [label="nodeID(23) FileScan parquet tpcds_100_parquet.store[s_store_sk#48,s_store_name#53,s_company_id#64,s_street_number#66,s_street_name#67,s_street_type#68,s_suite_number#69,s_city#70,s_county#71,s_state#72,s_zip#73]"]
+	24 [label="nodeID(24) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=108]"]
+	25 [label="nodeID(25) Filter isnotnull(d_date_sk#77)"]
+	26 [label="nodeID(26) FileScan parquet tpcds_100_parquet.date_dim[d_date_sk#77]"]
+	27 [label="nodeID(27) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=112]"]
+	28 [label="nodeID(28) Project [d_date_sk#105]"]
+	29 [label="nodeID(29) Filter ((((isnotnull(d_year#111) AND isnotnull(d_moy#113)) AND (d_year#111 = 2001)) AND (d_moy#113 = 8)) AND isnotnull(d_date_sk#105))"]
+	30 [label="nodeID(30) FileScan parquet tpcds_100_parquet.date_dim[d_date_sk#105,d_year#111,d_moy#113]"]
+	1 -> 0
+	2 -> 1
+	3 -> 2
+	4 -> 3
+	5 -> 4
+	6 -> 5
+	7 -> 6
+	8 -> 7
+	9 -> 8
+	10 -> 9
+	11 -> 10
+	12 -> 11
+	13 -> 12
+	14 -> 13
+	15 -> 14
+	16 -> 15
+	17 -> 12
+	18 -> 17
+	19 -> 18
+	20 -> 19
+	21 -> 10
+	22 -> 21
+	23 -> 22
+	24 -> 8
+	25 -> 24
+	26 -> 25
+	27 -> 6
+	28 -> 27
+	29 -> 28
+	30 -> 29
+}

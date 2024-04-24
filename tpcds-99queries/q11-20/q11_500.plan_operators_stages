@@ -1,0 +1,95 @@
+// The Round Table
+digraph {
+	node [shape=box]
+	10 [label="NormalStage (end_node_id 10): length of beginNodesToChains is 2
+[2,2,4,2,2,2,0,0]
+Chain 0 is : Sort [c_customer_sk#20 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+Chain 1 is : Sort [ss_customer_sk#41 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+"]
+	7 [label="NormalStage (end_node_id 7): length of beginNodesToChains is 1
+[1,0,0,1,0,0,1,0]
+Chain 0 is : HashAggregate(keys=[c_customer_id#21, c_first_name#28, c_last_name#29, c_preferred_cust_flag#30, c_birth_country#34, c_login#35, c_email_address#36, d_year#67], functions=[sum((ss_ext_list_price#55 - ss_ext_discount_amt#52))])
+HashAggregate->Filter->ExchangeHashpartitioning
+"]
+	0 [label="NormalStage (end_node_id 0): length of beginNodesToChains is 4
+[4,0,7,0,4,9,0,0]
+Chain 0 is : Sort [customer_id#0 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->SortMergeJoin->Project->SortMergeJoin->Project->TakeOrderedAndProject
+Chain 1 is : Sort [customer_id#177 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->SortMergeJoin->Project->SortMergeJoin->Project->TakeOrderedAndProject
+Chain 2 is : Sort [customer_id#10 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->SortMergeJoin->Project->TakeOrderedAndProject
+Chain 3 is : Sort [customer_id#197 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->TakeOrderedAndProject
+"]
+	30 [label="NormalStage (end_node_id 30): length of beginNodesToChains is 2
+[2,2,4,2,2,2,0,0]
+Chain 0 is : Sort [c_customer_sk#688 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+Chain 1 is : Sort [ss_customer_sk#709 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+"]
+	28 [label="NormalStage (end_node_id 28): length of beginNodesToChains is 1
+[1,0,0,1,0,0,0,0]
+Chain 0 is : HashAggregate(keys=[c_customer_id#689, c_first_name#696, c_last_name#697, c_preferred_cust_flag#698, c_birth_country#702, c_login#703, c_email_address#704, d_year#735], functions=[sum((ss_ext_list_price#723 - ss_ext_discount_amt#720))])
+HashAggregate->ExchangeHashpartitioning
+"]
+	51 [label="NormalStage (end_node_id 51): length of beginNodesToChains is 2
+[2,2,4,2,2,2,0,0]
+Chain 0 is : Sort [c_customer_sk#916 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+Chain 1 is : Sort [ws_bill_customer_sk#938 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+"]
+	48 [label="NormalStage (end_node_id 48): length of beginNodesToChains is 1
+[1,0,0,1,0,0,1,0]
+Chain 0 is : HashAggregate(keys=[c_customer_id#917, c_first_name#924, c_last_name#925, c_preferred_cust_flag#926, c_birth_country#930, c_login#931, c_email_address#932, d_year#974], functions=[sum((ws_ext_list_price#959 - ws_ext_discount_amt#956))])
+HashAggregate->Filter->ExchangeHashpartitioning
+"]
+	71 [label="NormalStage (end_node_id 71): length of beginNodesToChains is 2
+[2,2,4,2,2,2,0,0]
+Chain 0 is : Sort [c_customer_sk#1075 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+Chain 1 is : Sort [ws_bill_customer_sk#1097 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+"]
+	69 [label="NormalStage (end_node_id 69): length of beginNodesToChains is 1
+[1,0,0,1,0,0,0,0]
+Chain 0 is : HashAggregate(keys=[c_customer_id#1076, c_first_name#1083, c_last_name#1084, c_preferred_cust_flag#1085, c_birth_country#1089, c_login#1090, c_email_address#1091, d_year#1133], functions=[sum((ws_ext_list_price#1118 - ws_ext_discount_amt#1115))])
+HashAggregate->ExchangeHashpartitioning
+"]
+	10 -> 7
+	7 -> 0
+	30 -> 28
+	28 -> 0
+	51 -> 48
+	48 -> 0
+	71 -> 69
+	69 -> 0
+	24 [label="Broadcast stage(end_node_id 24): date_dim,10000FileScan->Filter->BroadcastExchange"]
+	24 -> 10
+	44 [label="Broadcast stage(end_node_id 44): date_dim,10000FileScan->Filter->BroadcastExchange"]
+	44 -> 30
+	65 [label="Broadcast stage(end_node_id 65): date_dim,10000FileScan->Filter->BroadcastExchange"]
+	65 -> 51
+	85 [label="Broadcast stage(end_node_id 85): date_dim,10000FileScan->Filter->BroadcastExchange"]
+	85 -> 71
+	17 [label="First stage (end_node_id 17): File Scan customer,5900.0FileScan->Filter->ExchangeHashpartitioning"]
+	17 -> 10
+	21 [label="First stage (end_node_id 21): File Scan store_sales,12173.9FileScan->Filter->ExchangeHashpartitioning"]
+	21 -> 10
+	37 [label="First stage (end_node_id 37): File Scan customer,5900.0FileScan->Filter->ExchangeHashpartitioning"]
+	37 -> 30
+	41 [label="First stage (end_node_id 41): File Scan store_sales,12173.9FileScan->Filter->ExchangeHashpartitioning"]
+	41 -> 30
+	58 [label="First stage (end_node_id 58): File Scan customer,5900.0FileScan->Filter->ExchangeHashpartitioning"]
+	58 -> 51
+	62 [label="First stage (end_node_id 62): File Scan web_sales,3117.6FileScan->Filter->ExchangeHashpartitioning"]
+	62 -> 51
+	78 [label="First stage (end_node_id 78): File Scan customer,5900.0FileScan->Filter->ExchangeHashpartitioning"]
+	78 -> 71
+	82 [label="First stage (end_node_id 82): File Scan web_sales,3117.6FileScan->Filter->ExchangeHashpartitioning"]
+	82 -> 71
+}

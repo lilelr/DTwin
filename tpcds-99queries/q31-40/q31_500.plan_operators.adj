@@ -1,0 +1,226 @@
+// The Round Table
+digraph {
+	0 [label="nodeID(0) "]
+	1 [label="nodeID(1) Exchange rangepartitioning(ca_county#64 ASC NULLS FIRST, 200), ENSURE_REQUIREMENTS, [plan_id=463]"]
+	2 [label="nodeID(2) Project [ca_county#64, d_year#35, (web_sales#164 / web_sales#5) AS web_q1_q2_increase#0, (store_sales#156 / store_sales#4) AS store_q1_q2_increase#1, (web_sales#168 / web_sales#164) AS web_q2_q3_increase#2, (store_sales#160 / store_sales#156) AS store_q2_q3_increase#3]"]
+	3 [label="nodeID(3) SortMergeJoin [ca_county#139], [ca_county#732], Inner, (CASE WHEN (web_sales#164 > 0.0) THEN (web_sales#168 / web_sales#164) END > CASE WHEN (store_sales#156 > 0.0) THEN (store_sales#160 / store_sales#156) END)"]
+	4 [label="nodeID(4) Project [ca_county#64, d_year#35, store_sales#4, store_sales#156, store_sales#160, ca_county#139, web_sales#5, web_sales#164]"]
+	5 [label="nodeID(5) SortMergeJoin [ca_county#139], [ca_county#656], Inner, (CASE WHEN (web_sales#5 > 0.0) THEN (web_sales#164 / web_sales#5) END > CASE WHEN (store_sales#4 > 0.0) THEN (store_sales#156 / store_sales#4) END)"]
+	6 [label="nodeID(6) SortMergeJoin [ca_county#64], [ca_county#139], Inner"]
+	7 [label="nodeID(7) Project [ca_county#64, d_year#35, store_sales#4, store_sales#156, store_sales#160]"]
+	8 [label="nodeID(8) SortMergeJoin [ca_county#515], [ca_county#580], Inner"]
+	9 [label="nodeID(9) SortMergeJoin [ca_county#64], [ca_county#515], Inner"]
+	10 [label="nodeID(10) Sort [ca_county#64 ASC NULLS FIRST], false, 0"]
+	11 [label="nodeID(11) Exchange hashpartitioning(ca_county#64, 200), ENSURE_REQUIREMENTS, [plan_id=390]"]
+	12 [label="nodeID(12) HashAggregate(keys=[ca_county#64, d_qoy#39, d_year#35], functions=[sum(ss_ext_sales_price#21)])"]
+	13 [label="nodeID(13) Exchange hashpartitioning(ca_county#64, d_qoy#39, d_year#35, 200), ENSURE_REQUIREMENTS, [plan_id=375]"]
+	14 [label="nodeID(14) HashAggregate(keys=[ca_county#64, d_qoy#39, d_year#35], functions=[partial_sum(ss_ext_sales_price#21)])"]
+	15 [label="nodeID(15) Project [ss_ext_sales_price#21, d_year#35, d_qoy#39, ca_county#64]"]
+	16 [label="nodeID(16) BroadcastHashJoin [ss_addr_sk#12], [ca_address_sk#57], Inner, BuildRight, false"]
+	17 [label="nodeID(17) Project [ss_addr_sk#12, ss_ext_sales_price#21, d_year#35, d_qoy#39]"]
+	18 [label="nodeID(18) BroadcastHashJoin [ss_sold_date_sk#6], [d_date_sk#29], Inner, BuildRight, false"]
+	19 [label="nodeID(19) Filter (isnotnull(ss_sold_date_sk#6) AND isnotnull(ss_addr_sk#12))"]
+	20 [label="nodeID(20) FileScan parquet tpcds_500_parquet.store_sales[ss_sold_date_sk#6,ss_addr_sk#12,ss_ext_sales_price#21"]
+	21 [label="nodeID(21) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=366]"]
+	22 [label="nodeID(22) Filter ((((isnotnull(d_qoy#39) AND isnotnull(d_year#35)) AND (d_qoy#39 = 1)) AND (d_year#35 = 2000)) AND isnotnull(d_date_sk#29))"]
+	23 [label="nodeID(23) FileScan parquet tpcds_500_parquet.date_dim[d_date_sk#29,d_year#35,d_qoy#39"]
+	24 [label="nodeID(24) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=370]"]
+	25 [label="nodeID(25) Filter (isnotnull(ca_address_sk#57) AND isnotnull(ca_county#64))"]
+	26 [label="nodeID(26) FileScan parquet tpcds_500_parquet.customer_address[ca_address_sk#57,ca_county#64"]
+	27 [label="nodeID(27) Sort [ca_county#515 ASC NULLS FIRST], false, 0"]
+	28 [label="nodeID(28) Exchange hashpartitioning(ca_county#515, 200), ENSURE_REQUIREMENTS, [plan_id=391]"]
+	29 [label="nodeID(29) HashAggregate(keys=[ca_county#515, d_qoy#490, d_year#486], functions=[sum(ss_ext_sales_price#472)])"]
+	30 [label="nodeID(30) Exchange hashpartitioning(ca_county#515, d_qoy#490, d_year#486, 200), ENSURE_REQUIREMENTS, [plan_id=386]"]
+	31 [label="nodeID(31) HashAggregate(keys=[ca_county#515, d_qoy#490, d_year#486], functions=[partial_sum(ss_ext_sales_price#472)])"]
+	32 [label="nodeID(32) Project [ss_ext_sales_price#472, d_year#486, d_qoy#490, ca_county#515]"]
+	33 [label="nodeID(33) BroadcastHashJoin [ss_addr_sk#463], [ca_address_sk#508], Inner, BuildRight, false"]
+	34 [label="nodeID(34) Project [ss_addr_sk#463, ss_ext_sales_price#472, d_year#486, d_qoy#490]"]
+	35 [label="nodeID(35) BroadcastHashJoin [ss_sold_date_sk#457], [d_date_sk#480], Inner, BuildRight, false"]
+	36 [label="nodeID(36) Filter (isnotnull(ss_sold_date_sk#457) AND isnotnull(ss_addr_sk#463))"]
+	37 [label="nodeID(37) FileScan parquet tpcds_500_parquet.store_sales[ss_sold_date_sk#457,ss_addr_sk#463,ss_ext_sales_price#472"]
+	38 [label="nodeID(38) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=377]"]
+	39 [label="nodeID(39) Filter ((((isnotnull(d_qoy#490) AND isnotnull(d_year#486)) AND (d_qoy#490 = 2)) AND (d_year#486 = 2000)) AND isnotnull(d_date_sk#480))"]
+	40 [label="nodeID(40) FileScan parquet tpcds_500_parquet.date_dim[d_date_sk#480,d_year#486,d_qoy#490"]
+	41 [label="nodeID(41) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=381]"]
+	42 [label="nodeID(42) Filter (isnotnull(ca_address_sk#508) AND isnotnull(ca_county#515))"]
+	43 [label="nodeID(43) FileScan parquet tpcds_500_parquet.customer_address[ca_address_sk#508,ca_county#515"]
+	44 [label="nodeID(44) Sort [ca_county#580 ASC NULLS FIRST], false, 0"]
+	45 [label="nodeID(45) Exchange hashpartitioning(ca_county#580, 200), ENSURE_REQUIREMENTS, [plan_id=408]"]
+	46 [label="nodeID(46) HashAggregate(keys=[ca_county#580, d_qoy#555, d_year#551], functions=[sum(ss_ext_sales_price#537)])"]
+	47 [label="nodeID(47) Exchange hashpartitioning(ca_county#580, d_qoy#555, d_year#551, 200), ENSURE_REQUIREMENTS, [plan_id=404]"]
+	48 [label="nodeID(48) HashAggregate(keys=[ca_county#580, d_qoy#555, d_year#551], functions=[partial_sum(ss_ext_sales_price#537)])"]
+	49 [label="nodeID(49) Project [ss_ext_sales_price#537, d_year#551, d_qoy#555, ca_county#580]"]
+	50 [label="nodeID(50) BroadcastHashJoin [ss_addr_sk#528], [ca_address_sk#573], Inner, BuildRight, false"]
+	51 [label="nodeID(51) Project [ss_addr_sk#528, ss_ext_sales_price#537, d_year#551, d_qoy#555]"]
+	52 [label="nodeID(52) BroadcastHashJoin [ss_sold_date_sk#522], [d_date_sk#545], Inner, BuildRight, false"]
+	53 [label="nodeID(53) Filter (isnotnull(ss_sold_date_sk#522) AND isnotnull(ss_addr_sk#528))"]
+	54 [label="nodeID(54) FileScan parquet tpcds_500_parquet.store_sales[ss_sold_date_sk#522,ss_addr_sk#528,ss_ext_sales_price#537"]
+	55 [label="nodeID(55) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=395]"]
+	56 [label="nodeID(56) Filter ((((isnotnull(d_qoy#555) AND isnotnull(d_year#551)) AND (d_qoy#555 = 3)) AND (d_year#551 = 2000)) AND isnotnull(d_date_sk#545))"]
+	57 [label="nodeID(57) FileScan parquet tpcds_500_parquet.date_dim[d_date_sk#545,d_year#551,d_qoy#555"]
+	58 [label="nodeID(58) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=399]"]
+	59 [label="nodeID(59) Filter (isnotnull(ca_address_sk#573) AND isnotnull(ca_county#580))"]
+	60 [label="nodeID(60) FileScan parquet tpcds_500_parquet.customer_address[ca_address_sk#573,ca_county#580"]
+	61 [label="nodeID(61) Sort [ca_county#139 ASC NULLS FIRST], false, 0"]
+	62 [label="nodeID(62) Exchange hashpartitioning(ca_county#139, 200), ENSURE_REQUIREMENTS, [plan_id=425]"]
+	63 [label="nodeID(63) HashAggregate(keys=[ca_county#139, d_qoy#114, d_year#110], functions=[sum(ws_ext_sales_price#93)])"]
+	64 [label="nodeID(64) Exchange hashpartitioning(ca_county#139, d_qoy#114, d_year#110, 200), ENSURE_REQUIREMENTS, [plan_id=421]"]
+	65 [label="nodeID(65) HashAggregate(keys=[ca_county#139, d_qoy#114, d_year#110], functions=[partial_sum(ws_ext_sales_price#93)])"]
+	66 [label="nodeID(66) Project [ws_ext_sales_price#93, d_year#110, d_qoy#114, ca_county#139]"]
+	67 [label="nodeID(67) BroadcastHashJoin [ws_bill_addr_sk#77], [ca_address_sk#132], Inner, BuildRight, false"]
+	68 [label="nodeID(68) Project [ws_bill_addr_sk#77, ws_ext_sales_price#93, d_year#110, d_qoy#114]"]
+	69 [label="nodeID(69) BroadcastHashJoin [ws_sold_date_sk#70], [d_date_sk#104], Inner, BuildRight, false"]
+	70 [label="nodeID(70) Filter (isnotnull(ws_sold_date_sk#70) AND isnotnull(ws_bill_addr_sk#77))"]
+	71 [label="nodeID(71) FileScan parquet tpcds_500_parquet.web_sales[ws_sold_date_sk#70,ws_bill_addr_sk#77,ws_ext_sales_price#93"]
+	72 [label="nodeID(72) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=412]"]
+	73 [label="nodeID(73) Filter ((((isnotnull(d_qoy#114) AND isnotnull(d_year#110)) AND (d_qoy#114 = 1)) AND (d_year#110 = 2000)) AND isnotnull(d_date_sk#104))"]
+	74 [label="nodeID(74) FileScan parquet tpcds_500_parquet.date_dim[d_date_sk#104,d_year#110,d_qoy#114"]
+	75 [label="nodeID(75) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=416]"]
+	76 [label="nodeID(76) Filter (isnotnull(ca_address_sk#132) AND isnotnull(ca_county#139))"]
+	77 [label="nodeID(77) FileScan parquet tpcds_500_parquet.customer_address[ca_address_sk#132,ca_county#139"]
+	78 [label="nodeID(78) Sort [ca_county#656 ASC NULLS FIRST], false, 0"]
+	79 [label="nodeID(79) Exchange hashpartitioning(ca_county#656, 200), ENSURE_REQUIREMENTS, [plan_id=441]"]
+	80 [label="nodeID(80) HashAggregate(keys=[ca_county#656, d_qoy#631, d_year#627], functions=[sum(ws_ext_sales_price#610)])"]
+	81 [label="nodeID(81) Exchange hashpartitioning(ca_county#656, d_qoy#631, d_year#627, 200), ENSURE_REQUIREMENTS, [plan_id=437]"]
+	82 [label="nodeID(82) HashAggregate(keys=[ca_county#656, d_qoy#631, d_year#627], functions=[partial_sum(ws_ext_sales_price#610)])"]
+	83 [label="nodeID(83) Project [ws_ext_sales_price#610, d_year#627, d_qoy#631, ca_county#656]"]
+	84 [label="nodeID(84) BroadcastHashJoin [ws_bill_addr_sk#594], [ca_address_sk#649], Inner, BuildRight, false"]
+	85 [label="nodeID(85) Project [ws_bill_addr_sk#594, ws_ext_sales_price#610, d_year#627, d_qoy#631]"]
+	86 [label="nodeID(86) BroadcastHashJoin [ws_sold_date_sk#587], [d_date_sk#621], Inner, BuildRight, false"]
+	87 [label="nodeID(87) Filter (isnotnull(ws_sold_date_sk#587) AND isnotnull(ws_bill_addr_sk#594))"]
+	88 [label="nodeID(88) FileScan parquet tpcds_500_parquet.web_sales[ws_sold_date_sk#587,ws_bill_addr_sk#594,ws_ext_sales_price#610"]
+	89 [label="nodeID(89) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=428]"]
+	90 [label="nodeID(90) Filter ((((isnotnull(d_qoy#631) AND isnotnull(d_year#627)) AND (d_qoy#631 = 2)) AND (d_year#627 = 2000)) AND isnotnull(d_date_sk#621))"]
+	91 [label="nodeID(91) FileScan parquet tpcds_500_parquet.date_dim[d_date_sk#621,d_year#627,d_qoy#631"]
+	92 [label="nodeID(92) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=432]"]
+	93 [label="nodeID(93) Filter (isnotnull(ca_address_sk#649) AND isnotnull(ca_county#656))"]
+	94 [label="nodeID(94) FileScan parquet tpcds_500_parquet.customer_address[ca_address_sk#649,ca_county#656"]
+	95 [label="nodeID(95) Sort [ca_county#732 ASC NULLS FIRST], false, 0"]
+	96 [label="nodeID(96) Exchange hashpartitioning(ca_county#732, 200), ENSURE_REQUIREMENTS, [plan_id=458]"]
+	97 [label="nodeID(97) HashAggregate(keys=[ca_county#732, d_qoy#707, d_year#703], functions=[sum(ws_ext_sales_price#686)])"]
+	98 [label="nodeID(98) Exchange hashpartitioning(ca_county#732, d_qoy#707, d_year#703, 200), ENSURE_REQUIREMENTS, [plan_id=454]"]
+	99 [label="nodeID(99) HashAggregate(keys=[ca_county#732, d_qoy#707, d_year#703], functions=[partial_sum(ws_ext_sales_price#686)])"]
+	100 [label="nodeID(100) Project [ws_ext_sales_price#686, d_year#703, d_qoy#707, ca_county#732]"]
+	101 [label="nodeID(101) BroadcastHashJoin [ws_bill_addr_sk#670], [ca_address_sk#725], Inner, BuildRight, false"]
+	102 [label="nodeID(102) Project [ws_bill_addr_sk#670, ws_ext_sales_price#686, d_year#703, d_qoy#707]"]
+	103 [label="nodeID(103) BroadcastHashJoin [ws_sold_date_sk#663], [d_date_sk#697], Inner, BuildRight, false"]
+	104 [label="nodeID(104) Filter (isnotnull(ws_sold_date_sk#663) AND isnotnull(ws_bill_addr_sk#670))"]
+	105 [label="nodeID(105) FileScan parquet tpcds_500_parquet.web_sales[ws_sold_date_sk#663,ws_bill_addr_sk#670,ws_ext_sales_price#686"]
+	106 [label="nodeID(106) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=445]"]
+	107 [label="nodeID(107) Filter ((((isnotnull(d_qoy#707) AND isnotnull(d_year#703)) AND (d_qoy#707 = 3)) AND (d_year#703 = 2000)) AND isnotnull(d_date_sk#697))"]
+	108 [label="nodeID(108) FileScan parquet tpcds_500_parquet.date_dim[d_date_sk#697,d_year#703,d_qoy#707"]
+	109 [label="nodeID(109) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=449]"]
+	110 [label="nodeID(110) Filter (isnotnull(ca_address_sk#725) AND isnotnull(ca_county#732))"]
+	111 [label="nodeID(111) FileScan parquet tpcds_500_parquet.customer_address[ca_address_sk#725,ca_county#732"]
+	1 -> 0
+	2 -> 1
+	3 -> 2
+	4 -> 3
+	5 -> 4
+	6 -> 5
+	7 -> 6
+	8 -> 7
+	9 -> 8
+	10 -> 9
+	11 -> 10
+	12 -> 11
+	13 -> 12
+	14 -> 13
+	15 -> 14
+	16 -> 15
+	17 -> 16
+	18 -> 17
+	19 -> 18
+	20 -> 19
+	21 -> 18
+	22 -> 21
+	23 -> 22
+	24 -> 16
+	25 -> 24
+	26 -> 25
+	27 -> 9
+	28 -> 27
+	29 -> 28
+	30 -> 29
+	31 -> 30
+	32 -> 31
+	33 -> 32
+	34 -> 33
+	35 -> 34
+	36 -> 35
+	37 -> 36
+	38 -> 35
+	39 -> 38
+	40 -> 39
+	41 -> 33
+	42 -> 41
+	43 -> 42
+	44 -> 8
+	45 -> 44
+	46 -> 45
+	47 -> 46
+	48 -> 47
+	49 -> 48
+	50 -> 49
+	51 -> 50
+	52 -> 51
+	53 -> 52
+	54 -> 53
+	55 -> 52
+	56 -> 55
+	57 -> 56
+	58 -> 50
+	59 -> 58
+	60 -> 59
+	61 -> 6
+	62 -> 61
+	63 -> 62
+	64 -> 63
+	65 -> 64
+	66 -> 65
+	67 -> 66
+	68 -> 67
+	69 -> 68
+	70 -> 69
+	71 -> 70
+	72 -> 69
+	73 -> 72
+	74 -> 73
+	75 -> 67
+	76 -> 75
+	77 -> 76
+	78 -> 5
+	79 -> 78
+	80 -> 79
+	81 -> 80
+	82 -> 81
+	83 -> 82
+	84 -> 83
+	85 -> 84
+	86 -> 85
+	87 -> 86
+	88 -> 87
+	89 -> 86
+	90 -> 89
+	91 -> 90
+	92 -> 84
+	93 -> 92
+	94 -> 93
+	95 -> 3
+	96 -> 95
+	97 -> 96
+	98 -> 97
+	99 -> 98
+	100 -> 99
+	101 -> 100
+	102 -> 101
+	103 -> 102
+	104 -> 103
+	105 -> 104
+	106 -> 103
+	107 -> 106
+	108 -> 107
+	109 -> 101
+	110 -> 109
+	111 -> 110
+}

@@ -1,0 +1,62 @@
+// The Round Table
+digraph {
+	0 [label="nodeID(0) "]
+	1 [label="nodeID(1) TakeOrderedAndProject(limit=100, orderBy=[i_item_id#128 ASC NULLS FIRST,s_state#129 ASC NULLS FIRST], output=[i_item_id#128,s_state#129,g_state#0,agg1#1,agg2#2,agg3#3,agg4#4])"]
+	2 [label="nodeID(2) HashAggregate(keys=[i_item_id#128, s_state#129, spark_grouping_id#127L], functions=[avg(ss_quantity#15), avg(ss_list_price#17), avg(ss_coupon_amt#24), avg(ss_sales_price#18)])"]
+	3 [label="nodeID(3) Exchange hashpartitioning(i_item_id#128, s_state#129, spark_grouping_id#127L, 200), ENSURE_REQUIREMENTS, [plan_id=119]"]
+	4 [label="nodeID(4) HashAggregate(keys=[i_item_id#128, s_state#129, spark_grouping_id#127L], functions=[partial_avg(ss_quantity#15), partial_avg(ss_list_price#17), partial_avg(ss_coupon_amt#24), partial_avg(ss_sales_price#18)])"]
+	5 [label="nodeID(5) Expand [[ss_quantity#15, ss_list_price#17, ss_sales_price#18, ss_coupon_amt#24, i_item_id#95, s_state#89, 0], [ss_quantity#15, ss_list_price#17, ss_sales_price#18, ss_coupon_amt#24, i_item_id#95, null, 1], [ss_quantity#15, ss_list_price#17, ss_sales_price#18, ss_coupon_amt#24, null, null, 3]], [ss_quantity#15, ss_list_price#17, ss_sales_price#18, ss_coupon_amt#24, i_item_id#128, s_state#129, spark_grouping_id#127L]"]
+	6 [label="nodeID(6) Project [ss_quantity#15, ss_list_price#17, ss_sales_price#18, ss_coupon_amt#24, i_item_id#95, s_state#89]"]
+	7 [label="nodeID(7) BroadcastHashJoin [ss_item_sk#7], [i_item_sk#94], Inner, BuildRight, false"]
+	8 [label="nodeID(8) Project [ss_item_sk#7, ss_quantity#15, ss_list_price#17, ss_sales_price#18, ss_coupon_amt#24, s_state#89]"]
+	9 [label="nodeID(9) BroadcastHashJoin [ss_store_sk#12], [s_store_sk#65], Inner, BuildRight, false"]
+	10 [label="nodeID(10) Project [ss_item_sk#7, ss_store_sk#12, ss_quantity#15, ss_list_price#17, ss_sales_price#18, ss_coupon_amt#24]"]
+	11 [label="nodeID(11) BroadcastHashJoin [ss_sold_date_sk#5], [d_date_sk#37], Inner, BuildRight, false"]
+	12 [label="nodeID(12) Project [ss_sold_date_sk#5, ss_item_sk#7, ss_store_sk#12, ss_quantity#15, ss_list_price#17, ss_sales_price#18, ss_coupon_amt#24]"]
+	13 [label="nodeID(13) BroadcastHashJoin [ss_cdemo_sk#9], [cd_demo_sk#28], Inner, BuildRight, false"]
+	14 [label="nodeID(14) Filter (((isnotnull(ss_cdemo_sk#9) AND isnotnull(ss_sold_date_sk#5)) AND isnotnull(ss_store_sk#12)) AND isnotnull(ss_item_sk#7))"]
+	15 [label="nodeID(15) FileScan parquet tpcds_100_parquet.store_sales[ss_sold_date_sk#5,ss_item_sk#7,ss_cdemo_sk#9,ss_store_sk#12,ss_quantity#15,ss_list_price#17,ss_sales_price#18,ss_coupon_amt#24]"]
+	16 [label="nodeID(16) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=101]"]
+	17 [label="nodeID(17) Project [cd_demo_sk#28]"]
+	18 [label="nodeID(18) Filter ((((((isnotnull(cd_gender#29) AND isnotnull(cd_marital_status#30)) AND isnotnull(cd_education_status#31)) AND (cd_gender#29 = M)) AND (cd_marital_status#30 = S)) AND (cd_education_status#31 = College)) AND isnotnull(cd_demo_sk#28))"]
+	19 [label="nodeID(19) FileScan parquet tpcds_100_parquet.customer_demographics[cd_demo_sk#28,cd_gender#29,cd_marital_status#30,cd_education_status#31]"]
+	20 [label="nodeID(20) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=105]"]
+	21 [label="nodeID(21) Project [d_date_sk#37]"]
+	22 [label="nodeID(22) Filter ((isnotnull(d_year#43) AND (d_year#43 = 2002)) AND isnotnull(d_date_sk#37))"]
+	23 [label="nodeID(23) FileScan parquet tpcds_100_parquet.date_dim[d_date_sk#37,d_year#43]"]
+	24 [label="nodeID(24) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=109]"]
+	25 [label="nodeID(25) Filter ((isnotnull(s_state#89) AND (s_state#89 = TN)) AND isnotnull(s_store_sk#65))"]
+	26 [label="nodeID(26) FileScan parquet tpcds_100_parquet.store[s_store_sk#65,s_state#89]"]
+	27 [label="nodeID(27) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=113]"]
+	28 [label="nodeID(28) Filter isnotnull(i_item_sk#94)"]
+	29 [label="nodeID(29) FileScan parquet tpcds_100_parquet.item[i_item_sk#94,i_item_id#95]"]
+	1 -> 0
+	2 -> 1
+	3 -> 2
+	4 -> 3
+	5 -> 4
+	6 -> 5
+	7 -> 6
+	8 -> 7
+	9 -> 8
+	10 -> 9
+	11 -> 10
+	12 -> 11
+	13 -> 12
+	14 -> 13
+	15 -> 14
+	16 -> 13
+	17 -> 16
+	18 -> 17
+	19 -> 18
+	20 -> 11
+	21 -> 20
+	22 -> 21
+	23 -> 22
+	24 -> 9
+	25 -> 24
+	26 -> 25
+	27 -> 7
+	28 -> 27
+	29 -> 28
+}

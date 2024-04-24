@@ -1,0 +1,132 @@
+// The Round Table
+digraph {
+	0 [label="nodeID(0) "]
+	1 [label="nodeID(1) BroadcastNestedLoopJoin BuildRight, Cross"]
+	2 [label="nodeID(2) BroadcastNestedLoopJoin BuildRight, Cross"]
+	3 [label="nodeID(3) BroadcastNestedLoopJoin BuildRight, Cross"]
+	4 [label="nodeID(4) BroadcastNestedLoopJoin BuildRight, Cross"]
+	5 [label="nodeID(5) BroadcastNestedLoopJoin BuildRight, Cross"]
+	6 [label="nodeID(6) HashAggregate(keys=[], functions=[avg(ss_list_price#30), count(ss_list_price#30), count(distinct ss_list_price#198)])"]
+	7 [label="nodeID(7) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=153]"]
+	8 [label="nodeID(8) HashAggregate(keys=[], functions=[merge_avg(ss_list_price#30), merge_count(ss_list_price#30), partial_count(distinct ss_list_price#198)])"]
+	9 [label="nodeID(9) HashAggregate(keys=[ss_list_price#198], functions=[merge_avg(ss_list_price#30), merge_count(ss_list_price#30)])"]
+	10 [label="nodeID(10) Exchange hashpartitioning(ss_list_price#198, 200), ENSURE_REQUIREMENTS, [plan_id=149]"]
+	11 [label="nodeID(11) HashAggregate(keys=[knownfloatingpointnormalized(normalizenanandzero(ss_list_price#30)) AS ss_list_price#198], functions=[partial_avg(ss_list_price#30), partial_count(ss_list_price#30)])"]
+	12 [label="nodeID(12) Project [ss_list_price#30]"]
+	13 [label="nodeID(13) Filter (((isnotnull(ss_quantity#28) AND (ss_quantity#28 >= 0)) AND (ss_quantity#28 <= 5)) AND ((((ss_list_price#30 >= 8.0) AND (ss_list_price#30 <= 18.0)) OR ((ss_coupon_amt#37 >= 459.0) AND (ss_coupon_amt#37 <= 1459.0))) OR ((ss_wholesale_cost#29 >= 57.0) AND (ss_wholesale_cost#29 <= 77.0))))"]
+	14 [label="nodeID(14) FileScan parquet tpcds_100_parquet.store_sales[ss_quantity#28,ss_wholesale_cost#29,ss_list_price#30,ss_coupon_amt#37]"]
+	15 [label="nodeID(15) BroadcastExchange IdentityBroadcastMode, [plan_id=162]"]
+	16 [label="nodeID(16) HashAggregate(keys=[], functions=[avg(ss_list_price#53), count(ss_list_price#53), count(distinct ss_list_price#209)])"]
+	17 [label="nodeID(17) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=159]"]
+	18 [label="nodeID(18) HashAggregate(keys=[], functions=[merge_avg(ss_list_price#53), merge_count(ss_list_price#53), partial_count(distinct ss_list_price#209)])"]
+	19 [label="nodeID(19) HashAggregate(keys=[ss_list_price#209], functions=[merge_avg(ss_list_price#53), merge_count(ss_list_price#53)])"]
+	20 [label="nodeID(20) Exchange hashpartitioning(ss_list_price#209, 200), ENSURE_REQUIREMENTS, [plan_id=155]"]
+	21 [label="nodeID(21) HashAggregate(keys=[knownfloatingpointnormalized(normalizenanandzero(ss_list_price#53)) AS ss_list_price#209], functions=[partial_avg(ss_list_price#53), partial_count(ss_list_price#53)])"]
+	22 [label="nodeID(22) Project [ss_list_price#53]"]
+	23 [label="nodeID(23) Filter (((isnotnull(ss_quantity#51) AND (ss_quantity#51 >= 6)) AND (ss_quantity#51 <= 10)) AND ((((ss_list_price#53 >= 90.0) AND (ss_list_price#53 <= 100.0)) OR ((ss_coupon_amt#60 >= 2323.0) AND (ss_coupon_amt#60 <= 3323.0))) OR ((ss_wholesale_cost#52 >= 31.0) AND (ss_wholesale_cost#52 <= 51.0))))"]
+	24 [label="nodeID(24) FileScan parquet tpcds_100_parquet.store_sales[ss_quantity#51,ss_wholesale_cost#52,ss_list_price#53,ss_coupon_amt#60]"]
+	25 [label="nodeID(25) BroadcastExchange IdentityBroadcastMode, [plan_id=171]"]
+	26 [label="nodeID(26) HashAggregate(keys=[], functions=[avg(ss_list_price#76), count(ss_list_price#76), count(distinct ss_list_price#220)])"]
+	27 [label="nodeID(27) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=168]"]
+	28 [label="nodeID(28) HashAggregate(keys=[], functions=[merge_avg(ss_list_price#76), merge_count(ss_list_price#76), partial_count(distinct ss_list_price#220)])"]
+	29 [label="nodeID(29) HashAggregate(keys=[ss_list_price#220], functions=[merge_avg(ss_list_price#76), merge_count(ss_list_price#76)])"]
+	30 [label="nodeID(30) Exchange hashpartitioning(ss_list_price#220, 200), ENSURE_REQUIREMENTS, [plan_id=164]"]
+	31 [label="nodeID(31) HashAggregate(keys=[knownfloatingpointnormalized(normalizenanandzero(ss_list_price#76)) AS ss_list_price#220], functions=[partial_avg(ss_list_price#76), partial_count(ss_list_price#76)])"]
+	32 [label="nodeID(32) Project [ss_list_price#76]"]
+	33 [label="nodeID(33) Filter (((isnotnull(ss_quantity#74) AND (ss_quantity#74 >= 11)) AND (ss_quantity#74 <= 15)) AND ((((ss_list_price#76 >= 142.0) AND (ss_list_price#76 <= 152.0)) OR ((ss_coupon_amt#83 >= 12214.0) AND (ss_coupon_amt#83 <= 13214.0))) OR ((ss_wholesale_cost#75 >= 79.0) AND (ss_wholesale_cost#75 <= 99.0))))"]
+	34 [label="nodeID(34) FileScan parquet tpcds_100_parquet.store_sales[ss_quantity#74,ss_wholesale_cost#75,ss_list_price#76,ss_coupon_amt#83]"]
+	35 [label="nodeID(35) BroadcastExchange IdentityBroadcastMode, [plan_id=180]"]
+	36 [label="nodeID(36) HashAggregate(keys=[], functions=[avg(ss_list_price#99), count(ss_list_price#99), count(distinct ss_list_price#231)])"]
+	37 [label="nodeID(37) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=177]"]
+	38 [label="nodeID(38) HashAggregate(keys=[], functions=[merge_avg(ss_list_price#99), merge_count(ss_list_price#99), partial_count(distinct ss_list_price#231)])"]
+	39 [label="nodeID(39) HashAggregate(keys=[ss_list_price#231], functions=[merge_avg(ss_list_price#99), merge_count(ss_list_price#99)])"]
+	40 [label="nodeID(40) Exchange hashpartitioning(ss_list_price#231, 200), ENSURE_REQUIREMENTS, [plan_id=173]"]
+	41 [label="nodeID(41) HashAggregate(keys=[knownfloatingpointnormalized(normalizenanandzero(ss_list_price#99)) AS ss_list_price#231], functions=[partial_avg(ss_list_price#99), partial_count(ss_list_price#99)])"]
+	42 [label="nodeID(42) Project [ss_list_price#99]"]
+	43 [label="nodeID(43) Filter (((isnotnull(ss_quantity#97) AND (ss_quantity#97 >= 16)) AND (ss_quantity#97 <= 20)) AND ((((ss_list_price#99 >= 135.0) AND (ss_list_price#99 <= 145.0)) OR ((ss_coupon_amt#106 >= 6071.0) AND (ss_coupon_amt#106 <= 7071.0))) OR ((ss_wholesale_cost#98 >= 38.0) AND (ss_wholesale_cost#98 <= 58.0))))"]
+	44 [label="nodeID(44) FileScan parquet tpcds_100_parquet.store_sales[ss_quantity#97,ss_wholesale_cost#98,ss_list_price#99,ss_coupon_amt#106]"]
+	45 [label="nodeID(45) BroadcastExchange IdentityBroadcastMode, [plan_id=189]"]
+	46 [label="nodeID(46) HashAggregate(keys=[], functions=[avg(ss_list_price#122), count(ss_list_price#122), count(distinct ss_list_price#242)])"]
+	47 [label="nodeID(47) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=186]"]
+	48 [label="nodeID(48) HashAggregate(keys=[], functions=[merge_avg(ss_list_price#122), merge_count(ss_list_price#122), partial_count(distinct ss_list_price#242)])"]
+	49 [label="nodeID(49) HashAggregate(keys=[ss_list_price#242], functions=[merge_avg(ss_list_price#122), merge_count(ss_list_price#122)])"]
+	50 [label="nodeID(50) Exchange hashpartitioning(ss_list_price#242, 200), ENSURE_REQUIREMENTS, [plan_id=182]"]
+	51 [label="nodeID(51) HashAggregate(keys=[knownfloatingpointnormalized(normalizenanandzero(ss_list_price#122)) AS ss_list_price#242], functions=[partial_avg(ss_list_price#122), partial_count(ss_list_price#122)])"]
+	52 [label="nodeID(52) Project [ss_list_price#122]"]
+	53 [label="nodeID(53) Filter (((isnotnull(ss_quantity#120) AND (ss_quantity#120 >= 21)) AND (ss_quantity#120 <= 25)) AND ((((ss_list_price#122 >= 122.0) AND (ss_list_price#122 <= 132.0)) OR ((ss_coupon_amt#129 >= 836.0) AND (ss_coupon_amt#129 <= 1836.0))) OR ((ss_wholesale_cost#121 >= 17.0) AND (ss_wholesale_cost#121 <= 37.0))))"]
+	54 [label="nodeID(54) FileScan parquet tpcds_100_parquet.store_sales[ss_quantity#120,ss_wholesale_cost#121,ss_list_price#122,ss_coupon_amt#129]"]
+	55 [label="nodeID(55) BroadcastExchange IdentityBroadcastMode, [plan_id=198]"]
+	56 [label="nodeID(56) HashAggregate(keys=[], functions=[avg(ss_list_price#145), count(ss_list_price#145), count(distinct ss_list_price#253)])"]
+	57 [label="nodeID(57) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=195]"]
+	58 [label="nodeID(58) HashAggregate(keys=[], functions=[merge_avg(ss_list_price#145), merge_count(ss_list_price#145), partial_count(distinct ss_list_price#253)])"]
+	59 [label="nodeID(59) HashAggregate(keys=[ss_list_price#253], functions=[merge_avg(ss_list_price#145), merge_count(ss_list_price#145)])"]
+	60 [label="nodeID(60) Exchange hashpartitioning(ss_list_price#253, 200), ENSURE_REQUIREMENTS, [plan_id=191]"]
+	61 [label="nodeID(61) HashAggregate(keys=[knownfloatingpointnormalized(normalizenanandzero(ss_list_price#145)) AS ss_list_price#253], functions=[partial_avg(ss_list_price#145), partial_count(ss_list_price#145)])"]
+	62 [label="nodeID(62) Project [ss_list_price#145]"]
+	63 [label="nodeID(63) Filter (((isnotnull(ss_quantity#143) AND (ss_quantity#143 >= 26)) AND (ss_quantity#143 <= 30)) AND ((((ss_list_price#145 >= 154.0) AND (ss_list_price#145 <= 164.0)) OR ((ss_coupon_amt#152 >= 7326.0) AND (ss_coupon_amt#152 <= 8326.0))) OR ((ss_wholesale_cost#144 >= 7.0) AND (ss_wholesale_cost#144 <= 27.0))))"]
+	64 [label="nodeID(64) FileScan parquet tpcds_100_parquet.store_sales[ss_quantity#143,ss_wholesale_cost#144,ss_list_price#145,ss_coupon_amt#152]"]
+	1 -> 0
+	2 -> 1
+	3 -> 2
+	4 -> 3
+	5 -> 4
+	6 -> 5
+	7 -> 6
+	8 -> 7
+	9 -> 8
+	10 -> 9
+	11 -> 10
+	12 -> 11
+	13 -> 12
+	14 -> 13
+	15 -> 5
+	16 -> 15
+	17 -> 16
+	18 -> 17
+	19 -> 18
+	20 -> 19
+	21 -> 20
+	22 -> 21
+	23 -> 22
+	24 -> 23
+	25 -> 4
+	26 -> 25
+	27 -> 26
+	28 -> 27
+	29 -> 28
+	30 -> 29
+	31 -> 30
+	32 -> 31
+	33 -> 32
+	34 -> 33
+	35 -> 3
+	36 -> 35
+	37 -> 36
+	38 -> 37
+	39 -> 38
+	40 -> 39
+	41 -> 40
+	42 -> 41
+	43 -> 42
+	44 -> 43
+	45 -> 2
+	46 -> 45
+	47 -> 46
+	48 -> 47
+	49 -> 48
+	50 -> 49
+	51 -> 50
+	52 -> 51
+	53 -> 52
+	54 -> 53
+	55 -> 1
+	56 -> 55
+	57 -> 56
+	58 -> 57
+	59 -> 58
+	60 -> 59
+	61 -> 60
+	62 -> 61
+	63 -> 62
+	64 -> 63
+}

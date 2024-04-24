@@ -1,0 +1,25 @@
+// The Round Table
+digraph {
+	node [shape=box]
+	0 [label="NormalStage (end_node_id 0): length of beginNodesToChains is 1
+[1,0,0,1,1,0,0,0]
+Chain 0 is : HashAggregate(keys=[i_brand#23, i_brand_id#22, t_hour#159, t_minute#160], functions=[sum(ext_price#0)])
+HashAggregate->Empty->Sort
+"]
+	18 [label="Broadcast stage(end_node_id 18): date_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	18 -> 3
+	26 [label="Broadcast stage(end_node_id 26): date_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	26 -> 3
+	34 [label="Broadcast stage(end_node_id 34): date_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	34 -> 3
+	9 [label="Broadcast stage(end_node_id 9): item,10000FileScan->Filter->Project->BroadcastExchange"]
+	9 -> 3
+	38 [label="Broadcast stage(end_node_id 38): time_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	38 -> 3
+	3 [label="First stage (end_node_id 3): File Scan web_sales,3117.6FileScan->Filter->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning"]
+	3 -> 0
+	3 [label="First stage (end_node_id 3): File Scan catalog_sales,6623.5FileScan->Filter->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning"]
+	3 -> 0
+	3 [label="First stage (end_node_id 3): File Scan store_sales,12173.9FileScan->Filter->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning"]
+	3 -> 0
+}

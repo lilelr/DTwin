@@ -1,0 +1,27 @@
+== Physical Plan ==
+AdaptiveSparkPlan isFinalPlan=false
++- TakeOrderedAndProject(limit=100, orderBy=[w_warehouse_name#8 ASC NULLS FIRST,i_item_id#21 ASC NULLS FIRST], output=[w_warehouse_name#8,i_item_id#21,inv_before#0L,inv_after#1L])
+   +- Filter (CASE WHEN (inv_before#0L > 0) THEN ((cast(inv_after#1L as double) / cast(inv_before#0L as double)) >= 0.666667) END AND CASE WHEN (inv_before#0L > 0) THEN ((cast(inv_after#1L as double) / cast(inv_before#0L as double)) <= 1.5) END)
+      +- HashAggregate(keys=[w_warehouse_name#8, i_item_id#21], functions=[sum(CASE WHEN (cast(d_date#44 as date) < 2000-03-11) THEN inv_quantity_on_hand#5 ELSE 0 END), sum(CASE WHEN (cast(d_date#44 as date) >= 2000-03-11) THEN inv_quantity_on_hand#5 ELSE 0 END)])
+         +- Exchange hashpartitioning(w_warehouse_name#8, i_item_id#21, 200), ENSURE_REQUIREMENTS, [plan_id=96]
+            +- HashAggregate(keys=[w_warehouse_name#8, i_item_id#21], functions=[partial_sum(CASE WHEN (cast(d_date#44 as date) < 2000-03-11) THEN inv_quantity_on_hand#5 ELSE 0 END), partial_sum(CASE WHEN (cast(d_date#44 as date) >= 2000-03-11) THEN inv_quantity_on_hand#5 ELSE 0 END)])
+               +- Project [inv_quantity_on_hand#5, w_warehouse_name#8, i_item_id#21, d_date#44]
+                  +- BroadcastHashJoin [inv_date_sk#2], [d_date_sk#42], Inner, BuildRight, false
+                     :- Project [inv_date_sk#2, inv_quantity_on_hand#5, w_warehouse_name#8, i_item_id#21]
+                     :  +- BroadcastHashJoin [inv_item_sk#3], [i_item_sk#20], Inner, BuildRight, false
+                     :     :- Project [inv_date_sk#2, inv_item_sk#3, inv_quantity_on_hand#5, w_warehouse_name#8]
+                     :     :  +- BroadcastHashJoin [inv_warehouse_sk#4], [w_warehouse_sk#6], Inner, BuildRight, false
+                     :     :     :- Filter ((isnotnull(inv_warehouse_sk#4) AND isnotnull(inv_item_sk#3)) AND isnotnull(inv_date_sk#2))
+                     :     :     :  +- FileScan parquet tpcds_1000_parquet.inventory[inv_date_sk#2,inv_item_sk#3,inv_warehouse_sk#4,inv_quantity_on_hand#5] Batched: true, DataFilters: [isnotnull(inv_warehouse_sk#4), isnotnull(inv_item_sk#3), isnotnull(inv_date_sk#2)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_1000/tpcds_parquet/inventory], PartitionFilters: [], PushedFilters: [IsNotNull(inv_warehouse_sk), IsNotNull(inv_item_sk), IsNotNull(inv_date_sk)], ReadSchema: struct<inv_date_sk:int,inv_item_sk:int,inv_warehouse_sk:int,inv_quantity_on_hand:int>
+                     :     :     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=83]
+                     :     :        +- Filter isnotnull(w_warehouse_sk#6)
+                     :     :           +- FileScan parquet tpcds_1000_parquet.warehouse[w_warehouse_sk#6,w_warehouse_name#8] Batched: true, DataFilters: [isnotnull(w_warehouse_sk#6)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_1000/tpcds_parquet/warehouse], PartitionFilters: [], PushedFilters: [IsNotNull(w_warehouse_sk)], ReadSchema: struct<w_warehouse_sk:int,w_warehouse_name:string>
+                     :     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=87]
+                     :        +- Project [i_item_sk#20, i_item_id#21]
+                     :           +- Filter (((isnotnull(i_current_price#25) AND (i_current_price#25 >= 0.99)) AND (i_current_price#25 <= 1.49)) AND isnotnull(i_item_sk#20))
+                     :              +- FileScan parquet tpcds_1000_parquet.item[i_item_sk#20,i_item_id#21,i_current_price#25] Batched: true, DataFilters: [isnotnull(i_current_price#25), (i_current_price#25 >= 0.99), (i_current_price#25 <= 1.49), isnot..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_1000/tpcds_parquet/item], PartitionFilters: [], PushedFilters: [IsNotNull(i_current_price), GreaterThanOrEqual(i_current_price,0.99), LessThanOrEqual(i_current_..., ReadSchema: struct<i_item_sk:int,i_item_id:string,i_current_price:double>
+                     +- BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=91]
+                        +- Filter (((isnotnull(d_date#44) AND (cast(d_date#44 as date) >= 2000-02-10)) AND (cast(d_date#44 as date) <= 2000-04-10)) AND isnotnull(d_date_sk#42))
+                           +- FileScan parquet tpcds_1000_parquet.date_dim[d_date_sk#42,d_date#44] Batched: true, DataFilters: [isnotnull(d_date#44), (cast(d_date#44 as date) >= 2000-02-10), (cast(d_date#44 as date) <= 2000-..., Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_1000/tpcds_parquet/date_dim], PartitionFilters: [], PushedFilters: [IsNotNull(d_date), IsNotNull(d_date_sk)], ReadSchema: struct<d_date_sk:int,d_date:string>
+
+

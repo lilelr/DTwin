@@ -1,0 +1,208 @@
+// The Round Table
+digraph {
+	0 [label="nodeID(0) "]
+	1 [label="nodeID(1) TakeOrderedAndProject(limit=100, orderBy=[channel#476 ASC NULLS FIRST,id#477 ASC NULLS FIRST], output=[channel#476,id#477,sales#11,returns#12,profit#13])"]
+	2 [label="nodeID(2) HashAggregate(keys=[channel#476, id#477, spark_grouping_id#475L], functions=[sum(sales#14), sum(returns#2), sum(profit#3)])"]
+	3 [label="nodeID(3) Exchange hashpartitioning(channel#476, id#477, spark_grouping_id#475L, 200), ENSURE_REQUIREMENTS, [plan_id=414]"]
+	4 [label="nodeID(4) HashAggregate(keys=[channel#476, id#477, spark_grouping_id#475L], functions=[partial_sum(sales#14), partial_sum(returns#2), partial_sum(profit#3)])"]
+	5 [label="nodeID(5) Expand [[sales#14, returns#2, profit#3, channel#473, id#474, 0], [sales#14, returns#2, profit#3, channel#473, null, 1], [sales#14, returns#2, profit#3, null, null, 3]], [sales#14, returns#2, profit#3, channel#476, id#477, spark_grouping_id#475L]"]
+	6 [label="nodeID(6) Union"]
+	7 [label="nodeID(7) Project [sales#14, coalesce(returns#16, 0.0) AS returns#2, (profit#15 - coalesce(profit_loss#17, 0.0)) AS profit#3, store channel AS channel#473, s_store_sk#77 AS id#474]"]
+	8 [label="nodeID(8) SortMergeJoin [s_store_sk#77], [s_store_sk#287], LeftOuter"]
+	9 [label="nodeID(9) Sort [s_store_sk#77 ASC NULLS FIRST], false, 0"]
+	10 [label="nodeID(10) HashAggregate(keys=[s_store_sk#77], functions=[sum(ss_ext_sales_price#41), sum(ss_net_profit#48)])"]
+	11 [label="nodeID(11) Exchange hashpartitioning(s_store_sk#77, 200), ENSURE_REQUIREMENTS, [plan_id=347]"]
+	12 [label="nodeID(12) HashAggregate(keys=[s_store_sk#77], functions=[partial_sum(ss_ext_sales_price#41), partial_sum(ss_net_profit#48)])"]
+	13 [label="nodeID(13) Project [ss_ext_sales_price#41, ss_net_profit#48, s_store_sk#77]"]
+	14 [label="nodeID(14) BroadcastHashJoin [ss_store_sk#33], [s_store_sk#77], Inner, BuildRight, false"]
+	15 [label="nodeID(15) Project [ss_store_sk#33, ss_ext_sales_price#41, ss_net_profit#48]"]
+	16 [label="nodeID(16) BroadcastHashJoin [ss_sold_date_sk#26], [d_date_sk#49], Inner, BuildRight, false"]
+	17 [label="nodeID(17) Filter (isnotnull(ss_sold_date_sk#26) AND isnotnull(ss_store_sk#33))"]
+	18 [label="nodeID(18) FileScan parquet tpcds_100_parquet.store_sales[ss_sold_date_sk#26,ss_store_sk#33,ss_ext_sales_price#41,ss_net_profit#48]"]
+	19 [label="nodeID(19) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=338]"]
+	20 [label="nodeID(20) Project [d_date_sk#49]"]
+	21 [label="nodeID(21) Filter (((isnotnull(d_date#51) AND (cast(d_date#51 as date) >= 2000-08-23)) AND (cast(d_date#51 as date) <= 2000-09-22)) AND isnotnull(d_date_sk#49))"]
+	22 [label="nodeID(22) FileScan parquet tpcds_100_parquet.date_dim[d_date_sk#49,d_date#51]"]
+	23 [label="nodeID(23) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=342]"]
+	24 [label="nodeID(24) Filter isnotnull(s_store_sk#77)"]
+	25 [label="nodeID(25) FileScan parquet tpcds_100_parquet.store[s_store_sk#77]"]
+	26 [label="nodeID(26) Sort [s_store_sk#287 ASC NULLS FIRST], false, 0"]
+	27 [label="nodeID(27) HashAggregate(keys=[s_store_sk#287], functions=[sum(sr_return_amt#117), sum(sr_net_loss#125)])"]
+	28 [label="nodeID(28) Exchange hashpartitioning(s_store_sk#287, 200), ENSURE_REQUIREMENTS, [plan_id=358]"]
+	29 [label="nodeID(29) HashAggregate(keys=[s_store_sk#287], functions=[partial_sum(sr_return_amt#117), partial_sum(sr_net_loss#125)])"]
+	30 [label="nodeID(30) Project [sr_return_amt#117, sr_net_loss#125, s_store_sk#287]"]
+	31 [label="nodeID(31) BroadcastHashJoin [sr_store_sk#113], [s_store_sk#287], Inner, BuildRight, false"]
+	32 [label="nodeID(32) Project [sr_store_sk#113, sr_return_amt#117, sr_net_loss#125]"]
+	33 [label="nodeID(33) BroadcastHashJoin [sr_returned_date_sk#106], [d_date_sk#259], Inner, BuildRight, false"]
+	34 [label="nodeID(34) Filter (isnotnull(sr_returned_date_sk#106) AND isnotnull(sr_store_sk#113))"]
+	35 [label="nodeID(35) FileScan parquet tpcds_100_parquet.store_returns[sr_returned_date_sk#106,sr_store_sk#113,sr_return_amt#117,sr_net_loss#125]"]
+	36 [label="nodeID(36) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=349]"]
+	37 [label="nodeID(37) Project [d_date_sk#259]"]
+	38 [label="nodeID(38) Filter (((isnotnull(d_date#261) AND (cast(d_date#261 as date) >= 2000-08-23)) AND (cast(d_date#261 as date) <= 2000-09-22)) AND isnotnull(d_date_sk#259))"]
+	39 [label="nodeID(39) FileScan parquet tpcds_100_parquet.date_dim[d_date_sk#259,d_date#261]"]
+	40 [label="nodeID(40) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=353]"]
+	41 [label="nodeID(41) Filter isnotnull(s_store_sk#287)"]
+	42 [label="nodeID(42) FileScan parquet tpcds_100_parquet.store[s_store_sk#287]"]
+	43 [label="nodeID(43) Project [sales#18, returns#20, (profit#19 - profit_loss#21) AS profit#6, catalog channel AS channel#483, cs_call_center_sk#137 AS id#484]"]
+	44 [label="nodeID(44) CartesianProduct"]
+	45 [label="nodeID(45) HashAggregate(keys=[cs_call_center_sk#137], functions=[sum(cs_ext_sales_price#149), sum(cs_net_profit#159)])"]
+	46 [label="nodeID(46) Exchange hashpartitioning(cs_call_center_sk#137, 200), ENSURE_REQUIREMENTS, [plan_id=371]"]
+	47 [label="nodeID(47) HashAggregate(keys=[cs_call_center_sk#137], functions=[partial_sum(cs_ext_sales_price#149), partial_sum(cs_net_profit#159)])"]
+	48 [label="nodeID(48) Project [cs_call_center_sk#137, cs_ext_sales_price#149, cs_net_profit#159]"]
+	49 [label="nodeID(49) BroadcastHashJoin [cs_sold_date_sk#126], [d_date_sk#316], Inner, BuildRight, false"]
+	50 [label="nodeID(50) Filter isnotnull(cs_sold_date_sk#126)"]
+	51 [label="nodeID(51) FileScan parquet tpcds_100_parquet.catalog_sales[cs_sold_date_sk#126,cs_call_center_sk#137,cs_ext_sales_price#149,cs_net_profit#159]"]
+	52 [label="nodeID(52) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=366]"]
+	53 [label="nodeID(53) Project [d_date_sk#316]"]
+	54 [label="nodeID(54) Filter (((isnotnull(d_date#318) AND (cast(d_date#318 as date) >= 2000-08-23)) AND (cast(d_date#318 as date) <= 2000-09-22)) AND isnotnull(d_date_sk#316))"]
+	55 [label="nodeID(55) FileScan parquet tpcds_100_parquet.date_dim[d_date_sk#316,d_date#318]"]
+	56 [label="nodeID(56) HashAggregate(keys=[cr_call_center_sk#171], functions=[sum(cr_return_amount#178), sum(cr_net_loss#186)])"]
+	57 [label="nodeID(57) Exchange hashpartitioning(cr_call_center_sk#171, 200), ENSURE_REQUIREMENTS, [plan_id=378]"]
+	58 [label="nodeID(58) HashAggregate(keys=[cr_call_center_sk#171], functions=[partial_sum(cr_return_amount#178), partial_sum(cr_net_loss#186)])"]
+	59 [label="nodeID(59) Project [cr_call_center_sk#171, cr_return_amount#178, cr_net_loss#186]"]
+	60 [label="nodeID(60) BroadcastHashJoin [cr_returned_date_sk#160], [d_date_sk#344], Inner, BuildRight, false"]
+	61 [label="nodeID(61) Filter isnotnull(cr_returned_date_sk#160)"]
+	62 [label="nodeID(62) FileScan parquet tpcds_100_parquet.catalog_returns[cr_returned_date_sk#160,cr_call_center_sk#171,cr_return_amount#178,cr_net_loss#186]"]
+	63 [label="nodeID(63) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=373]"]
+	64 [label="nodeID(64) Project [d_date_sk#344]"]
+	65 [label="nodeID(65) Filter (((isnotnull(d_date#346) AND (cast(d_date#346 as date) >= 2000-08-23)) AND (cast(d_date#346 as date) <= 2000-09-22)) AND isnotnull(d_date_sk#344))"]
+	66 [label="nodeID(66) FileScan parquet tpcds_100_parquet.date_dim[d_date_sk#344,d_date#346]"]
+	67 [label="nodeID(67) Project [sales#22, coalesce(returns#24, 0.0) AS returns#9, (profit#23 - coalesce(profit_loss#25, 0.0)) AS profit#10, web channel AS channel#485, wp_web_page_sk#221 AS id#486]"]
+	68 [label="nodeID(68) SortMergeJoin [wp_web_page_sk#221], [wp_web_page_sk#428], LeftOuter"]
+	69 [label="nodeID(69) Sort [wp_web_page_sk#221 ASC NULLS FIRST], false, 0"]
+	70 [label="nodeID(70) HashAggregate(keys=[wp_web_page_sk#221], functions=[sum(ws_ext_sales_price#210), sum(ws_net_profit#220)])"]
+	71 [label="nodeID(71) Exchange hashpartitioning(wp_web_page_sk#221, 200), ENSURE_REQUIREMENTS, [plan_id=391]"]
+	72 [label="nodeID(72) HashAggregate(keys=[wp_web_page_sk#221], functions=[partial_sum(ws_ext_sales_price#210), partial_sum(ws_net_profit#220)])"]
+	73 [label="nodeID(73) Project [ws_ext_sales_price#210, ws_net_profit#220, wp_web_page_sk#221]"]
+	74 [label="nodeID(74) BroadcastHashJoin [ws_web_page_sk#199], [wp_web_page_sk#221], Inner, BuildRight, false"]
+	75 [label="nodeID(75) Project [ws_web_page_sk#199, ws_ext_sales_price#210, ws_net_profit#220]"]
+	76 [label="nodeID(76) BroadcastHashJoin [ws_sold_date_sk#187], [d_date_sk#372], Inner, BuildRight, false"]
+	77 [label="nodeID(77) Filter (isnotnull(ws_sold_date_sk#187) AND isnotnull(ws_web_page_sk#199))"]
+	78 [label="nodeID(78) FileScan parquet tpcds_100_parquet.web_sales[ws_sold_date_sk#187,ws_web_page_sk#199,ws_ext_sales_price#210,ws_net_profit#220]"]
+	79 [label="nodeID(79) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=382]"]
+	80 [label="nodeID(80) Project [d_date_sk#372]"]
+	81 [label="nodeID(81) Filter (((isnotnull(d_date#374) AND (cast(d_date#374 as date) >= 2000-08-23)) AND (cast(d_date#374 as date) <= 2000-09-22)) AND isnotnull(d_date_sk#372))"]
+	82 [label="nodeID(82) FileScan parquet tpcds_100_parquet.date_dim[d_date_sk#372,d_date#374]"]
+	83 [label="nodeID(83) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=386]"]
+	84 [label="nodeID(84) Filter isnotnull(wp_web_page_sk#221)"]
+	85 [label="nodeID(85) FileScan parquet tpcds_100_parquet.web_page[wp_web_page_sk#221]"]
+	86 [label="nodeID(86) Sort [wp_web_page_sk#428 ASC NULLS FIRST], false, 0"]
+	87 [label="nodeID(87) HashAggregate(keys=[wp_web_page_sk#428], functions=[sum(wr_return_amt#250), sum(wr_net_loss#258)])"]
+	88 [label="nodeID(88) Exchange hashpartitioning(wp_web_page_sk#428, 200), ENSURE_REQUIREMENTS, [plan_id=402]"]
+	89 [label="nodeID(89) HashAggregate(keys=[wp_web_page_sk#428], functions=[partial_sum(wr_return_amt#250), partial_sum(wr_net_loss#258)])"]
+	90 [label="nodeID(90) Project [wr_return_amt#250, wr_net_loss#258, wp_web_page_sk#428]"]
+	91 [label="nodeID(91) BroadcastHashJoin [wr_web_page_sk#246], [wp_web_page_sk#428], Inner, BuildRight, false"]
+	92 [label="nodeID(92) Project [wr_web_page_sk#246, wr_return_amt#250, wr_net_loss#258]"]
+	93 [label="nodeID(93) BroadcastHashJoin [wr_returned_date_sk#235], [d_date_sk#400], Inner, BuildRight, false"]
+	94 [label="nodeID(94) Filter (isnotnull(wr_returned_date_sk#235) AND isnotnull(wr_web_page_sk#246))"]
+	95 [label="nodeID(95) FileScan parquet tpcds_100_parquet.web_returns[wr_returned_date_sk#235,wr_web_page_sk#246,wr_return_amt#250,wr_net_loss#258]"]
+	96 [label="nodeID(96) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=393]"]
+	97 [label="nodeID(97) Project [d_date_sk#400]"]
+	98 [label="nodeID(98) Filter (((isnotnull(d_date#402) AND (cast(d_date#402 as date) >= 2000-08-23)) AND (cast(d_date#402 as date) <= 2000-09-22)) AND isnotnull(d_date_sk#400))"]
+	99 [label="nodeID(99) FileScan parquet tpcds_100_parquet.date_dim[d_date_sk#400,d_date#402]"]
+	100 [label="nodeID(100) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=397]"]
+	101 [label="nodeID(101) Filter isnotnull(wp_web_page_sk#428)"]
+	102 [label="nodeID(102) FileScan parquet tpcds_100_parquet.web_page[wp_web_page_sk#428]"]
+	1 -> 0
+	2 -> 1
+	3 -> 2
+	4 -> 3
+	5 -> 4
+	6 -> 5
+	7 -> 6
+	8 -> 7
+	9 -> 8
+	10 -> 9
+	11 -> 10
+	12 -> 11
+	13 -> 12
+	14 -> 13
+	15 -> 14
+	16 -> 15
+	17 -> 16
+	18 -> 17
+	19 -> 16
+	20 -> 19
+	21 -> 20
+	22 -> 21
+	23 -> 14
+	24 -> 23
+	25 -> 24
+	26 -> 8
+	27 -> 26
+	28 -> 27
+	29 -> 28
+	30 -> 29
+	31 -> 30
+	32 -> 31
+	33 -> 32
+	34 -> 33
+	35 -> 34
+	36 -> 33
+	37 -> 36
+	38 -> 37
+	39 -> 38
+	40 -> 31
+	41 -> 40
+	42 -> 41
+	43 -> 6
+	44 -> 43
+	45 -> 44
+	46 -> 45
+	47 -> 46
+	48 -> 47
+	49 -> 48
+	50 -> 49
+	51 -> 50
+	52 -> 49
+	53 -> 52
+	54 -> 53
+	55 -> 54
+	56 -> 44
+	57 -> 56
+	58 -> 57
+	59 -> 58
+	60 -> 59
+	61 -> 60
+	62 -> 61
+	63 -> 60
+	64 -> 63
+	65 -> 64
+	66 -> 65
+	67 -> 6
+	68 -> 67
+	69 -> 68
+	70 -> 69
+	71 -> 70
+	72 -> 71
+	73 -> 72
+	74 -> 73
+	75 -> 74
+	76 -> 75
+	77 -> 76
+	78 -> 77
+	79 -> 76
+	80 -> 79
+	81 -> 80
+	82 -> 81
+	83 -> 74
+	84 -> 83
+	85 -> 84
+	86 -> 68
+	87 -> 86
+	88 -> 87
+	89 -> 88
+	90 -> 89
+	91 -> 90
+	92 -> 91
+	93 -> 92
+	94 -> 93
+	95 -> 94
+	96 -> 93
+	97 -> 96
+	98 -> 97
+	99 -> 98
+	100 -> 91
+	101 -> 100
+	102 -> 101
+}

@@ -1,0 +1,94 @@
+// The Round Table
+digraph {
+	0 [label="nodeID(0) "]
+	1 [label="nodeID(1) TakeOrderedAndProject(limit=100, orderBy=[lochierarchy#1 DESC NULLS LAST,CASE WHEN (lochierarchy#1 = 0) THEN s_state#193 END ASC NULLS FIRST,rank_within_parent#2 ASC NULLS FIRST], output=[total_sum#0,s_state#193,s_county#194,lochierarchy#1,rank_within_parent#2])"]
+	2 [label="nodeID(2) Project [total_sum#0, s_state#193, s_county#194, lochierarchy#1, rank_within_parent#2]"]
+	3 [label="nodeID(3) Window [rank(_w3#209) windowspecdefinition(_w1#207, _w2#208, _w3#209 DESC NULLS LAST, specifiedwindowframe(RowFrame, unboundedpreceding$(), currentrow$())) AS rank_within_parent#2], [_w1#207, _w2#208], [_w3#209 DESC NULLS LAST]"]
+	4 [label="nodeID(4) Sort [_w1#207 ASC NULLS FIRST, _w2#208 ASC NULLS FIRST, _w3#209 DESC NULLS LAST], false, 0"]
+	5 [label="nodeID(5) Exchange hashpartitioning(_w1#207, _w2#208, 200), ENSURE_REQUIREMENTS, [plan_id=182]"]
+	6 [label="nodeID(6) HashAggregate(keys=[s_state#193, s_county#194, spark_grouping_id#192L], functions=[sum(ss_net_profit#30)])"]
+	7 [label="nodeID(7) Exchange hashpartitioning(s_state#193, s_county#194, spark_grouping_id#192L, 200), ENSURE_REQUIREMENTS, [plan_id=179]"]
+	8 [label="nodeID(8) HashAggregate(keys=[s_state#193, s_county#194, spark_grouping_id#192L], functions=[partial_sum(ss_net_profit#30)])"]
+	9 [label="nodeID(9) Expand [[ss_net_profit#30, s_state#83, s_county#82, 0], [ss_net_profit#30, s_state#83, null, 1], [ss_net_profit#30, null, null, 3]], [ss_net_profit#30, s_state#193, s_county#194, spark_grouping_id#192L]"]
+	10 [label="nodeID(10) Project [ss_net_profit#30, s_state#83, s_county#82]"]
+	11 [label="nodeID(11) BroadcastHashJoin [ss_store_sk#15], [s_store_sk#59], Inner, BuildRight, false"]
+	12 [label="nodeID(12) Project [ss_store_sk#15, ss_net_profit#30]"]
+	13 [label="nodeID(13) BroadcastHashJoin [ss_sold_date_sk#8], [d_date_sk#31], Inner, BuildRight, false"]
+	14 [label="nodeID(14) Filter (isnotnull(ss_sold_date_sk#8) AND isnotnull(ss_store_sk#15))"]
+	15 [label="nodeID(15) FileScan parquet tpcds_100_parquet.store_sales[ss_sold_date_sk#8,ss_store_sk#15,ss_net_profit#30]"]
+	16 [label="nodeID(16) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=148]"]
+	17 [label="nodeID(17) Project [d_date_sk#31]"]
+	18 [label="nodeID(18) Filter (((isnotnull(d_month_seq#34) AND (d_month_seq#34 >= 1200)) AND (d_month_seq#34 <= 1211)) AND isnotnull(d_date_sk#31))"]
+	19 [label="nodeID(19) FileScan parquet tpcds_100_parquet.date_dim[d_date_sk#31,d_month_seq#34]"]
+	20 [label="nodeID(20) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=173]"]
+	21 [label="nodeID(21) SortMergeJoin [s_state#83], [s_state#155], LeftSemi"]
+	22 [label="nodeID(22) Sort [s_state#83 ASC NULLS FIRST], false, 0"]
+	23 [label="nodeID(23) Exchange hashpartitioning(s_state#83, 200), ENSURE_REQUIREMENTS, [plan_id=169]"]
+	24 [label="nodeID(24) Filter isnotnull(s_store_sk#59)"]
+	25 [label="nodeID(25) FileScan parquet tpcds_100_parquet.store[s_store_sk#59,s_county#82,s_state#83]"]
+	26 [label="nodeID(26) Project [s_state#155]"]
+	27 [label="nodeID(27) Filter (ranking#4 <= 5)"]
+	28 [label="nodeID(28) Window [rank(_w2#98) windowspecdefinition(s_state#155, _w2#98 DESC NULLS LAST, specifiedwindowframe(RowFrame, unboundedpreceding$(), currentrow$())) AS ranking#4], [s_state#155], [_w2#98 DESC NULLS LAST]"]
+	29 [label="nodeID(29) Sort [s_state#155 ASC NULLS FIRST, _w2#98 DESC NULLS LAST], false, 0"]
+	30 [label="nodeID(30) HashAggregate(keys=[s_state#155], functions=[sum(ss_net_profit#130)])"]
+	31 [label="nodeID(31) Exchange hashpartitioning(s_state#155, 200), ENSURE_REQUIREMENTS, [plan_id=160]"]
+	32 [label="nodeID(32) HashAggregate(keys=[s_state#155], functions=[partial_sum(ss_net_profit#130)])"]
+	33 [label="nodeID(33) Project [ss_net_profit#130, s_state#155]"]
+	34 [label="nodeID(34) BroadcastHashJoin [ss_sold_date_sk#108], [d_date_sk#160], Inner, BuildRight, false"]
+	35 [label="nodeID(35) Project [ss_sold_date_sk#108, ss_net_profit#130, s_state#155]"]
+	36 [label="nodeID(36) BroadcastHashJoin [ss_store_sk#115], [s_store_sk#131], Inner, BuildRight, false"]
+	37 [label="nodeID(37) Filter (isnotnull(ss_store_sk#115) AND isnotnull(ss_sold_date_sk#108))"]
+	38 [label="nodeID(38) FileScan parquet tpcds_100_parquet.store_sales[ss_sold_date_sk#108,ss_store_sk#115,ss_net_profit#130]"]
+	39 [label="nodeID(39) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=151]"]
+	40 [label="nodeID(40) Filter isnotnull(s_store_sk#131)"]
+	41 [label="nodeID(41) FileScan parquet tpcds_100_parquet.store[s_store_sk#131,s_state#155]"]
+	42 [label="nodeID(42) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=155]"]
+	43 [label="nodeID(43) Project [d_date_sk#160]"]
+	44 [label="nodeID(44) Filter (((isnotnull(d_month_seq#163) AND (d_month_seq#163 >= 1200)) AND (d_month_seq#163 <= 1211)) AND isnotnull(d_date_sk#160))"]
+	45 [label="nodeID(45) FileScan parquet tpcds_100_parquet.date_dim[d_date_sk#160,d_month_seq#163]"]
+	1 -> 0
+	2 -> 1
+	3 -> 2
+	4 -> 3
+	5 -> 4
+	6 -> 5
+	7 -> 6
+	8 -> 7
+	9 -> 8
+	10 -> 9
+	11 -> 10
+	12 -> 11
+	13 -> 12
+	14 -> 13
+	15 -> 14
+	16 -> 13
+	17 -> 16
+	18 -> 17
+	19 -> 18
+	20 -> 11
+	21 -> 20
+	22 -> 21
+	23 -> 22
+	24 -> 23
+	25 -> 24
+	26 -> 21
+	27 -> 26
+	28 -> 27
+	29 -> 28
+	30 -> 29
+	31 -> 30
+	32 -> 31
+	33 -> 32
+	34 -> 33
+	35 -> 34
+	36 -> 35
+	37 -> 36
+	38 -> 37
+	39 -> 36
+	40 -> 39
+	41 -> 40
+	42 -> 34
+	43 -> 42
+	44 -> 43
+	45 -> 44
+}

@@ -1,0 +1,27 @@
+// The Round Table
+digraph {
+	node [shape=box]
+	2 [label="NormalStage (end_node_id 2): length of beginNodesToChains is 2
+[2,6,8,2,2,2,0,0]
+Chain 0 is : Sort [cs_order_number#19L ASC NULLS FIRST, cs_item_sk#17 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+Chain 1 is : Sort [cr_order_number#52L ASC NULLS FIRST, cr_item_sk#38 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+"]
+	0 [label="NormalStage (end_node_id 0): length of beginNodesToChains is 1
+[1,0,0,1,0,0,0,0]
+Chain 0 is : HashAggregate(keys=[w_state#73, i_item_id#78], functions=[sum(CASE WHEN (cast(d_date#101 as date) < 2000-03-11) THEN (cs_sales_price#23 - coalesce(cr_refunded_cash#59, 0.0)) ELSE 0.0 END), sum(CASE WHEN (cast(d_date#101 as date) >= 2000-03-11) THEN (cs_sales_price#23 - coalesce(cr_refunded_cash#59, 0.0)) ELSE 0.0 END)])
+HashAggregate->TakeOrderedAndProject
+"]
+	2 -> 0
+	20 [label="Broadcast stage(end_node_id 20): warehouse,10000FileScan->Filter->BroadcastExchange"]
+	20 -> 2
+	23 [label="Broadcast stage(end_node_id 23): item,10000FileScan->Filter->Project->BroadcastExchange"]
+	23 -> 2
+	27 [label="Broadcast stage(end_node_id 27): date_dim,10000FileScan->Filter->BroadcastExchange"]
+	27 -> 2
+	13 [label="First stage (end_node_id 13): File Scan catalog_sales,8279.4FileScan->Filter->ExchangeHashpartitioning"]
+	13 -> 2
+	17 [label="First stage (end_node_id 17): File Scan catalog_returns,0FileScan->Filter->ExchangeHashpartitioning"]
+	17 -> 2
+}

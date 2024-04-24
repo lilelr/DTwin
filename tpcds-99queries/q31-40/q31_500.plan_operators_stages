@@ -1,0 +1,91 @@
+// The Round Table
+digraph {
+	node [shape=box]
+	11 [label="NormalStage (end_node_id 11): length of beginNodesToChains is 1
+[1,0,0,1,0,0,0,0]
+Chain 0 is : HashAggregate(keys=[ca_county#64, d_qoy#39, d_year#35], functions=[sum(ss_ext_sales_price#21)])
+HashAggregate->ExchangeHashpartitioning
+"]
+	0 [label="NormalStage (end_node_id 0): length of beginNodesToChains is 6
+[6,0,14,0,12,20,0,0]
+Chain 0 is : Sort [ca_county#64 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->SortMergeJoin->Project->SortMergeJoin->SortMergeJoin->Project->SortMergeJoin->Project->Empty->Sort
+Chain 1 is : Sort [ca_county#515 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->SortMergeJoin->Project->SortMergeJoin->SortMergeJoin->Project->SortMergeJoin->Project->Empty->Sort
+Chain 2 is : Sort [ca_county#580 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->SortMergeJoin->SortMergeJoin->Project->SortMergeJoin->Project->Empty->Sort
+Chain 3 is : Sort [ca_county#139 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->SortMergeJoin->Project->SortMergeJoin->Project->Empty->Sort
+Chain 4 is : Sort [ca_county#656 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->SortMergeJoin->Project->Empty->Sort
+Chain 5 is : Sort [ca_county#732 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->Empty->Sort
+"]
+	28 [label="NormalStage (end_node_id 28): length of beginNodesToChains is 1
+[1,0,0,1,0,0,0,0]
+Chain 0 is : HashAggregate(keys=[ca_county#515, d_qoy#490, d_year#486], functions=[sum(ss_ext_sales_price#472)])
+HashAggregate->ExchangeHashpartitioning
+"]
+	45 [label="NormalStage (end_node_id 45): length of beginNodesToChains is 1
+[1,0,0,1,0,0,0,0]
+Chain 0 is : HashAggregate(keys=[ca_county#580, d_qoy#555, d_year#551], functions=[sum(ss_ext_sales_price#537)])
+HashAggregate->ExchangeHashpartitioning
+"]
+	62 [label="NormalStage (end_node_id 62): length of beginNodesToChains is 1
+[1,0,0,1,0,0,0,0]
+Chain 0 is : HashAggregate(keys=[ca_county#139, d_qoy#114, d_year#110], functions=[sum(ws_ext_sales_price#93)])
+HashAggregate->ExchangeHashpartitioning
+"]
+	79 [label="NormalStage (end_node_id 79): length of beginNodesToChains is 1
+[1,0,0,1,0,0,0,0]
+Chain 0 is : HashAggregate(keys=[ca_county#656, d_qoy#631, d_year#627], functions=[sum(ws_ext_sales_price#610)])
+HashAggregate->ExchangeHashpartitioning
+"]
+	96 [label="NormalStage (end_node_id 96): length of beginNodesToChains is 1
+[1,0,0,1,0,0,0,0]
+Chain 0 is : HashAggregate(keys=[ca_county#732, d_qoy#707, d_year#703], functions=[sum(ws_ext_sales_price#686)])
+HashAggregate->ExchangeHashpartitioning
+"]
+	11 -> 0
+	28 -> 0
+	45 -> 0
+	62 -> 0
+	79 -> 0
+	96 -> 0
+	21 [label="Broadcast stage(end_node_id 21): date_dim,10000FileScan->Filter->BroadcastExchange"]
+	21 -> 13
+	38 [label="Broadcast stage(end_node_id 38): date_dim,10000FileScan->Filter->BroadcastExchange"]
+	38 -> 30
+	55 [label="Broadcast stage(end_node_id 55): date_dim,10000FileScan->Filter->BroadcastExchange"]
+	55 -> 47
+	24 [label="Broadcast stage(end_node_id 24): customer_address,10000FileScan->Filter->BroadcastExchange"]
+	24 -> 13
+	41 [label="Broadcast stage(end_node_id 41): customer_address,10000FileScan->Filter->BroadcastExchange"]
+	41 -> 30
+	58 [label="Broadcast stage(end_node_id 58): customer_address,10000FileScan->Filter->BroadcastExchange"]
+	58 -> 47
+	72 [label="Broadcast stage(end_node_id 72): date_dim,10000FileScan->Filter->BroadcastExchange"]
+	72 -> 64
+	89 [label="Broadcast stage(end_node_id 89): date_dim,10000FileScan->Filter->BroadcastExchange"]
+	89 -> 81
+	75 [label="Broadcast stage(end_node_id 75): customer_address,10000FileScan->Filter->BroadcastExchange"]
+	75 -> 64
+	92 [label="Broadcast stage(end_node_id 92): customer_address,10000FileScan->Filter->BroadcastExchange"]
+	92 -> 81
+	106 [label="Broadcast stage(end_node_id 106): date_dim,10000FileScan->Filter->BroadcastExchange"]
+	106 -> 98
+	109 [label="Broadcast stage(end_node_id 109): customer_address,10000FileScan->Filter->BroadcastExchange"]
+	109 -> 98
+	13 [label="First stage (end_node_id 13): File Scan store_sales,9130.4FileScan->Filter->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning"]
+	13 -> 11
+	30 [label="First stage (end_node_id 30): File Scan store_sales,9130.4FileScan->Filter->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning"]
+	30 -> 28
+	47 [label="First stage (end_node_id 47): File Scan store_sales,9130.4FileScan->Filter->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning"]
+	47 -> 45
+	64 [label="First stage (end_node_id 64): File Scan web_sales,2338.2FileScan->Filter->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning"]
+	64 -> 62
+	81 [label="First stage (end_node_id 81): File Scan web_sales,2338.2FileScan->Filter->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning"]
+	81 -> 79
+	98 [label="First stage (end_node_id 98): File Scan web_sales,2338.2FileScan->Filter->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning"]
+	98 -> 96
+}

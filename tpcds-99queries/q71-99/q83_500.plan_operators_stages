@@ -1,0 +1,43 @@
+// The Round Table
+digraph {
+	node [shape=box]
+	0 [label="NormalStage (end_node_id 0): length of beginNodesToChains is 3
+[3,0,5,3,3,5,0,0]
+Chain 0 is : HashAggregate(keys=[i_item_id#37], functions=[sum(sr_return_quantity#26)])
+HashAggregate->Sort->SortMergeJoin->Project->SortMergeJoin->Project->TakeOrderedAndProject
+Chain 1 is : HashAggregate(keys=[i_item_id#138], functions=[sum(cr_return_quantity#103)])
+HashAggregate->Sort->SortMergeJoin->Project->SortMergeJoin->Project->TakeOrderedAndProject
+Chain 2 is : HashAggregate(keys=[i_item_id#188], functions=[sum(wr_return_quantity#127)])
+HashAggregate->Sort->SortMergeJoin->Project->TakeOrderedAndProject
+"]
+	27 [label="Broadcast stage(end_node_id 27): date_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	27 -> 7
+	53 [label="Broadcast stage(end_node_id 53): date_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	53 -> 33
+	79 [label="Broadcast stage(end_node_id 79): date_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	79 -> 59
+	23 [label="Broadcast stage(end_node_id 23): date_dim,10000FileScan->BroadcastHashJoin->Project->BroadcastExchange"]
+	23 -> 7
+	49 [label="Broadcast stage(end_node_id 49): date_dim,10000FileScan->BroadcastHashJoin->Project->BroadcastExchange"]
+	49 -> 33
+	15 [label="Broadcast stage(end_node_id 15): item,10000FileScan->Filter->BroadcastExchange"]
+	15 -> 7
+	18 [label="Broadcast stage(end_node_id 18): date_dim,10000FileScan->Filter->BroadcastHashJoin->Project->BroadcastExchange"]
+	18 -> 7
+	41 [label="Broadcast stage(end_node_id 41): item,10000FileScan->Filter->BroadcastExchange"]
+	41 -> 33
+	44 [label="Broadcast stage(end_node_id 44): date_dim,10000FileScan->Filter->BroadcastHashJoin->Project->BroadcastExchange"]
+	44 -> 33
+	75 [label="Broadcast stage(end_node_id 75): date_dim,10000FileScan->BroadcastHashJoin->Project->BroadcastExchange"]
+	75 -> 59
+	67 [label="Broadcast stage(end_node_id 67): item,10000FileScan->Filter->BroadcastExchange"]
+	67 -> 59
+	70 [label="Broadcast stage(end_node_id 70): date_dim,10000FileScan->Filter->BroadcastHashJoin->Project->BroadcastExchange"]
+	70 -> 59
+	7 [label="First stage (end_node_id 7): File Scan store_returns,1245.0FileScan->Filter->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning"]
+	7 -> 0
+	33 [label="First stage (end_node_id 33): File Scan catalog_returns,0FileScan->Filter->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning"]
+	33 -> 0
+	59 [label="First stage (end_node_id 59): File Scan web_returns,0FileScan->Filter->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning"]
+	59 -> 0
+}

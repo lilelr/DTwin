@@ -1,0 +1,67 @@
+// The Round Table
+digraph {
+	node [shape=box]
+	16 [label="NormalStage (end_node_id 16): length of beginNodesToChains is 1
+[1,0,0,2,0,0,0,0]
+Chain 0 is : HashAggregate(keys=[ss_list_price#209], functions=[merge_avg(ss_list_price#53), merge_count(ss_list_price#53)])
+HashAggregate->HashAggregate->ExchangeSinglePartition
+"]
+	0 [label="NormalStage (end_node_id 0): length of beginNodesToChains is 6
+[6,0,0,6,0,0,0,0]
+Chain 0 is : HashAggregate(keys=[], functions=[avg(ss_list_price#53), count(ss_list_price#53), count(distinct ss_list_price#209)])
+HashAggregate->BroadcastExchange->Empty->Empty->Empty->Empty->Error
+Chain 1 is : HashAggregate(keys=[], functions=[avg(ss_list_price#30), count(ss_list_price#30), count(distinct ss_list_price#198)])
+HashAggregate->Empty->Empty->Empty->Empty->Error
+Chain 2 is : HashAggregate(keys=[], functions=[avg(ss_list_price#76), count(ss_list_price#76), count(distinct ss_list_price#220)])
+HashAggregate->BroadcastExchange->Empty->Empty->Empty->Error
+Chain 3 is : HashAggregate(keys=[], functions=[avg(ss_list_price#99), count(ss_list_price#99), count(distinct ss_list_price#231)])
+HashAggregate->BroadcastExchange->Empty->Empty->Error
+Chain 4 is : HashAggregate(keys=[], functions=[avg(ss_list_price#122), count(ss_list_price#122), count(distinct ss_list_price#242)])
+HashAggregate->BroadcastExchange->Empty->Error
+Chain 5 is : HashAggregate(keys=[], functions=[avg(ss_list_price#145), count(ss_list_price#145), count(distinct ss_list_price#253)])
+HashAggregate->BroadcastExchange->Error
+"]
+	6 [label="NormalStage (end_node_id 6): length of beginNodesToChains is 1
+[1,0,0,2,0,0,0,0]
+Chain 0 is : HashAggregate(keys=[ss_list_price#198], functions=[merge_avg(ss_list_price#30), merge_count(ss_list_price#30)])
+HashAggregate->HashAggregate->ExchangeSinglePartition
+"]
+	26 [label="NormalStage (end_node_id 26): length of beginNodesToChains is 1
+[1,0,0,2,0,0,0,0]
+Chain 0 is : HashAggregate(keys=[ss_list_price#220], functions=[merge_avg(ss_list_price#76), merge_count(ss_list_price#76)])
+HashAggregate->HashAggregate->ExchangeSinglePartition
+"]
+	36 [label="NormalStage (end_node_id 36): length of beginNodesToChains is 1
+[1,0,0,2,0,0,0,0]
+Chain 0 is : HashAggregate(keys=[ss_list_price#231], functions=[merge_avg(ss_list_price#99), merge_count(ss_list_price#99)])
+HashAggregate->HashAggregate->ExchangeSinglePartition
+"]
+	46 [label="NormalStage (end_node_id 46): length of beginNodesToChains is 1
+[1,0,0,2,0,0,0,0]
+Chain 0 is : HashAggregate(keys=[ss_list_price#242], functions=[merge_avg(ss_list_price#122), merge_count(ss_list_price#122)])
+HashAggregate->HashAggregate->ExchangeSinglePartition
+"]
+	56 [label="NormalStage (end_node_id 56): length of beginNodesToChains is 1
+[1,0,0,2,0,0,0,0]
+Chain 0 is : HashAggregate(keys=[ss_list_price#253], functions=[merge_avg(ss_list_price#145), merge_count(ss_list_price#145)])
+HashAggregate->HashAggregate->ExchangeSinglePartition
+"]
+	16 -> 0
+	6 -> 0
+	26 -> 0
+	36 -> 0
+	46 -> 0
+	56 -> 0
+	19 [label="First stage (end_node_id 19): File Scan store_sales,12173.9FileScan->Filter->Project->HashAggregate->ExchangeHashpartitioning"]
+	19 -> 16
+	9 [label="First stage (end_node_id 9): File Scan store_sales,12173.9FileScan->Filter->Project->HashAggregate->ExchangeHashpartitioning"]
+	9 -> 6
+	29 [label="First stage (end_node_id 29): File Scan store_sales,12173.9FileScan->Filter->Project->HashAggregate->ExchangeHashpartitioning"]
+	29 -> 26
+	39 [label="First stage (end_node_id 39): File Scan store_sales,12173.9FileScan->Filter->Project->HashAggregate->ExchangeHashpartitioning"]
+	39 -> 36
+	49 [label="First stage (end_node_id 49): File Scan store_sales,12173.9FileScan->Filter->Project->HashAggregate->ExchangeHashpartitioning"]
+	49 -> 46
+	59 [label="First stage (end_node_id 59): File Scan store_sales,12173.9FileScan->Filter->Project->HashAggregate->ExchangeHashpartitioning"]
+	59 -> 56
+}

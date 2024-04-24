@@ -1,0 +1,112 @@
+// The Round Table
+digraph {
+	0 [label="nodeID(0) "]
+	1 [label="nodeID(1) Project [rnk#4, i_product_name#60 AS best_performing#10, i_product_name#105 AS worst_performing#11]"]
+	2 [label="nodeID(2) BroadcastHashJoin [item_sk#5], [i_item_sk#84], Inner, BuildRight, false"]
+	3 [label="nodeID(3) Project [rnk#4, item_sk#5, i_product_name#60]"]
+	4 [label="nodeID(4) BroadcastHashJoin [item_sk#0], [i_item_sk#39], Inner, BuildRight, false"]
+	5 [label="nodeID(5) Project [item_sk#0, rnk#4, item_sk#5]"]
+	6 [label="nodeID(6) SortMergeJoin [rnk#4], [rnk#9], Inner"]
+	7 [label="nodeID(7) Sort [rnk#4 ASC NULLS FIRST], false, 0"]
+	8 [label="nodeID(8) Project [item_sk#0, rnk#4]"]
+	9 [label="nodeID(9) Filter ((rnk#4 < 11) AND isnotnull(item_sk#0))"]
+	10 [label="nodeID(10) Window [rank(rank_col#1) windowspecdefinition(rank_col#1 ASC NULLS FIRST, specifiedwindowframe(RowFrame, unboundedpreceding$(), currentrow$())) AS rnk#4], [rank_col#1 ASC NULLS FIRST]"]
+	11 [label="nodeID(11) Sort [rank_col#1 ASC NULLS FIRST], false, 0"]
+	12 [label="nodeID(12) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=158]"]
+	13 [label="nodeID(13) Filter (isnotnull(rank_col#1) AND (rank_col#1 > (0.9 * Subquery subquery#3, [id=#119])))"]
+	14 [label="nodeID(14) Subquery subquery#3, [id=#119]"]
+	15 [label="nodeID(15) AdaptiveSparkPlan isFinalPlan=false"]
+	16 [label="nodeID(16) HashAggregate(keys=[ss_store_sk#121], functions=[avg(ss_net_profit#136)])"]
+	17 [label="nodeID(17) Exchange hashpartitioning(ss_store_sk#121, 200), ENSURE_REQUIREMENTS, [plan_id=117]"]
+	18 [label="nodeID(18) HashAggregate(keys=[ss_store_sk#121], functions=[partial_avg(ss_net_profit#136)])"]
+	19 [label="nodeID(19) Project [ss_store_sk#121, ss_net_profit#136]"]
+	20 [label="nodeID(20) Filter ((isnotnull(ss_store_sk#121) AND (ss_store_sk#121 = 4)) AND isnull(ss_addr_sk#120))"]
+	21 [label="nodeID(21) FileScan parquet tpcds_500_parquet.store_sales[ss_addr_sk#120,ss_store_sk#121,ss_net_profit#136"]
+	22 [label="nodeID(22) HashAggregate(keys=[ss_item_sk#18], functions=[avg(ss_net_profit#38)])"]
+	23 [label="nodeID(23) Exchange hashpartitioning(ss_item_sk#18, 200), ENSURE_REQUIREMENTS, [plan_id=154]"]
+	24 [label="nodeID(24) HashAggregate(keys=[ss_item_sk#18], functions=[partial_avg(ss_net_profit#38)])"]
+	25 [label="nodeID(25) Project [ss_item_sk#18, ss_net_profit#38]"]
+	26 [label="nodeID(26) Filter (isnotnull(ss_store_sk#23) AND (ss_store_sk#23 = 4))"]
+	27 [label="nodeID(27) FileScan parquet tpcds_500_parquet.store_sales[ss_item_sk#18,ss_store_sk#23,ss_net_profit#38"]
+	28 [label="nodeID(28) Sort [rnk#9 ASC NULLS FIRST], false, 0"]
+	29 [label="nodeID(29) Project [item_sk#5, rnk#9]"]
+	30 [label="nodeID(30) Filter ((rnk#9 < 11) AND isnotnull(item_sk#5))"]
+	31 [label="nodeID(31) Window [rank(rank_col#6) windowspecdefinition(rank_col#6 DESC NULLS LAST, specifiedwindowframe(RowFrame, unboundedpreceding$(), currentrow$())) AS rnk#9], [rank_col#6 DESC NULLS LAST]"]
+	32 [label="nodeID(32) Sort [rank_col#6 DESC NULLS LAST], false, 0"]
+	33 [label="nodeID(33) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=167]"]
+	34 [label="nodeID(34) Filter (isnotnull(rank_col#6) AND (rank_col#6 > (0.9 * Subquery subquery#8, [id=#132])))"]
+	35 [label="nodeID(35) Subquery subquery#8, [id=#132]"]
+	36 [label="nodeID(36) AdaptiveSparkPlan isFinalPlan=false"]
+	37 [label="nodeID(37) HashAggregate(keys=[ss_store_sk#121], functions=[avg(ss_net_profit#136)])"]
+	38 [label="nodeID(38) Exchange hashpartitioning(ss_store_sk#121, 200), ENSURE_REQUIREMENTS, [plan_id=130]"]
+	39 [label="nodeID(39) HashAggregate(keys=[ss_store_sk#121], functions=[partial_avg(ss_net_profit#136)])"]
+	40 [label="nodeID(40) Project [ss_store_sk#121, ss_net_profit#136]"]
+	41 [label="nodeID(41) Filter ((isnotnull(ss_store_sk#121) AND (ss_store_sk#121 = 4)) AND isnull(ss_addr_sk#120))"]
+	42 [label="nodeID(42) FileScan parquet tpcds_500_parquet.store_sales[ss_addr_sk#120,ss_store_sk#121,ss_net_profit#136"]
+	43 [label="nodeID(43) HashAggregate(keys=[ss_item_sk#63], functions=[avg(ss_net_profit#83)])"]
+	44 [label="nodeID(44) Exchange hashpartitioning(ss_item_sk#63, 200), ENSURE_REQUIREMENTS, [plan_id=163]"]
+	45 [label="nodeID(45) HashAggregate(keys=[ss_item_sk#63], functions=[partial_avg(ss_net_profit#83)])"]
+	46 [label="nodeID(46) Project [ss_item_sk#63, ss_net_profit#83]"]
+	47 [label="nodeID(47) Filter (isnotnull(ss_store_sk#68) AND (ss_store_sk#68 = 4))"]
+	48 [label="nodeID(48) FileScan parquet tpcds_500_parquet.store_sales[ss_item_sk#63,ss_store_sk#68,ss_net_profit#83"]
+	49 [label="nodeID(49) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=179]"]
+	50 [label="nodeID(50) Filter isnotnull(i_item_sk#39)"]
+	51 [label="nodeID(51) FileScan parquet tpcds_500_parquet.item[i_item_sk#39,i_product_name#60"]
+	52 [label="nodeID(52) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=183]"]
+	53 [label="nodeID(53) Filter isnotnull(i_item_sk#84)"]
+	54 [label="nodeID(54) FileScan parquet tpcds_500_parquet.item[i_item_sk#84,i_product_name#105"]
+	1 -> 0
+	2 -> 1
+	3 -> 2
+	4 -> 3
+	5 -> 4
+	6 -> 5
+	7 -> 6
+	8 -> 7
+	9 -> 8
+	10 -> 9
+	11 -> 10
+	12 -> 11
+	13 -> 12
+	14 -> 13
+	15 -> 14
+	16 -> 15
+	17 -> 16
+	18 -> 17
+	19 -> 18
+	20 -> 19
+	21 -> 20
+	22 -> 13
+	23 -> 22
+	24 -> 23
+	25 -> 24
+	26 -> 25
+	27 -> 26
+	28 -> 6
+	29 -> 28
+	30 -> 29
+	31 -> 30
+	32 -> 31
+	33 -> 32
+	34 -> 33
+	35 -> 34
+	36 -> 35
+	37 -> 36
+	38 -> 37
+	39 -> 38
+	40 -> 39
+	41 -> 40
+	42 -> 41
+	43 -> 34
+	44 -> 43
+	45 -> 44
+	46 -> 45
+	47 -> 46
+	48 -> 47
+	49 -> 4
+	50 -> 49
+	51 -> 50
+	52 -> 2
+	53 -> 52
+	54 -> 53
+}

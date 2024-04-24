@@ -1,0 +1,102 @@
+// The Round Table
+digraph {
+	0 [label=TakeOrderedAndProject]
+	1 [label=HashAggregate]
+	2 [label="Exchange hashpartitioning"]
+	3 [label=HashAggregate]
+	4 [label=Project]
+	5 [label=BroadcastHashJoin]
+	6 [label=Project]
+	7 [label=BroadcastHashJoin]
+	8 [label=Project]
+	9 [label=BroadcastHashJoin]
+	10 [label=Project]
+	11 [label=BroadcastHashJoin]
+	12 [label=Project]
+	13 [label=BroadcastHashJoin]
+	14 [label=Project]
+	15 [label=SortMergeJoin]
+	16 [label=Sort]
+	17 [label="Exchange hashpartitioning"]
+	18 [label=Project]
+	19 [label=SortMergeJoin]
+	20 [label=Sort]
+	21 [label="Exchange hashpartitioning"]
+	22 [label=Filter]
+	23 [label="Scan parquet tpcds_100_parquet.store_sales"]
+	24 [label=Sort]
+	25 [label="Exchange hashpartitioning"]
+	26 [label=Filter]
+	27 [label="Scan parquet tpcds_100_parquet.store_returns"]
+	28 [label=Sort]
+	29 [label="Exchange hashpartitioning"]
+	30 [label=Filter]
+	31 [label="Scan parquet tpcds_100_parquet.catalog_sales"]
+	32 [label=BroadcastExchange]
+	33 [label=Project]
+	34 [label=Filter]
+	35 [label="Scan parquet tpcds_100_parquet.date_dim"]
+	36 [label=BroadcastExchange]
+	37 [label=Project]
+	38 [label=Filter]
+	39 [label="Scan parquet tpcds_100_parquet.date_dim"]
+	40 [label=BroadcastExchange]
+	41 [label=Project]
+	42 [label=Filter]
+	43 [label="Scan parquet tpcds_100_parquet.date_dim"]
+	44 [label=BroadcastExchange]
+	45 [label=Filter]
+	46 [label="Scan parquet tpcds_100_parquet.store"]
+	47 [label=BroadcastExchange]
+	48 [label=Filter]
+	49 [label="Scan parquet tpcds_100_parquet.item"]
+	1 -> 0
+	2 -> 1
+	3 -> 2
+	4 -> 3
+	5 -> 4
+	6 -> 5
+	7 -> 6
+	8 -> 7
+	9 -> 8
+	10 -> 9
+	11 -> 10
+	12 -> 11
+	13 -> 12
+	14 -> 13
+	15 -> 14
+	16 -> 15
+	17 -> 16
+	18 -> 17
+	19 -> 18
+	20 -> 19
+	21 -> 20
+	22 -> 21
+	23 -> 22
+	24 -> 19
+	25 -> 24
+	26 -> 25
+	27 -> 26
+	28 -> 15
+	29 -> 28
+	30 -> 29
+	31 -> 30
+	32 -> 13
+	33 -> 32
+	34 -> 33
+	35 -> 34
+	36 -> 11
+	37 -> 36
+	38 -> 37
+	39 -> 38
+	40 -> 9
+	41 -> 40
+	42 -> 41
+	43 -> 42
+	44 -> 7
+	45 -> 44
+	46 -> 45
+	47 -> 5
+	48 -> 47
+	49 -> 48
+}

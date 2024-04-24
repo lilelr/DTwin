@@ -1,0 +1,100 @@
+// The Round Table
+digraph {
+	0 [label=Sort]
+	1 [label=Exchange]
+	2 [label=Project]
+	3 [label=SortMergeJoin]
+	4 [label=Sort]
+	5 [label=Project]
+	6 [label=BroadcastHashJoin]
+	7 [label=HashAggregate]
+	8 [label="Exchange hashpartitioning"]
+	9 [label=HashAggregate]
+	10 [label=Project]
+	11 [label=BroadcastHashJoin]
+	12 [label=Union]
+	13 [label=Project]
+	14 [label=Filter]
+	15 [label="Scan parquet tpcds_100_parquet.web_sales"]
+	16 [label=Project]
+	17 [label=Filter]
+	18 [label="Scan parquet tpcds_100_parquet.catalog_sales"]
+	19 [label=BroadcastExchange]
+	20 [label=Filter]
+	21 [label="Scan parquet tpcds_100_parquet.date_dim"]
+	22 [label=BroadcastExchange]
+	23 [label=Project]
+	24 [label=Filter]
+	25 [label="Scan parquet tpcds_100_parquet.date_dim"]
+	26 [label=Sort]
+	27 [label="Exchange hashpartitioning"]
+	28 [label=Project]
+	29 [label=BroadcastHashJoin]
+	30 [label=HashAggregate]
+	31 [label="Exchange hashpartitioning"]
+	32 [label=HashAggregate]
+	33 [label=Project]
+	34 [label=BroadcastHashJoin]
+	35 [label=Union]
+	36 [label=Project]
+	37 [label=Filter]
+	38 [label="Scan parquet tpcds_100_parquet.web_sales"]
+	39 [label=Project]
+	40 [label=Filter]
+	41 [label="Scan parquet tpcds_100_parquet.catalog_sales"]
+	42 [label=BroadcastExchange]
+	43 [label=Filter]
+	44 [label="Scan parquet tpcds_100_parquet.date_dim"]
+	45 [label=BroadcastExchange]
+	46 [label=Project]
+	47 [label=Filter]
+	48 [label="Scan parquet tpcds_100_parquet.date_dim"]
+	1 -> 0
+	2 -> 1
+	3 -> 2
+	4 -> 3
+	5 -> 4
+	6 -> 5
+	7 -> 6
+	8 -> 7
+	9 -> 8
+	10 -> 9
+	11 -> 10
+	12 -> 11
+	13 -> 12
+	14 -> 13
+	15 -> 14
+	16 -> 12
+	17 -> 16
+	18 -> 17
+	19 -> 11
+	20 -> 19
+	21 -> 20
+	22 -> 6
+	23 -> 22
+	24 -> 23
+	25 -> 24
+	26 -> 3
+	27 -> 26
+	28 -> 27
+	29 -> 28
+	30 -> 29
+	31 -> 30
+	32 -> 31
+	33 -> 32
+	34 -> 33
+	35 -> 34
+	36 -> 35
+	37 -> 36
+	38 -> 37
+	39 -> 35
+	40 -> 39
+	41 -> 40
+	42 -> 34
+	43 -> 42
+	44 -> 43
+	45 -> 29
+	46 -> 45
+	47 -> 46
+	48 -> 47
+}

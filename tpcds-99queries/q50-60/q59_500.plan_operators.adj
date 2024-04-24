@@ -1,0 +1,100 @@
+// The Round Table
+digraph {
+	0 [label="nodeID(0) "]
+	1 [label="nodeID(1) Project [s_store_name1#0, s_store_id1#2, d_week_seq1#1, (sun_sales1#3 / sun_sales2#13) AS (sun_sales1 / sun_sales2)#201, (mon_sales1#4 / mon_sales2#14) AS (mon_sales1 / mon_sales2)#202, (tue_sales1#5 / tue_sales2#15) AS (tue_sales1 / tue_sales2)#203, (wed_sales1#6 / wed_sales2#16) AS (wed_sales1 / wed_sales2)#204, (thu_sales1#7 / thu_sales2#17) AS (thu_sales1 / thu_sales2)#205, (fri_sales1#8 / fri_sales2#18) AS (fri_sales1 / fri_sales2)#206, (sat_sales1#9 / sat_sales2#19) AS (sat_sales1 / sat_sales2)#207]"]
+	2 [label="nodeID(2) SortMergeJoin [s_store_id1#2, d_week_seq1#1], [s_store_id2#12, (d_week_seq2#11 - 52)], Inner"]
+	3 [label="nodeID(3) Sort [s_store_id1#2 ASC NULLS FIRST, d_week_seq1#1 ASC NULLS FIRST], false, 0"]
+	4 [label="nodeID(4) Exchange hashpartitioning(s_store_id1#2, d_week_seq1#1, 200), ENSURE_REQUIREMENTS, [plan_id=191]"]
+	5 [label="nodeID(5) Project [s_store_name#83 AS s_store_name1#0, d_week_seq#54 AS d_week_seq1#1, s_store_id#79 AS s_store_id1#2, sun_sales#20 AS sun_sales1#3, mon_sales#21 AS mon_sales1#4, tue_sales#22 AS tue_sales1#5, wed_sales#23 AS wed_sales1#6, thu_sales#24 AS thu_sales1#7, fri_sales#25 AS fri_sales1#8, sat_sales#26 AS sat_sales1#9]"]
+	6 [label="nodeID(6) BroadcastHashJoin [d_week_seq#54], [d_week_seq#111], Inner, BuildRight, false"]
+	7 [label="nodeID(7) Project [d_week_seq#54, sun_sales#20, mon_sales#21, tue_sales#22, wed_sales#23, thu_sales#24, fri_sales#25, sat_sales#26, s_store_id#79, s_store_name#83]"]
+	8 [label="nodeID(8) BroadcastHashJoin [ss_store_sk#34], [s_store_sk#78], Inner, BuildRight, false"]
+	9 [label="nodeID(9) HashAggregate(keys=[d_week_seq#54, ss_store_sk#34], functions=[sum(CASE WHEN (d_day_name#64 = Sunday) THEN ss_sales_price#40 END), sum(CASE WHEN (d_day_name#64 = Monday) THEN ss_sales_price#40 END), sum(CASE WHEN (d_day_name#64 = Tuesday) THEN ss_sales_price#40 END), sum(CASE WHEN (d_day_name#64 = Wednesday) THEN ss_sales_price#40 END), sum(CASE WHEN (d_day_name#64 = Thursday) THEN ss_sales_price#40 END), sum(CASE WHEN (d_day_name#64 = Friday) THEN ss_sales_price#40 END), sum(CASE WHEN (d_day_name#64 = Saturday) THEN ss_sales_price#40 END)])"]
+	10 [label="nodeID(10) Exchange hashpartitioning(d_week_seq#54, ss_store_sk#34, 200), ENSURE_REQUIREMENTS, [plan_id=164]"]
+	11 [label="nodeID(11) HashAggregate(keys=[d_week_seq#54, ss_store_sk#34], functions=[partial_sum(CASE WHEN (d_day_name#64 = Sunday) THEN ss_sales_price#40 END), partial_sum(CASE WHEN (d_day_name#64 = Monday) THEN ss_sales_price#40 END), partial_sum(CASE WHEN (d_day_name#64 = Tuesday) THEN ss_sales_price#40 END), partial_sum(CASE WHEN (d_day_name#64 = Wednesday) THEN ss_sales_price#40 END), partial_sum(CASE WHEN (d_day_name#64 = Thursday) THEN ss_sales_price#40 END), partial_sum(CASE WHEN (d_day_name#64 = Friday) THEN ss_sales_price#40 END), partial_sum(CASE WHEN (d_day_name#64 = Saturday) THEN ss_sales_price#40 END)])"]
+	12 [label="nodeID(12) Project [ss_store_sk#34, ss_sales_price#40, d_week_seq#54, d_day_name#64]"]
+	13 [label="nodeID(13) BroadcastHashJoin [ss_sold_date_sk#27], [d_date_sk#50], Inner, BuildRight, false"]
+	14 [label="nodeID(14) Filter (isnotnull(ss_sold_date_sk#27) AND isnotnull(ss_store_sk#34))"]
+	15 [label="nodeID(15) FileScan parquet tpcds_500_parquet.store_sales[ss_sold_date_sk#27,ss_store_sk#34,ss_sales_price#40"]
+	16 [label="nodeID(16) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=159]"]
+	17 [label="nodeID(17) Filter (isnotnull(d_date_sk#50) AND isnotnull(d_week_seq#54))"]
+	18 [label="nodeID(18) FileScan parquet tpcds_500_parquet.date_dim[d_date_sk#50,d_week_seq#54,d_day_name#64"]
+	19 [label="nodeID(19) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=167]"]
+	20 [label="nodeID(20) Filter (isnotnull(s_store_sk#78) AND isnotnull(s_store_id#79))"]
+	21 [label="nodeID(21) FileScan parquet tpcds_500_parquet.store[s_store_sk#78,s_store_id#79,s_store_name#83"]
+	22 [label="nodeID(22) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=171]"]
+	23 [label="nodeID(23) Project [d_week_seq#111]"]
+	24 [label="nodeID(24) Filter (((isnotnull(d_month_seq#110) AND (d_month_seq#110 >= 1212)) AND (d_month_seq#110 <= 1223)) AND isnotnull(d_week_seq#111))"]
+	25 [label="nodeID(25) FileScan parquet tpcds_500_parquet.date_dim[d_month_seq#110,d_week_seq#111"]
+	26 [label="nodeID(26) Sort [s_store_id2#12 ASC NULLS FIRST, (d_week_seq2#11 - 52) ASC NULLS FIRST], false, 0"]
+	27 [label="nodeID(27) Exchange hashpartitioning(s_store_id2#12, (d_week_seq2#11 - 52), 200), ENSURE_REQUIREMENTS, [plan_id=192]"]
+	28 [label="nodeID(28) Project [d_week_seq#54 AS d_week_seq2#11, s_store_id#136 AS s_store_id2#12, sun_sales#20 AS sun_sales2#13, mon_sales#21 AS mon_sales2#14, tue_sales#22 AS tue_sales2#15, wed_sales#23 AS wed_sales2#16, thu_sales#24 AS thu_sales2#17, fri_sales#25 AS fri_sales2#18, sat_sales#26 AS sat_sales2#19]"]
+	29 [label="nodeID(29) BroadcastHashJoin [d_week_seq#54], [d_week_seq#168], Inner, BuildRight, false"]
+	30 [label="nodeID(30) Project [d_week_seq#54, sun_sales#20, mon_sales#21, tue_sales#22, wed_sales#23, thu_sales#24, fri_sales#25, sat_sales#26, s_store_id#136]"]
+	31 [label="nodeID(31) BroadcastHashJoin [ss_store_sk#34], [s_store_sk#135], Inner, BuildRight, false"]
+	32 [label="nodeID(32) HashAggregate(keys=[d_week_seq#54, ss_store_sk#34], functions=[sum(CASE WHEN (d_day_name#64 = Sunday) THEN ss_sales_price#40 END), sum(CASE WHEN (d_day_name#64 = Monday) THEN ss_sales_price#40 END), sum(CASE WHEN (d_day_name#64 = Tuesday) THEN ss_sales_price#40 END), sum(CASE WHEN (d_day_name#64 = Wednesday) THEN ss_sales_price#40 END), sum(CASE WHEN (d_day_name#64 = Thursday) THEN ss_sales_price#40 END), sum(CASE WHEN (d_day_name#64 = Friday) THEN ss_sales_price#40 END), sum(CASE WHEN (d_day_name#64 = Saturday) THEN ss_sales_price#40 END)])"]
+	33 [label="nodeID(33) Exchange hashpartitioning(d_week_seq#54, ss_store_sk#34, 200), ENSURE_REQUIREMENTS, [plan_id=179]"]
+	34 [label="nodeID(34) HashAggregate(keys=[d_week_seq#54, ss_store_sk#34], functions=[partial_sum(CASE WHEN (d_day_name#64 = Sunday) THEN ss_sales_price#40 END), partial_sum(CASE WHEN (d_day_name#64 = Monday) THEN ss_sales_price#40 END), partial_sum(CASE WHEN (d_day_name#64 = Tuesday) THEN ss_sales_price#40 END), partial_sum(CASE WHEN (d_day_name#64 = Wednesday) THEN ss_sales_price#40 END), partial_sum(CASE WHEN (d_day_name#64 = Thursday) THEN ss_sales_price#40 END), partial_sum(CASE WHEN (d_day_name#64 = Friday) THEN ss_sales_price#40 END), partial_sum(CASE WHEN (d_day_name#64 = Saturday) THEN ss_sales_price#40 END)])"]
+	35 [label="nodeID(35) Project [ss_store_sk#34, ss_sales_price#40, d_week_seq#54, d_day_name#64]"]
+	36 [label="nodeID(36) BroadcastHashJoin [ss_sold_date_sk#27], [d_date_sk#50], Inner, BuildRight, false"]
+	37 [label="nodeID(37) Filter (isnotnull(ss_sold_date_sk#27) AND isnotnull(ss_store_sk#34))"]
+	38 [label="nodeID(38) FileScan parquet tpcds_500_parquet.store_sales[ss_sold_date_sk#27,ss_store_sk#34,ss_sales_price#40"]
+	39 [label="nodeID(39) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=174]"]
+	40 [label="nodeID(40) Filter (isnotnull(d_date_sk#50) AND isnotnull(d_week_seq#54))"]
+	41 [label="nodeID(41) FileScan parquet tpcds_500_parquet.date_dim[d_date_sk#50,d_week_seq#54,d_day_name#64"]
+	42 [label="nodeID(42) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=182]"]
+	43 [label="nodeID(43) Filter (isnotnull(s_store_sk#135) AND isnotnull(s_store_id#136))"]
+	44 [label="nodeID(44) FileScan parquet tpcds_500_parquet.store[s_store_sk#135,s_store_id#136"]
+	45 [label="nodeID(45) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=186]"]
+	46 [label="nodeID(46) Project [d_week_seq#168]"]
+	47 [label="nodeID(47) Filter (((isnotnull(d_month_seq#167) AND (d_month_seq#167 >= 1224)) AND (d_month_seq#167 <= 1235)) AND isnotnull(d_week_seq#168))"]
+	48 [label="nodeID(48) FileScan parquet tpcds_500_parquet.date_dim[d_month_seq#167,d_week_seq#168"]
+	1 -> 0
+	2 -> 1
+	3 -> 2
+	4 -> 3
+	5 -> 4
+	6 -> 5
+	7 -> 6
+	8 -> 7
+	9 -> 8
+	10 -> 9
+	11 -> 10
+	12 -> 11
+	13 -> 12
+	14 -> 13
+	15 -> 14
+	16 -> 13
+	17 -> 16
+	18 -> 17
+	19 -> 8
+	20 -> 19
+	21 -> 20
+	22 -> 6
+	23 -> 22
+	24 -> 23
+	25 -> 24
+	26 -> 2
+	27 -> 26
+	28 -> 27
+	29 -> 28
+	30 -> 29
+	31 -> 30
+	32 -> 31
+	33 -> 32
+	34 -> 33
+	35 -> 34
+	36 -> 35
+	37 -> 36
+	38 -> 37
+	39 -> 36
+	40 -> 39
+	41 -> 40
+	42 -> 31
+	43 -> 42
+	44 -> 43
+	45 -> 29
+	46 -> 45
+	47 -> 46
+	48 -> 47
+}

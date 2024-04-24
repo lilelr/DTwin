@@ -1,0 +1,43 @@
+// The Round Table
+digraph {
+	node [shape=box]
+	0 [label="NormalStage (end_node_id 0): length of beginNodesToChains is 3
+[3,0,5,3,3,5,3,0]
+Chain 0 is : HashAggregate(keys=[i_item_id#40], functions=[sum(ss_ext_sales_price#31)])
+HashAggregate->Filter->Sort->SortMergeJoin->Project->SortMergeJoin->Project->TakeOrderedAndProject
+Chain 1 is : HashAggregate(keys=[i_item_id#158], functions=[sum(cs_ext_sales_price#112)])
+HashAggregate->Filter->Sort->SortMergeJoin->Project->SortMergeJoin->Project->TakeOrderedAndProject
+Chain 2 is : HashAggregate(keys=[i_item_id#208], functions=[sum(ws_ext_sales_price#146)])
+HashAggregate->Filter->Sort->SortMergeJoin->Project->TakeOrderedAndProject
+"]
+	24 [label="Broadcast stage(end_node_id 24): date_dim,10000FileScan->Filter->Project->Filter->Project->BroadcastExchange"]
+	24 -> 8
+	52 [label="Broadcast stage(end_node_id 52): date_dim,10000FileScan->Filter->Project->Filter->Project->BroadcastExchange"]
+	52 -> 36
+	80 [label="Broadcast stage(end_node_id 80): date_dim,10000FileScan->Filter->Project->Filter->Project->BroadcastExchange"]
+	80 -> 64
+	24 [label="Broadcast stage(end_node_id 24): date_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	24 -> 8
+	52 [label="Broadcast stage(end_node_id 52): date_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	52 -> 36
+	16 [label="Broadcast stage(end_node_id 16): item,10000FileScan->Filter->BroadcastExchange"]
+	16 -> 8
+	19 [label="Broadcast stage(end_node_id 19): date_dim,10000FileScan->Filter->BroadcastHashJoin->Project->BroadcastExchange"]
+	19 -> 8
+	44 [label="Broadcast stage(end_node_id 44): item,10000FileScan->Filter->BroadcastExchange"]
+	44 -> 36
+	47 [label="Broadcast stage(end_node_id 47): date_dim,10000FileScan->Filter->BroadcastHashJoin->Project->BroadcastExchange"]
+	47 -> 36
+	80 [label="Broadcast stage(end_node_id 80): date_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	80 -> 64
+	72 [label="Broadcast stage(end_node_id 72): item,10000FileScan->Filter->BroadcastExchange"]
+	72 -> 64
+	75 [label="Broadcast stage(end_node_id 75): date_dim,10000FileScan->Filter->BroadcastHashJoin->Project->BroadcastExchange"]
+	75 -> 64
+	8 [label="First stage (end_node_id 8): File Scan store_sales,9130.4FileScan->Filter->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning"]
+	8 -> 0
+	36 [label="First stage (end_node_id 36): File Scan catalog_sales,4967.6FileScan->Filter->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning"]
+	36 -> 0
+	64 [label="First stage (end_node_id 64): File Scan web_sales,2338.2FileScan->Filter->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning"]
+	64 -> 0
+}

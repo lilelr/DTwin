@@ -1,0 +1,23 @@
+// The Round Table
+digraph {
+	node [shape=box]
+	2 [label="NormalStage (end_node_id 2): length of beginNodesToChains is 2
+[2,2,4,2,2,2,0,0]
+Chain 0 is : Sort [sr_item_sk#27 ASC NULLS FIRST, sr_ticket_number#34L ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+Chain 1 is : Sort [ss_item_sk#4 ASC NULLS FIRST, ss_ticket_number#11L ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+"]
+	0 [label="NormalStage (end_node_id 0): length of beginNodesToChains is 1
+[1,0,0,1,0,0,0,0]
+Chain 0 is : HashAggregate(keys=[ss_customer_sk#5], functions=[sum(act_sales#0)])
+HashAggregate->TakeOrderedAndProject
+"]
+	2 -> 0
+	15 [label="Broadcast stage(end_node_id 15): reason,10000FileScan->Filter->Project->BroadcastExchange"]
+	15 -> 2
+	12 [label="First stage (end_node_id 12): File Scan store_returns,1660.0FileScan->Filter->ExchangeHashpartitioning"]
+	12 -> 2
+	9 [label="First stage (end_node_id 9): File Scan store_sales,15217.4FileScan->ExchangeHashpartitioning"]
+	9 -> 2
+}

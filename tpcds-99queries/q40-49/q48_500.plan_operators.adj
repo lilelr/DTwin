@@ -1,0 +1,56 @@
+// The Round Table
+digraph {
+	0 [label="nodeID(0) "]
+	1 [label="nodeID(1) Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=109]"]
+	2 [label="nodeID(2) HashAggregate(keys=[], functions=[partial_sum(ss_quantity#10)])"]
+	3 [label="nodeID(3) Project [ss_quantity#10]"]
+	4 [label="nodeID(4) BroadcastHashJoin [ss_sold_date_sk#0], [d_date_sk#74], Inner, BuildRight, false"]
+	5 [label="nodeID(5) Project [ss_sold_date_sk#0, ss_quantity#10]"]
+	6 [label="nodeID(6) BroadcastHashJoin [ss_addr_sk#6], [ca_address_sk#61], Inner, BuildRight, ((((ca_state#69 IN (CO,OH,TX) AND (ss_net_profit#22 >= 0.0)) AND (ss_net_profit#22 <= 2000.0)) OR ((ca_state#69 IN (OR,MN,KY) AND (ss_net_profit#22 >= 150.0)) AND (ss_net_profit#22 <= 3000.0))) OR ((ca_state#69 IN (VA,CA,MS) AND (ss_net_profit#22 >= 50.0)) AND (ss_net_profit#22 <= 25000.0))), false"]
+	7 [label="nodeID(7) Project [ss_sold_date_sk#0, ss_addr_sk#6, ss_quantity#10, ss_net_profit#22]"]
+	8 [label="nodeID(8) BroadcastHashJoin [ss_cdemo_sk#4], [cd_demo_sk#52], Inner, BuildRight, ((((((cd_marital_status#54 = M) AND (cd_education_status#55 = 4 yr Degree)) AND (ss_sales_price#13 >= 100.0)) AND (ss_sales_price#13 <= 150.0)) OR ((((cd_marital_status#54 = D) AND (cd_education_status#55 = 2 yr Degree)) AND (ss_sales_price#13 >= 50.0)) AND (ss_sales_price#13 <= 100.0))) OR ((((cd_marital_status#54 = S) AND (cd_education_status#55 = College)) AND (ss_sales_price#13 >= 150.0)) AND (ss_sales_price#13 <= 200.0))), false"]
+	9 [label="nodeID(9) Project [ss_sold_date_sk#0, ss_cdemo_sk#4, ss_addr_sk#6, ss_quantity#10, ss_sales_price#13, ss_net_profit#22]"]
+	10 [label="nodeID(10) BroadcastHashJoin [ss_store_sk#7], [s_store_sk#23], Inner, BuildRight, false"]
+	11 [label="nodeID(11) Filter (((((isnotnull(ss_store_sk#7) AND isnotnull(ss_cdemo_sk#4)) AND isnotnull(ss_addr_sk#6)) AND isnotnull(ss_sold_date_sk#0)) AND ((((ss_sales_price#13 >= 100.0) AND (ss_sales_price#13 <= 150.0)) OR ((ss_sales_price#13 >= 50.0) AND (ss_sales_price#13 <= 100.0))) OR ((ss_sales_price#13 >= 150.0) AND (ss_sales_price#13 <= 200.0)))) AND ((((ss_net_profit#22 >= 0.0) AND (ss_net_profit#22 <= 2000.0)) OR ((ss_net_profit#22 >= 150.0) AND (ss_net_profit#22 <= 3000.0))) OR ((ss_net_profit#22 >= 50.0) AND (ss_net_profit#22 <= 25000.0))))"]
+	12 [label="nodeID(12) FileScan parquet tpcds_500_parquet.store_sales[ss_sold_date_sk#0,ss_cdemo_sk#4,ss_addr_sk#6,ss_store_sk#7,ss_quantity#10,ss_sales_price#13,ss_net_profit#22"]
+	13 [label="nodeID(13) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=92]"]
+	14 [label="nodeID(14) Filter isnotnull(s_store_sk#23)"]
+	15 [label="nodeID(15) FileScan parquet tpcds_500_parquet.store[s_store_sk#23"]
+	16 [label="nodeID(16) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, false] as bigint)),false), [plan_id=96]"]
+	17 [label="nodeID(17) Filter (isnotnull(cd_demo_sk#52) AND ((((cd_marital_status#54 = M) AND (cd_education_status#55 = 4 yr Degree)) OR ((cd_marital_status#54 = D) AND (cd_education_status#55 = 2 yr Degree))) OR ((cd_marital_status#54 = S) AND (cd_education_status#55 = College))))"]
+	18 [label="nodeID(18) FileScan parquet tpcds_500_parquet.customer_demographics[cd_demo_sk#52,cd_marital_status#54,cd_education_status#55"]
+	19 [label="nodeID(19) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=100]"]
+	20 [label="nodeID(20) Project [ca_address_sk#61, ca_state#69]"]
+	21 [label="nodeID(21) Filter (((isnotnull(ca_country#71) AND (ca_country#71 = United States)) AND isnotnull(ca_address_sk#61)) AND ((ca_state#69 IN (CO,OH,TX) OR ca_state#69 IN (OR,MN,KY)) OR ca_state#69 IN (VA,CA,MS)))"]
+	22 [label="nodeID(22) FileScan parquet tpcds_500_parquet.customer_address[ca_address_sk#61,ca_state#69,ca_country#71"]
+	23 [label="nodeID(23) BroadcastExchange HashedRelationBroadcastMode(List(cast(input[0, int, true] as bigint)),false), [plan_id=104]"]
+	24 [label="nodeID(24) Project [d_date_sk#74]"]
+	25 [label="nodeID(25) Filter ((isnotnull(d_year#80) AND (d_year#80 = 2000)) AND isnotnull(d_date_sk#74))"]
+	26 [label="nodeID(26) FileScan parquet tpcds_500_parquet.date_dim[d_date_sk#74,d_year#80"]
+	1 -> 0
+	2 -> 1
+	3 -> 2
+	4 -> 3
+	5 -> 4
+	6 -> 5
+	7 -> 6
+	8 -> 7
+	9 -> 8
+	10 -> 9
+	11 -> 10
+	12 -> 11
+	13 -> 10
+	14 -> 13
+	15 -> 14
+	16 -> 8
+	17 -> 16
+	18 -> 17
+	19 -> 6
+	20 -> 19
+	21 -> 20
+	22 -> 21
+	23 -> 4
+	24 -> 23
+	25 -> 24
+	26 -> 25
+}

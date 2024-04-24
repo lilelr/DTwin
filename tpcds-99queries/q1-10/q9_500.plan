@@ -1,0 +1,142 @@
+== Physical Plan ==
+AdaptiveSparkPlan isFinalPlan=false
++- Project [CASE WHEN (Subquery subquery#0, [id=#26].count(1) > 74129) THEN Subquery subquery#1, [id=#43].avg(ss_ext_discount_amt) ELSE Subquery subquery#2, [id=#60].avg(ss_net_paid) END AS bucket1#3, CASE WHEN (Subquery subquery#4, [id=#77].count(1) > 122840) THEN Subquery subquery#5, [id=#94].avg(ss_ext_discount_amt) ELSE Subquery subquery#6, [id=#111].avg(ss_net_paid) END AS bucket2#7, CASE WHEN (Subquery subquery#8, [id=#128].count(1) > 56580) THEN Subquery subquery#9, [id=#145].avg(ss_ext_discount_amt) ELSE Subquery subquery#10, [id=#162].avg(ss_net_paid) END AS bucket3#11, CASE WHEN (Subquery subquery#12, [id=#179].count(1) > 10097) THEN Subquery subquery#13, [id=#196].avg(ss_ext_discount_amt) ELSE Subquery subquery#14, [id=#213].avg(ss_net_paid) END AS bucket4#15, CASE WHEN (Subquery subquery#16, [id=#230].count(1) > 165306) THEN Subquery subquery#17, [id=#247].avg(ss_ext_discount_amt) ELSE Subquery subquery#18, [id=#264].avg(ss_net_paid) END AS bucket5#19]
+   :  :- Subquery subquery#0, [id=#26]
+   :  :  +- AdaptiveSparkPlan isFinalPlan=false
+   :  :     +- Project [named_struct(count(1), count(1)#47L, avg(ss_ext_discount_amt), avg(ss_ext_discount_amt)#50, avg(ss_net_paid), avg(ss_net_paid)#52) AS mergedValue#448]
+   :  :        +- HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#38), avg(ss_net_paid#44)])
+   :  :           +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=23]
+   :  :              +- HashAggregate(keys=[], functions=[partial_count(1), partial_avg(ss_ext_discount_amt#38), partial_avg(ss_net_paid#44)])
+   :  :                 +- Project [ss_ext_discount_amt#38, ss_net_paid#44]
+   :  :                    +- Filter ((isnotnull(ss_quantity#34) AND (ss_quantity#34 >= 1)) AND (ss_quantity#34 <= 20))
+   :  :                       +- FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#34,ss_ext_discount_amt#38,ss_net_paid#44] Batched: true, DataFilters: [isnotnull(ss_quantity#34), (ss_quantity#34 >= 1), (ss_quantity#34 <= 20)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/store_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ss_quantity), GreaterThanOrEqual(ss_quantity,1), LessThanOrEqual(ss_quantity,20)], ReadSchema: struct<ss_quantity:int,ss_ext_discount_amt:double,ss_net_paid:double>
+   :  :- Subquery subquery#1, [id=#43]
+   :  :  +- AdaptiveSparkPlan isFinalPlan=false
+   :  :     +- Project [named_struct(count(1), count(1)#47L, avg(ss_ext_discount_amt), avg(ss_ext_discount_amt)#50, avg(ss_net_paid), avg(ss_net_paid)#52) AS mergedValue#448]
+   :  :        +- HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#38), avg(ss_net_paid#44)])
+   :  :           +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=40]
+   :  :              +- HashAggregate(keys=[], functions=[partial_count(1), partial_avg(ss_ext_discount_amt#38), partial_avg(ss_net_paid#44)])
+   :  :                 +- Project [ss_ext_discount_amt#38, ss_net_paid#44]
+   :  :                    +- Filter ((isnotnull(ss_quantity#34) AND (ss_quantity#34 >= 1)) AND (ss_quantity#34 <= 20))
+   :  :                       +- FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#34,ss_ext_discount_amt#38,ss_net_paid#44] Batched: true, DataFilters: [isnotnull(ss_quantity#34), (ss_quantity#34 >= 1), (ss_quantity#34 <= 20)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/store_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ss_quantity), GreaterThanOrEqual(ss_quantity,1), LessThanOrEqual(ss_quantity,20)], ReadSchema: struct<ss_quantity:int,ss_ext_discount_amt:double,ss_net_paid:double>
+   :  :- Subquery subquery#2, [id=#60]
+   :  :  +- AdaptiveSparkPlan isFinalPlan=false
+   :  :     +- Project [named_struct(count(1), count(1)#47L, avg(ss_ext_discount_amt), avg(ss_ext_discount_amt)#50, avg(ss_net_paid), avg(ss_net_paid)#52) AS mergedValue#448]
+   :  :        +- HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#38), avg(ss_net_paid#44)])
+   :  :           +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=57]
+   :  :              +- HashAggregate(keys=[], functions=[partial_count(1), partial_avg(ss_ext_discount_amt#38), partial_avg(ss_net_paid#44)])
+   :  :                 +- Project [ss_ext_discount_amt#38, ss_net_paid#44]
+   :  :                    +- Filter ((isnotnull(ss_quantity#34) AND (ss_quantity#34 >= 1)) AND (ss_quantity#34 <= 20))
+   :  :                       +- FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#34,ss_ext_discount_amt#38,ss_net_paid#44] Batched: true, DataFilters: [isnotnull(ss_quantity#34), (ss_quantity#34 >= 1), (ss_quantity#34 <= 20)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/store_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ss_quantity), GreaterThanOrEqual(ss_quantity,1), LessThanOrEqual(ss_quantity,20)], ReadSchema: struct<ss_quantity:int,ss_ext_discount_amt:double,ss_net_paid:double>
+   :  :- Subquery subquery#4, [id=#77]
+   :  :  +- AdaptiveSparkPlan isFinalPlan=false
+   :  :     +- Project [named_struct(count(1), count(1)#54L, avg(ss_ext_discount_amt), avg(ss_ext_discount_amt)#56, avg(ss_net_paid), avg(ss_net_paid)#58) AS mergedValue#449]
+   :  :        +- HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#138), avg(ss_net_paid#144)])
+   :  :           +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=74]
+   :  :              +- HashAggregate(keys=[], functions=[partial_count(1), partial_avg(ss_ext_discount_amt#138), partial_avg(ss_net_paid#144)])
+   :  :                 +- Project [ss_ext_discount_amt#138, ss_net_paid#144]
+   :  :                    +- Filter ((isnotnull(ss_quantity#134) AND (ss_quantity#134 >= 21)) AND (ss_quantity#134 <= 40))
+   :  :                       +- FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#134,ss_ext_discount_amt#138,ss_net_paid#144] Batched: true, DataFilters: [isnotnull(ss_quantity#134), (ss_quantity#134 >= 21), (ss_quantity#134 <= 40)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/store_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ss_quantity), GreaterThanOrEqual(ss_quantity,21), LessThanOrEqual(ss_quantity,40)], ReadSchema: struct<ss_quantity:int,ss_ext_discount_amt:double,ss_net_paid:double>
+   :  :- Subquery subquery#5, [id=#94]
+   :  :  +- AdaptiveSparkPlan isFinalPlan=false
+   :  :     +- Project [named_struct(count(1), count(1)#54L, avg(ss_ext_discount_amt), avg(ss_ext_discount_amt)#56, avg(ss_net_paid), avg(ss_net_paid)#58) AS mergedValue#449]
+   :  :        +- HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#138), avg(ss_net_paid#144)])
+   :  :           +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=91]
+   :  :              +- HashAggregate(keys=[], functions=[partial_count(1), partial_avg(ss_ext_discount_amt#138), partial_avg(ss_net_paid#144)])
+   :  :                 +- Project [ss_ext_discount_amt#138, ss_net_paid#144]
+   :  :                    +- Filter ((isnotnull(ss_quantity#134) AND (ss_quantity#134 >= 21)) AND (ss_quantity#134 <= 40))
+   :  :                       +- FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#134,ss_ext_discount_amt#138,ss_net_paid#144] Batched: true, DataFilters: [isnotnull(ss_quantity#134), (ss_quantity#134 >= 21), (ss_quantity#134 <= 40)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/store_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ss_quantity), GreaterThanOrEqual(ss_quantity,21), LessThanOrEqual(ss_quantity,40)], ReadSchema: struct<ss_quantity:int,ss_ext_discount_amt:double,ss_net_paid:double>
+   :  :- Subquery subquery#6, [id=#111]
+   :  :  +- AdaptiveSparkPlan isFinalPlan=false
+   :  :     +- Project [named_struct(count(1), count(1)#54L, avg(ss_ext_discount_amt), avg(ss_ext_discount_amt)#56, avg(ss_net_paid), avg(ss_net_paid)#58) AS mergedValue#449]
+   :  :        +- HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#138), avg(ss_net_paid#144)])
+   :  :           +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=108]
+   :  :              +- HashAggregate(keys=[], functions=[partial_count(1), partial_avg(ss_ext_discount_amt#138), partial_avg(ss_net_paid#144)])
+   :  :                 +- Project [ss_ext_discount_amt#138, ss_net_paid#144]
+   :  :                    +- Filter ((isnotnull(ss_quantity#134) AND (ss_quantity#134 >= 21)) AND (ss_quantity#134 <= 40))
+   :  :                       +- FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#134,ss_ext_discount_amt#138,ss_net_paid#144] Batched: true, DataFilters: [isnotnull(ss_quantity#134), (ss_quantity#134 >= 21), (ss_quantity#134 <= 40)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/store_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ss_quantity), GreaterThanOrEqual(ss_quantity,21), LessThanOrEqual(ss_quantity,40)], ReadSchema: struct<ss_quantity:int,ss_ext_discount_amt:double,ss_net_paid:double>
+   :  :- Subquery subquery#8, [id=#128]
+   :  :  +- AdaptiveSparkPlan isFinalPlan=false
+   :  :     +- Project [named_struct(count(1), count(1)#60L, avg(ss_ext_discount_amt), avg(ss_ext_discount_amt)#62, avg(ss_net_paid), avg(ss_net_paid)#64) AS mergedValue#450]
+   :  :        +- HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#207), avg(ss_net_paid#213)])
+   :  :           +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=125]
+   :  :              +- HashAggregate(keys=[], functions=[partial_count(1), partial_avg(ss_ext_discount_amt#207), partial_avg(ss_net_paid#213)])
+   :  :                 +- Project [ss_ext_discount_amt#207, ss_net_paid#213]
+   :  :                    +- Filter ((isnotnull(ss_quantity#203) AND (ss_quantity#203 >= 41)) AND (ss_quantity#203 <= 60))
+   :  :                       +- FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#203,ss_ext_discount_amt#207,ss_net_paid#213] Batched: true, DataFilters: [isnotnull(ss_quantity#203), (ss_quantity#203 >= 41), (ss_quantity#203 <= 60)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/store_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ss_quantity), GreaterThanOrEqual(ss_quantity,41), LessThanOrEqual(ss_quantity,60)], ReadSchema: struct<ss_quantity:int,ss_ext_discount_amt:double,ss_net_paid:double>
+   :  :- Subquery subquery#9, [id=#145]
+   :  :  +- AdaptiveSparkPlan isFinalPlan=false
+   :  :     +- Project [named_struct(count(1), count(1)#60L, avg(ss_ext_discount_amt), avg(ss_ext_discount_amt)#62, avg(ss_net_paid), avg(ss_net_paid)#64) AS mergedValue#450]
+   :  :        +- HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#207), avg(ss_net_paid#213)])
+   :  :           +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=142]
+   :  :              +- HashAggregate(keys=[], functions=[partial_count(1), partial_avg(ss_ext_discount_amt#207), partial_avg(ss_net_paid#213)])
+   :  :                 +- Project [ss_ext_discount_amt#207, ss_net_paid#213]
+   :  :                    +- Filter ((isnotnull(ss_quantity#203) AND (ss_quantity#203 >= 41)) AND (ss_quantity#203 <= 60))
+   :  :                       +- FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#203,ss_ext_discount_amt#207,ss_net_paid#213] Batched: true, DataFilters: [isnotnull(ss_quantity#203), (ss_quantity#203 >= 41), (ss_quantity#203 <= 60)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/store_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ss_quantity), GreaterThanOrEqual(ss_quantity,41), LessThanOrEqual(ss_quantity,60)], ReadSchema: struct<ss_quantity:int,ss_ext_discount_amt:double,ss_net_paid:double>
+   :  :- Subquery subquery#10, [id=#162]
+   :  :  +- AdaptiveSparkPlan isFinalPlan=false
+   :  :     +- Project [named_struct(count(1), count(1)#60L, avg(ss_ext_discount_amt), avg(ss_ext_discount_amt)#62, avg(ss_net_paid), avg(ss_net_paid)#64) AS mergedValue#450]
+   :  :        +- HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#207), avg(ss_net_paid#213)])
+   :  :           +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=159]
+   :  :              +- HashAggregate(keys=[], functions=[partial_count(1), partial_avg(ss_ext_discount_amt#207), partial_avg(ss_net_paid#213)])
+   :  :                 +- Project [ss_ext_discount_amt#207, ss_net_paid#213]
+   :  :                    +- Filter ((isnotnull(ss_quantity#203) AND (ss_quantity#203 >= 41)) AND (ss_quantity#203 <= 60))
+   :  :                       +- FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#203,ss_ext_discount_amt#207,ss_net_paid#213] Batched: true, DataFilters: [isnotnull(ss_quantity#203), (ss_quantity#203 >= 41), (ss_quantity#203 <= 60)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/store_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ss_quantity), GreaterThanOrEqual(ss_quantity,41), LessThanOrEqual(ss_quantity,60)], ReadSchema: struct<ss_quantity:int,ss_ext_discount_amt:double,ss_net_paid:double>
+   :  :- Subquery subquery#12, [id=#179]
+   :  :  +- AdaptiveSparkPlan isFinalPlan=false
+   :  :     +- Project [named_struct(count(1), count(1)#66L, avg(ss_ext_discount_amt), avg(ss_ext_discount_amt)#68, avg(ss_net_paid), avg(ss_net_paid)#70) AS mergedValue#451]
+   :  :        +- HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#276), avg(ss_net_paid#282)])
+   :  :           +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=176]
+   :  :              +- HashAggregate(keys=[], functions=[partial_count(1), partial_avg(ss_ext_discount_amt#276), partial_avg(ss_net_paid#282)])
+   :  :                 +- Project [ss_ext_discount_amt#276, ss_net_paid#282]
+   :  :                    +- Filter ((isnotnull(ss_quantity#272) AND (ss_quantity#272 >= 61)) AND (ss_quantity#272 <= 80))
+   :  :                       +- FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#272,ss_ext_discount_amt#276,ss_net_paid#282] Batched: true, DataFilters: [isnotnull(ss_quantity#272), (ss_quantity#272 >= 61), (ss_quantity#272 <= 80)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/store_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ss_quantity), GreaterThanOrEqual(ss_quantity,61), LessThanOrEqual(ss_quantity,80)], ReadSchema: struct<ss_quantity:int,ss_ext_discount_amt:double,ss_net_paid:double>
+   :  :- Subquery subquery#13, [id=#196]
+   :  :  +- AdaptiveSparkPlan isFinalPlan=false
+   :  :     +- Project [named_struct(count(1), count(1)#66L, avg(ss_ext_discount_amt), avg(ss_ext_discount_amt)#68, avg(ss_net_paid), avg(ss_net_paid)#70) AS mergedValue#451]
+   :  :        +- HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#276), avg(ss_net_paid#282)])
+   :  :           +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=193]
+   :  :              +- HashAggregate(keys=[], functions=[partial_count(1), partial_avg(ss_ext_discount_amt#276), partial_avg(ss_net_paid#282)])
+   :  :                 +- Project [ss_ext_discount_amt#276, ss_net_paid#282]
+   :  :                    +- Filter ((isnotnull(ss_quantity#272) AND (ss_quantity#272 >= 61)) AND (ss_quantity#272 <= 80))
+   :  :                       +- FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#272,ss_ext_discount_amt#276,ss_net_paid#282] Batched: true, DataFilters: [isnotnull(ss_quantity#272), (ss_quantity#272 >= 61), (ss_quantity#272 <= 80)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/store_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ss_quantity), GreaterThanOrEqual(ss_quantity,61), LessThanOrEqual(ss_quantity,80)], ReadSchema: struct<ss_quantity:int,ss_ext_discount_amt:double,ss_net_paid:double>
+   :  :- Subquery subquery#14, [id=#213]
+   :  :  +- AdaptiveSparkPlan isFinalPlan=false
+   :  :     +- Project [named_struct(count(1), count(1)#66L, avg(ss_ext_discount_amt), avg(ss_ext_discount_amt)#68, avg(ss_net_paid), avg(ss_net_paid)#70) AS mergedValue#451]
+   :  :        +- HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#276), avg(ss_net_paid#282)])
+   :  :           +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=210]
+   :  :              +- HashAggregate(keys=[], functions=[partial_count(1), partial_avg(ss_ext_discount_amt#276), partial_avg(ss_net_paid#282)])
+   :  :                 +- Project [ss_ext_discount_amt#276, ss_net_paid#282]
+   :  :                    +- Filter ((isnotnull(ss_quantity#272) AND (ss_quantity#272 >= 61)) AND (ss_quantity#272 <= 80))
+   :  :                       +- FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#272,ss_ext_discount_amt#276,ss_net_paid#282] Batched: true, DataFilters: [isnotnull(ss_quantity#272), (ss_quantity#272 >= 61), (ss_quantity#272 <= 80)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/store_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ss_quantity), GreaterThanOrEqual(ss_quantity,61), LessThanOrEqual(ss_quantity,80)], ReadSchema: struct<ss_quantity:int,ss_ext_discount_amt:double,ss_net_paid:double>
+   :  :- Subquery subquery#16, [id=#230]
+   :  :  +- AdaptiveSparkPlan isFinalPlan=false
+   :  :     +- Project [named_struct(count(1), count(1)#72L, avg(ss_ext_discount_amt), avg(ss_ext_discount_amt)#74, avg(ss_net_paid), avg(ss_net_paid)#76) AS mergedValue#452]
+   :  :        +- HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#345), avg(ss_net_paid#351)])
+   :  :           +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=227]
+   :  :              +- HashAggregate(keys=[], functions=[partial_count(1), partial_avg(ss_ext_discount_amt#345), partial_avg(ss_net_paid#351)])
+   :  :                 +- Project [ss_ext_discount_amt#345, ss_net_paid#351]
+   :  :                    +- Filter ((isnotnull(ss_quantity#341) AND (ss_quantity#341 >= 81)) AND (ss_quantity#341 <= 100))
+   :  :                       +- FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#341,ss_ext_discount_amt#345,ss_net_paid#351] Batched: true, DataFilters: [isnotnull(ss_quantity#341), (ss_quantity#341 >= 81), (ss_quantity#341 <= 100)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/store_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ss_quantity), GreaterThanOrEqual(ss_quantity,81), LessThanOrEqual(ss_quantity,100)], ReadSchema: struct<ss_quantity:int,ss_ext_discount_amt:double,ss_net_paid:double>
+   :  :- Subquery subquery#17, [id=#247]
+   :  :  +- AdaptiveSparkPlan isFinalPlan=false
+   :  :     +- Project [named_struct(count(1), count(1)#72L, avg(ss_ext_discount_amt), avg(ss_ext_discount_amt)#74, avg(ss_net_paid), avg(ss_net_paid)#76) AS mergedValue#452]
+   :  :        +- HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#345), avg(ss_net_paid#351)])
+   :  :           +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=244]
+   :  :              +- HashAggregate(keys=[], functions=[partial_count(1), partial_avg(ss_ext_discount_amt#345), partial_avg(ss_net_paid#351)])
+   :  :                 +- Project [ss_ext_discount_amt#345, ss_net_paid#351]
+   :  :                    +- Filter ((isnotnull(ss_quantity#341) AND (ss_quantity#341 >= 81)) AND (ss_quantity#341 <= 100))
+   :  :                       +- FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#341,ss_ext_discount_amt#345,ss_net_paid#351] Batched: true, DataFilters: [isnotnull(ss_quantity#341), (ss_quantity#341 >= 81), (ss_quantity#341 <= 100)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/store_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ss_quantity), GreaterThanOrEqual(ss_quantity,81), LessThanOrEqual(ss_quantity,100)], ReadSchema: struct<ss_quantity:int,ss_ext_discount_amt:double,ss_net_paid:double>
+   :  +- Subquery subquery#18, [id=#264]
+   :     +- AdaptiveSparkPlan isFinalPlan=false
+   :        +- Project [named_struct(count(1), count(1)#72L, avg(ss_ext_discount_amt), avg(ss_ext_discount_amt)#74, avg(ss_net_paid), avg(ss_net_paid)#76) AS mergedValue#452]
+   :           +- HashAggregate(keys=[], functions=[count(1), avg(ss_ext_discount_amt#345), avg(ss_net_paid#351)])
+   :              +- Exchange SinglePartition, ENSURE_REQUIREMENTS, [plan_id=261]
+   :                 +- HashAggregate(keys=[], functions=[partial_count(1), partial_avg(ss_ext_discount_amt#345), partial_avg(ss_net_paid#351)])
+   :                    +- Project [ss_ext_discount_amt#345, ss_net_paid#351]
+   :                       +- Filter ((isnotnull(ss_quantity#341) AND (ss_quantity#341 >= 81)) AND (ss_quantity#341 <= 100))
+   :                          +- FileScan parquet tpcds_500_parquet.store_sales[ss_quantity#341,ss_ext_discount_amt#345,ss_net_paid#351] Batched: true, DataFilters: [isnotnull(ss_quantity#341), (ss_quantity#341 >= 81), (ss_quantity#341 <= 100)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/store_sales], PartitionFilters: [], PushedFilters: [IsNotNull(ss_quantity), GreaterThanOrEqual(ss_quantity,81), LessThanOrEqual(ss_quantity,100)], ReadSchema: struct<ss_quantity:int,ss_ext_discount_amt:double,ss_net_paid:double>
+   +- Filter (isnotnull(r_reason_sk#20) AND (r_reason_sk#20 = 1))
+      +- FileScan parquet tpcds_500_parquet.reason[r_reason_sk#20] Batched: true, DataFilters: [isnotnull(r_reason_sk#20), (r_reason_sk#20 = 1)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[hdfs://p09:8999/BenchmarkData/Tpcds/tpcds_500/tpcds_parquet/reason], PartitionFilters: [], PushedFilters: [IsNotNull(r_reason_sk), EqualTo(r_reason_sk,1)], ReadSchema: struct<r_reason_sk:int>
+
+

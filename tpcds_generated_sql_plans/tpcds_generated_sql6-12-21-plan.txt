@@ -1,0 +1,10 @@
+== Physical Plan ==
+CollectLimit (9)
++- * BroadcastHashJoin Inner BuildRight (8)
+   :- * Filter (3)
+   :  +- * ColumnarToRow (2)
+   :     +- Scan parquet tpcds_100_parquet.store_returns (1)
+   +- BroadcastExchange (7)
+      +- * Filter (6)
+         +- * ColumnarToRow (5)
+            +- Scan parquet tpcds_100_parquet.date_dim (4)

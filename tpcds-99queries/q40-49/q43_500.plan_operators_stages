@@ -1,0 +1,15 @@
+// The Round Table
+digraph {
+	node [shape=box]
+	0 [label="NormalStage (end_node_id 0): length of beginNodesToChains is 1
+[1,0,0,1,0,0,0,0]
+Chain 0 is : HashAggregate(keys=[s_store_name#63, s_store_id#59], functions=[sum(CASE WHEN (d_day_name#21 = Sunday) THEN ss_sales_price#48 END), sum(CASE WHEN (d_day_name#21 = Monday) THEN ss_sales_price#48 END), sum(CASE WHEN (d_day_name#21 = Tuesday) THEN ss_sales_price#48 END), sum(CASE WHEN (d_day_name#21 = Wednesday) THEN ss_sales_price#48 END), sum(CASE WHEN (d_day_name#21 = Thursday) THEN ss_sales_price#48 END), sum(CASE WHEN (d_day_name#21 = Friday) THEN ss_sales_price#48 END), sum(CASE WHEN (d_day_name#21 = Saturday) THEN ss_sales_price#48 END)])
+HashAggregate->TakeOrderedAndProject
+"]
+	8 [label="Broadcast stage(end_node_id 8): date_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	8 -> 2
+	14 [label="Broadcast stage(end_node_id 14): store,10000FileScan->Filter->Project->BroadcastExchange"]
+	14 -> 2
+	2 [label="First stage (end_node_id 2): File Scan store_sales,9130.4FileScan->Filter->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning"]
+	2 -> 0
+}

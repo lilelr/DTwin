@@ -1,0 +1,39 @@
+// The Round Table
+digraph {
+	node [shape=box]
+	2 [label="NormalStage (end_node_id 2): length of beginNodesToChains is 4
+[4,8,12,4,4,9,4,0]
+Chain 0 is : Sort [ss_customer_sk#58 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->SortMergeJoin->SortMergeJoin->Filter->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+Chain 1 is : Sort [ws_bill_customer_sk#112 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->SortMergeJoin->Filter->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+Chain 2 is : Sort [c_customer_sk#15 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->SortMergeJoin->SortMergeJoin->Filter->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+Chain 3 is : Sort [cs_ship_customer_sk#150 ASC NULLS FIRST], false, 0
+Sort->SortMergeJoin->Filter->Project->BroadcastHashJoin->Project->BroadcastHashJoin->Project->HashAggregate->ExchangeHashpartitioning
+"]
+	0 [label="NormalStage (end_node_id 0): length of beginNodesToChains is 1
+[1,0,0,1,0,0,0,0]
+Chain 0 is : HashAggregate(keys=[cd_gender#47, cd_marital_status#48, cd_education_status#49, cd_purchase_estimate#50, cd_credit_rating#51, cd_dep_count#52, cd_dep_employed_count#53, cd_dep_college_count#54], functions=[count(1)])
+HashAggregate->TakeOrderedAndProject
+"]
+	2 -> 0
+	47 [label="Broadcast stage(end_node_id 47): customer_address,10000FileScan->Filter->Project->BroadcastExchange"]
+	47 -> 2
+	51 [label="Broadcast stage(end_node_id 51): customer_demographics,10000FileScan->Filter->BroadcastExchange"]
+	51 -> 2
+	23 [label="Broadcast stage(end_node_id 23): date_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	23 -> 18
+	33 [label="Broadcast stage(end_node_id 33): date_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	33 -> 28
+	43 [label="Broadcast stage(end_node_id 43): date_dim,10000FileScan->Filter->Project->BroadcastExchange"]
+	43 -> 38
+	18 [label="First stage (end_node_id 18): File Scan store_sales,6087.0FileScan->Filter->BroadcastHashJoin->Project->ExchangeHashpartitioning"]
+	18 -> 2
+	28 [label="First stage (end_node_id 28): File Scan web_sales,1558.8FileScan->Filter->BroadcastHashJoin->Project->ExchangeHashpartitioning"]
+	28 -> 2
+	14 [label="First stage (end_node_id 14): File Scan customer,2212.5FileScan->Filter->ExchangeHashpartitioning"]
+	14 -> 2
+	38 [label="First stage (end_node_id 38): File Scan catalog_sales,3311.8FileScan->Filter->BroadcastHashJoin->Project->ExchangeHashpartitioning"]
+	38 -> 2
+}
